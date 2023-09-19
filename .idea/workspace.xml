@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="run kmeans with react/next.js">
-      <change afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/page.js" afterDir="false" />
-    </list>
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="refactor kmeans, move index.html from directory ../dist, into ../src" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -147,6 +144,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add kMeans test algorithm to the repository" />
     <MESSAGE value="run kmeans with react/next.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="run kmeans with react/next.js" />
+    <MESSAGE value="refactor kmeans, move index.html from directory ../dist, into ../src" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor kmeans, move index.html from directory ../dist, into ../src" />
   </component>
 </project>
