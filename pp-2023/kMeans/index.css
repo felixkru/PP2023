@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+}
+
+.text {
+    font-family: Arial
+}
+.main-container {
+    max-width: 80%;
+    margin: 5rem auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    margin: .5rem .5rem;
+    padding: .5rem .5rem;
+}
+
