@@ -12,12 +12,13 @@ const defaultData = [
     [1, 1, 1],
     [2, 4, 5],
     [6, 10, 3],
-    [1000, 51, 200]
+    [1000, 51, 200],
+    [1001, 50, 200],
 ];
 
 console.log(defaultData)
 
-const defaultPoints = 2;
+const defaultPoints = 3;
 
 function collectInputs() {
     const buttons = document.querySelectorAll('.button-go');
