@@ -1,18 +1,14 @@
 'use client'
 import {useState, useEffect} from 'react';
-import {getElementByClass, getValueByClass} from '../utils/element-functions';
+import {getElementByClass, getValueByClass, alertMessage} from '../utils/element-functions';
 import {kMeansAlgorithm} from '../utils/kmeans';
 
-function CustomElements() {
+function CustomElementsDefaultInput() {
 
     const gridCell = 'grid-cell input-group mb-3';
     const inputK = 'inputK form-control';
     const inputDataFile = 'inputDataFile form-control';
     const btnSubmit = 'btn-submit btn btn-primary';
-
-    const alertMessage = (fieldName) => {
-        return `${fieldName}` + ' ist ein Pflichtfeld!';
-    }
 
     const validateKPoints = (documentValue) => {
         if (documentValue) {
@@ -63,4 +59,4 @@ function CustomElements() {
     );
 }
 
-export default CustomElements;
+export default CustomElementsDefaultInput;

@@ -7,3 +7,8 @@ export function getValueByClass(queryClass) {
 export function getElementByClass(queryClass) {
     return document.querySelector(queryClass);
 }
+
+// creates an alert with a dynamic fieldName
+export function alertMessage(fieldName) {
+    return `${fieldName}` + ' ist ein Pflichtfeld!';
+}
