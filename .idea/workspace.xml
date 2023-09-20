@@ -7,8 +7,7 @@
     <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="impement kmeans">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/client-elements.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/client-elements.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/utils/element-functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/element-functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/kmeans.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +78,7 @@
       <recent name="$PROJECT_DIR$/pp-2023/kMeansTestAlgorithm" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pp-2023/src/app/utils" />
       <recent name="$PROJECT_DIR$/pp-2023/src/app/" />
       <recent name="$PROJECT_DIR$/pp-2023/src/app/pages" />
       <recent name="$PROJECT_DIR$/pp-2023/src/app/es" />
@@ -165,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1695197466943</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="impement kmeans">
+      <option name="closed" value="true" />
+      <created>1695203321668</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1695203321668</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
