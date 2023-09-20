@@ -1,9 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react';
-import { getElementByClass, getValueByClass } from '../utils/element-functions';
-import { kMeansAlgorithm } from '../utils/kmeans';
+import {useState, useEffect} from 'react';
+import {getElementByClass, getValueByClass} from '../utils/element-functions';
+import {kMeansAlgorithm} from '../utils/kmeans';
 
-function CustomElements () {
+function CustomElements() {
 
     const gridRow = 'row';
     const gridColumn = 'col-12 col-md-6';
@@ -33,13 +33,13 @@ function CustomElements () {
             if (kValue) {
                 kPoints = parseInt(kValue);
             }
-            console.log(kPoints)
+            console.log(kPoints);
             kMeansAlgorithm(dataSet, kPoints);
 
         });
     }, []);
 
-    return(
+    return (
         <div className={gridRow}>
             <div className={gridColumn}>
                 <form id="formKMeans">
