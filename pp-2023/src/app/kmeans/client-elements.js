@@ -8,7 +8,20 @@ function CustomElements() {
     const gridCell = 'grid-cell input-group mb-3';
     const inputK = 'inputK form-control';
     const inputDataFile = 'inputDataFile form-control';
-    const btnSubmit = 'btn-submit btn btn-primary'
+    const btnSubmit = 'btn-submit btn btn-primary';
+
+    const alertMessage = (fieldName) => {
+        return `${fieldName}` + ' ist ein Pflichtfeld!';
+    }
+
+    const validateKPoints = (documentValue) => {
+        if (documentValue) {
+            return parseInt(documentValue);
+        } else {
+            alert(alertMessage('Anzahl Cluster'));
+            return false;
+        }
+    }
 
     const dataSet = [
         [2, 3, 4],
@@ -22,29 +35,25 @@ function CustomElements() {
         [11, 8, 8],
     ];
 
-    let kPoints = 2;
-
     useEffect(() => {
         const button = getElementByClass('.btn-submit');
         button.addEventListener('click', () => {
             const kValue = getValueByClass('.inputK');
-            if (kValue) {
-                kPoints = parseInt(kValue);
+            if (validateKPoints(kValue)) {
+                console.log(kValue);
+                kMeansAlgorithm(dataSet, kValue);
             }
-            console.log(kPoints);
-            kMeansAlgorithm(dataSet, kPoints);
-
         });
     }, []);
 
     return (
         <form id="formKMeans">
             <div className={gridCell}>
-                <label className='input-group-text' htmlFor="input-k">Bitte geben Sie Ihre Anzahl Cluster an:</label>
+                <label className='input-group-text' htmlFor="input-k">Cluster</label>
                 <input id="input-k" className={inputK} type={"number"} required={true}/>
             </div>
             <div className={gridCell}>
-                <label className='input-group-text' htmlFor="inputDataFile">Bittel laden Sie Ihre XLSX oder CSV Datei hoch:</label>
+                <label className='input-group-text' htmlFor="inputDataFile">Datei</label>
                 <input id="inputDataFile" className={inputDataFile} type={"file"}/>
             </div>
             <div className={gridCell}>
