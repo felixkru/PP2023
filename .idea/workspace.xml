@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="refactor kmeans, move index.html from directory ../dist, into ../src" />
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="refactor kmeans, move index.html from directory ../dist, into ../src">
+      <change afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/client-elements.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/element-functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/kmeans.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/page.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +20,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
+        <option value="SCSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -51,22 +59,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/knippenbergl/Programmierprojekt/PP2023/pp-2023/kMeansTestAlgorithm&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/knippenbergl/Programmierprojekt/PP2023/pp-2023/kMeansTestAlgorithm",
+    "list.type.of.created.stylesheet": "SCSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pp-2023/kMeansTestAlgorithm" />
@@ -143,8 +152,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add kMeans test algorithm to the repository" />
-    <MESSAGE value="run kmeans with react/next.js" />
     <MESSAGE value="refactor kmeans, move index.html from directory ../dist, into ../src" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor kmeans, move index.html from directory ../dist, into ../src" />
+    <MESSAGE value="run kmeans with react/next.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="run kmeans with react/next.js" />
   </component>
 </project>
