@@ -4,7 +4,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+Before starting the Server, you have to run npm install. This command installs the 
+dependencies from package.json.
+
 ```bash
+npm install
+
 npm run dev
 # or
 yarn dev
