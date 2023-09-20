@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { getElementByClass, getValueByClass } from '../utils/element-functions';
+import { kMeansAlgorithm } from '../kmeans/kmeans';
 
 function CustomElements () {
 
@@ -11,9 +12,25 @@ function CustomElements () {
     const inputDataFile = 'inputDataFile';
     const btnSubmit = 'btn-submit'
 
+    const dataSet = [
+        [2, 3, 4],
+        [2, 4, 3],
+        [3, 3, 3],
+        [4, 5, 6],
+        [5, 4, 5],
+        [6, 5, 7],
+        [9, 7, 8],
+        [10, 8, 9],
+        [11, 8, 8],
+    ];
+
+    const k = 2;
+
     useEffect(() => {
         const button = getElementByClass('.btn-submit');
         button.addEventListener('click', () => {
+
+            const cluster = kMeansAlgorithm(dataSet, k);
 
         });
     }, []);
