@@ -5,12 +5,10 @@ import {kMeansAlgorithm} from '../utils/kmeans';
 
 function CustomElements() {
 
-    const gridRow = 'row';
-    const gridColumn = 'col-12 col-md-6';
-    const gridCell = 'grid-cell';
-    const inputK = 'inputK';
-    const inputDataFile = 'inputDataFile';
-    const btnSubmit = 'btn-submit'
+    const gridCell = 'grid-cell input-group mb-3';
+    const inputK = 'inputK form-control';
+    const inputDataFile = 'inputDataFile form-control';
+    const btnSubmit = 'btn-submit btn btn-primary'
 
     const dataSet = [
         [2, 3, 4],
@@ -40,23 +38,19 @@ function CustomElements() {
     }, []);
 
     return (
-        <div className={gridRow}>
-            <div className={gridColumn}>
-                <form id="formKMeans">
-                    <div className={gridCell}>
-                        <label htmlFor="input-k">Bitte geben Sie Ihre Anzahl Cluster an:</label>
-                        <input id="input-k" className={inputK} type={"number"} required={true}/>
-                    </div>
-                    <div className={gridCell}>
-                        <label htmlFor="inputDataFile">Bittel laden Sie Ihre XLSX oder CSV Datei hoch:</label>
-                        <input id="inputDataFile" className={inputDataFile} type={"file"}/>
-                    </div>
-                    <div className={gridCell}>
-                        <button form="formKmeans" className={btnSubmit} type={"submit"}>Submit</button>
-                    </div>
-                </form>
+        <form id="formKMeans">
+            <div className={gridCell}>
+                <label className='input-group-text' htmlFor="input-k">Bitte geben Sie Ihre Anzahl Cluster an:</label>
+                <input id="input-k" className={inputK} type={"number"} required={true}/>
             </div>
-        </div>
+            <div className={gridCell}>
+                <label className='input-group-text' htmlFor="inputDataFile">Bittel laden Sie Ihre XLSX oder CSV Datei hoch:</label>
+                <input id="inputDataFile" className={inputDataFile} type={"file"}/>
+            </div>
+            <div className={gridCell}>
+                <button form="formKmeans" className={btnSubmit} type={"submit"}>Submit</button>
+            </div>
+        </form>
     );
 }
 
