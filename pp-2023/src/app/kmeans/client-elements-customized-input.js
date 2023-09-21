@@ -1,12 +1,16 @@
+// Clientseitiges rendering
 'use client'
 
 import {useState, useEffect} from 'react';
 import {getElementByClass, getValueByClass, alertMessage} from '../utils/element-functions';
 
+// Funktion erstellt eine Custom Component, welche dem User die Möglichkeit gibt,
+// zwischen 2 und 3 Inputs zu wählen
 function CustomElementsCustomizedInput() {
 
+    // Deklaration der Zustandsvariablen
     const [countInputs, setCountInputs] = useState(2);
-    const [counter, setCounter] = useState(2)
+    const [counter, setCounter] = useState(2);
 
     useEffect(() => {
         const buttonChange = document.querySelector('.btn-change-cluster');
@@ -26,6 +30,7 @@ function CustomElementsCustomizedInput() {
         };
     }, [counter]);
 
+    // Die Funktion erstellt ein Array mit der entsprechenden Anzahl an Arrays.
     const renderInputs = () => {
         const inputs = [];
         for (let i = 0; i < counter; i++) {
@@ -40,6 +45,7 @@ function CustomElementsCustomizedInput() {
         return inputs;
     };
 
+    // Deklaration von Konstanten mit Klassennamen
     const gridCell = 'grid-cell input-group mb-3';
     const btnSubmit = 'btn-submit btn btn-primary';
     const btnChangeCluster = 'btn-change-cluster btn btn-primary';

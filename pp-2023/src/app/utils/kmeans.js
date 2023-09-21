@@ -1,6 +1,6 @@
 import kMeans from 'kmeansjs';
 
-// the function takes a dataset and a k-value, the return is an array of arrays.
+// Funktion nimmt ein DataSet entgegen, die KPoints und returnt ein Array of Arrays.
 export function kMeansAlgorithm(dataset, kPoints) {
     kMeans(dataset, kPoints, function (err, res) {
         try {

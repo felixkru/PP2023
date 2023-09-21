@@ -3,13 +3,10 @@ import {useState, useEffect} from 'react';
 import {getElementByClass, getValueByClass, alertMessage} from '../utils/element-functions';
 import {kMeansAlgorithm} from '../utils/kmeans';
 
+// Die Funktion erstell eine Custom Component, welche die Standardinputs für ein File und die Anzahl der K-Punkte enthält.
 function CustomElementsDefaultInput() {
 
-    const gridCell = 'grid-cell input-group mb-3';
-    const inputK = 'inputK form-control';
-    const inputDataFile = 'inputDataFile form-control';
-    const btnSubmit = 'btn-submit btn btn-primary';
-
+    // Validierung des K-Points Input
     const validateKPoints = (documentValue) => {
         if (documentValue) {
             return parseInt(documentValue);
@@ -19,6 +16,7 @@ function CustomElementsDefaultInput() {
         }
     }
 
+    // DataSet zum Testen
     const dataSet = [
         [2, 3, 4],
         [2, 4, 3],
@@ -33,14 +31,26 @@ function CustomElementsDefaultInput() {
 
     useEffect(() => {
         const button = getElementByClass('.btn-submit');
-        button.addEventListener('click', () => {
+        // Funktion prüft erst die Eingabe der K-Points, anschließend wird der K-Means-Algorithmus ausgeführt
+        const handleKMeans = () => {
             const kValue = getValueByClass('.inputK');
             if (validateKPoints(kValue)) {
+                // TODO den Consol-Befehel ersetzten durch Visualisierung
                 console.log(kValue);
                 kMeansAlgorithm(dataSet, kValue);
             }
-        });
+        };
+        button.addEventListener('click', handleKMeans);
+        return () => {
+            button.removeEventListener('click', handleKMeans);
+        }
     }, []);
+
+    // Deklaration von Konstanten mit Klassennamen
+    const gridCell = 'grid-cell input-group mb-3';
+    const inputK = 'inputK form-control';
+    const inputDataFile = 'inputDataFile form-control';
+    const btnSubmit = 'btn-submit btn btn-primary';
 
     return (
         <form id="formKMeans">
