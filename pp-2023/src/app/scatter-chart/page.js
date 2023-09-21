@@ -1,37 +1,29 @@
+'use client'
 import { useEffect } from "react"
-import { Chart } from "chart.js";
+import { Chart } from "chart.js/auto";
 function Example() {
     useEffect(() => {
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bubble',
+            type: 'scatter',
             data: {
                 datasets: [{
                     data: [
-                        { x: 17, y: 3, r: 11 },
-                    ],
-                    label: "Team A",
-                    borderColor: "rgb(75, 192, 192 )",
-                    backgroundColor: "rgb(75, 192, 192,0.5)",
-                    borderWidth: 2,
+                        { x: 17, y: 3 },
+                    ]
+                   
 
                 }, {
                     data: [
-                        { x: 10, y: 3, r: 20 },
-                    ],
-                    label: "Team B",
-                    borderColor: "rgb(255, 205, 86)",
-                    backgroundColor: "rgb(255, 205, 86, 0.5)",
-                    borderWidth: 2,
+                        { x: 10, y: 3},
+                    ]
+                    
 
                 }, {
                     data: [
-                        { x: 4, y: 14, r: 30 },
-                    ],
-                    label: "Team C",
-                    borderColor: "rgb(255, 99, 132)",
-                    backgroundColor: "rgb(255, 99, 132,0.5)",
-                    borderWidth: 2,
+                        { x: 4, y: 14},
+                    ]
+                 
                 }
                 ]
             },
@@ -55,8 +47,8 @@ function Example() {
     }, [])
     return (
         <>
-            {/* Bubble chart */}
-            <h1 className="w-[150px] mx-auto mt-10 text-xl font-semibold capitalize ">Bubble Chart</h1>
+            {/* Scatter chart */}
+            <h1 className="w-[150px] mx-auto mt-10 text-xl font-semibold capitalize ">Scatter Chart</h1>
             <div className="w-[1100px] h-screen flex mx-auto my-auto">
                 <div className='border border-gray-400 pt-0 rounded-xl  w-full h-fit my-auto  shadow-xl'>
                     <canvas id='myChart'></canvas>
