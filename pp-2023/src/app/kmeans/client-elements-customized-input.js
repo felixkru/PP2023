@@ -10,16 +10,20 @@ function CustomElementsCustomizedInput() {
 
     useEffect(() => {
         const buttonChange = document.querySelector('.btn-change-cluster');
-        buttonChange.addEventListener('click', () => {
-            if (counter % 2 === 0) {
+        const handleClick = () => {
+            if (counter === 2) {
                 buttonChange.innerHTML = '2 Vektoren';
                 setCounter(3);
             } else {
                 buttonChange.innerHTML = '3 Vektoren';
                 setCounter(2);
             }
-        });
+        };
+        buttonChange.addEventListener('click', handleClick);
 
+        return () => {
+            buttonChange.removeEventListener('click', handleClick);
+        };
     }, [counter]);
 
     const renderInputs = () => {
