@@ -9,7 +9,7 @@ function CustomElementsDefaultInput() {
     // Validierung des K-Points Input
     const validateKPoints = (documentValue) => {
         if (documentValue) {
-            return parseInt(documentValue);
+            return documentValue;
         } else {
             alert(alertMessage('Anzahl Cluster'));
             return false;
@@ -37,7 +37,7 @@ function CustomElementsDefaultInput() {
             if (validateKPoints(kValue)) {
                 // TODO den Consol-Befehel ersetzten durch Visualisierung
                 console.log(kValue);
-                kMeansAlgorithm(dataSet, kValue);
+                kMeansAlgorithm(dataSet, parseInt(kValue));
             }
         };
         button.addEventListener('click', handleKMeans);

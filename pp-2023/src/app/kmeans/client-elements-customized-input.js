@@ -16,10 +16,10 @@ function CustomElementsCustomizedInput() {
         const buttonChange = document.querySelector('.btn-change-cluster');
         const handleClick = () => {
             if (counter === 2) {
-                buttonChange.innerHTML = '2 Vektoren';
+                buttonChange.innerHTML = '2 Punkte';
                 setCounter(3);
             } else {
-                buttonChange.innerHTML = '3 Vektoren';
+                buttonChange.innerHTML = '3 Punkte';
                 setCounter(2);
             }
         };
@@ -36,7 +36,7 @@ function CustomElementsCustomizedInput() {
         for (let i = 0; i < counter; i++) {
             inputs.push(
                 <div key={i} className={gridCell}>
-                    <label className='input-group-text' htmlFor={`inputVector${i}`}>Vektor {i}</label>
+                    <label className='input-group-text' htmlFor={`inputVector${i}`}>Punkt {i}</label>
                     <input id={`inputVector${i}`} className={`inputVector${i} form-control`} type={"number"}
                            required={true}/>
                 </div>
@@ -53,7 +53,7 @@ function CustomElementsCustomizedInput() {
     return (
         <form id="formManuelInput">
             <div className={gridCell}>
-                <button className={btnChangeCluster} type={"button"}>3 Vektoren</button>
+                <button className={btnChangeCluster} type={"button"}>3 Punkte</button>
             </div>
             {renderInputs()}
             <div className={gridCell}>
