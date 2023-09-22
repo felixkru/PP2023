@@ -22,6 +22,10 @@ main {
   margin-top: 4rem;
 }
 
+.active-element {
+  color: #7473EA!important;
+}
+
 .card-style {
   padding: 0.5rem 1rem;
   box-sizing: border-box;
@@ -68,4 +72,55 @@ main {
 
 .form-range::-ms-thumb {
   background: #7473EA;
+}
+
+#serverClientSwitch {
+  width: 70px;
+  height: 40px;
+}
+
+.computingOptions {
+  box-sizing: border-box;
+  color: #545454;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 0px 8px;
+}
+
+/* Radio Buttons Styling */
+.variable-radio-input {
+  margin-right: 8px;
+  accent-color: #7473EA;
+}
+
+
+
+/* Toggle Switch Styling */
+.form-switch .form-check-input:hover {
+  cursor: pointer;
+}
+
+.form-check-input:not(:checked) {
+  background-color: #DDE0F8; /* Change the background color of the toggle when it is not checked */
+  border-color: #DDE0F8; /* Change the border color of the checkbox when it is not checked */
+}
+
+.form-check-input:checked {
+  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
+  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+}
+
+.form-switch .form-check-input:not(:active) {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+}
+
+.form-switch .form-check-input:active {
+  background-color: #DDE0F8;
+  border-color: #DDE0F8; 
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
 }

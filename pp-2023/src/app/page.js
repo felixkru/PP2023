@@ -4,10 +4,24 @@ import './globals.css'
 
 export default function Home() {
 
+  const [numberOfVariables, setNumberOfVariables] = useState(2);
   const [numberOfClusters, setNumberOfClusters] = useState(3);
+  const [isChecked, setIsChecked] = useState(false);
 
   function handleChange(event) {
     setNumberOfClusters(event.target.value);
+  }
+
+  function checkHandler() {
+    if (isChecked) {
+      setIsChecked(false)
+    } else {
+      setIsChecked(true)
+    }
+  }
+
+  function onOptionChange(event) {
+    setNumberOfVariables(event.target.value)
   }
 
   return (
@@ -19,15 +33,15 @@ export default function Home() {
             <div className='number-of-variables-container text-start'>
               <p>Anzahl der Variablen</p>
               <div className='variable-card card-style'>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioTwoVariables" checked />
-                <label class="form-check-label" for="flexRadioTwoVariables">
+              <div className="form-check">
+                <input className="variable-radio-input" type="radio" name="flexRadioDefault" id="flexRadioTwoVariables" value={2} checked={numberOfVariables == 2} onChange={onOptionChange} />
+                <label className={'form-check-label ' + (numberOfVariables == 2 ? 'active-element' : null)} htmlFor="flexRadioTwoVariables">
                   Zwei Variablen
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioThreeVariables" />
-                <label class="form-check-label" for="flexRadioThreeVariables">
+              <div className="form-check">
+                <input className="variable-radio-input" type="radio" name="flexRadioDefault" id="flexRadioThreeVariables" value={3} checked={numberOfVariables == 3} onChange={onOptionChange} />
+                <label className={'form-check-label ' + (numberOfVariables == 3 ? 'active-element' : null)} htmlFor="flexRadioThreeVariables">
                   Drei Variablen
                 </label>
               </div>
@@ -35,14 +49,25 @@ export default function Home() {
             </div>
             <button type="button" className='compute-btn button'>Berechnen</button>
           </div>
-          <div className='slider-containter'>
+          <section className='slider-containter mb-5'>
             <div className='slider text-start'>
-              <label for="numberClustersSlider" class="form-label">K = {numberOfClusters} <span className='hint'>(Anzahl der Cluster)</span></label>
-              <input type="range" class="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
+              <label htmlFor="numberClustersSlider" className="form-label">K = {numberOfClusters} <span className='hint'>(Anzahl der Cluster)</span></label>
+              <input type="range" className="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
             </div>
-          </div>
-          <div className='file-input d-inline'>File Input</div>
-          <div className='toggle-switch d-inline'>Toggle Switch</div>
+          </section>
+          <section className='d-flex justify-content-between align-items-center'>
+            <div className='file-input'>
+              <input className="form-control" type="file" id="formFile" />
+            </div>
+            <div className='toggle-switch d-flex align-items-center'>
+              <span className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
+              <div className="form-check form-switch">
+                <input className="form-check-input" type="checkbox" role="switch" id="serverClientSwitch" checked={isChecked} onChange={checkHandler} />
+              </div>
+              <span className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
+            </div>
+          </section>
+          
         </div>
         <div className='output-area col12 col-md-6'>
           <div>Ey, hier müsste Output sein</div>
