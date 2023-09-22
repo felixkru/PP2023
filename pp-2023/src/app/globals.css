@@ -124,3 +124,20 @@ main {
   border-color: #DDE0F8; 
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
 }
+
+/* Plus Button Styling */
+.plus-button {
+  box-sizing: border-box;
+  background-color: #DDE0F8;
+  border-radius: 50%;
+  padding: 10px;
+  transition: 0.2s;
+}
+
+.plus-button:hover {
+  transform: scale(1.2);
+}
+
+.plus-button:active {
+  background-color: #7473EA;
+}

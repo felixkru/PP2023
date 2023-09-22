@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Image from 'next/image'
 import './globals.css'
 
 export default function Home() {
@@ -55,7 +56,7 @@ export default function Home() {
               <input type="range" className="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
             </div>
           </section>
-          <section className='d-flex justify-content-between align-items-center'>
+          <section className='d-flex justify-content-between align-items-center mb-5'>
             <div className='file-input'>
               <input className="card-style form-control form-control-lg" type="file" id="formFile" />
             </div>
@@ -67,7 +68,14 @@ export default function Home() {
               <span className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
             </div>
           </section>
-          
+          <section id='vectors' className='mb-5'>
+            Hier kommen die Inputs mit den Vektoren hin
+          </section>
+          <section id='addVectorButton' className='mb-5'>
+            <button type="button" className='plus-button'>
+              <Image src="/plus-icon.svg" width={50} height={50} alt="Plus Icon" />
+            </button>
+          </section>
         </div>
         <div className='output-area col12 col-lg-6'>
           <div>Ey, hier müsste Output sein</div>
