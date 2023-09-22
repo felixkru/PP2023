@@ -1,6 +1,15 @@
+'use client'
+import { useState } from 'react'
 import './globals.css'
 
 export default function Home() {
+
+  const [numberOfClusters, setNumberOfClusters] = useState(3);
+
+  function handleChange(event) {
+    setNumberOfClusters(event.target.value);
+  }
+
   return (
     <main className="min-vh-100 text-center container">
       <header>PROG 2023</header>
@@ -27,9 +36,9 @@ export default function Home() {
             <button type="button" className='compute-btn button'>Berechnen</button>
           </div>
           <div className='slider-containter'>
-            <p>K = 19 <span>(Anzahl der Cluster)</span></p>
-            <div className='slider'>
-
+            <div className='slider text-start'>
+              <label for="numberClustersSlider" class="form-label">K = {numberOfClusters} <span className='hint'>(Anzahl der Cluster)</span></label>
+              <input type="range" class="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
             </div>
           </div>
           <div className='file-input d-inline'>File Input</div>
