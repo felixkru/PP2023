@@ -13,7 +13,7 @@ export const playfair = Playfair_Display({
 })
 
 export const metadata = {
-  title: 'PROG 2023 - KMeans',
+  title: 'Programmierprojekt 2023',
   description: 'Programmierprojekt der LL 2023',
 }
 
