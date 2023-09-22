@@ -28,7 +28,7 @@ export default function Home() {
     <main className="min-vh-100 text-center container">
       <header>PROG 2023</header>
       <div className='row'>
-        <div className='input-area col-12 col-md-6'>
+        <div className='input-area col-12 col-lg-6'>
           <div className='compute-container d-flex justify-content-between align-items-end mb-5'>
             <div className='number-of-variables-container text-start'>
               <p>Anzahl der Variablen</p>
@@ -57,7 +57,7 @@ export default function Home() {
           </section>
           <section className='d-flex justify-content-between align-items-center'>
             <div className='file-input'>
-              <input className="form-control" type="file" id="formFile" />
+              <input className="card-style form-control form-control-lg" type="file" id="formFile" />
             </div>
             <div className='toggle-switch d-flex align-items-center'>
               <span className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
@@ -69,7 +69,7 @@ export default function Home() {
           </section>
           
         </div>
-        <div className='output-area col12 col-md-6'>
+        <div className='output-area col12 col-lg-6'>
           <div>Ey, hier müsste Output sein</div>
         </div>
       </div>
