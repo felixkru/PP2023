@@ -57,3 +57,15 @@ main {
 .slider label {
   font-size: 20px;
 }
+
+.form-range::-webkit-slider-thumb {
+  background: #7473EA;
+}
+
+.form-range::-moz-range-thumb {
+  background: #7473EA;
+}
+
+.form-range::-ms-thumb {
+  background: #7473EA;
+}
