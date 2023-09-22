@@ -6,7 +6,7 @@ export default function Home() {
       <header>PROG 2023</header>
       <div className='row'>
         <div className='input-area col-12 col-md-6'>
-          <div className='compute-container d-flex justify-content-between'>
+          <div className='compute-container d-flex justify-content-between align-items-end mb-5'>
             <div className='number-of-variables-container text-start'>
               <p>Anzahl der Variablen</p>
               <div className='variable-card card-style'>
@@ -24,7 +24,7 @@ export default function Home() {
               </div>
               </div>
             </div>
-            <button className='compute-btn'>Berechnen</button>
+            <button type="button" className='compute-btn button'>Berechnen</button>
           </div>
           <div className='slider-containter'>
             <p>K = 19 <span>(Anzahl der Cluster)</span></p>
