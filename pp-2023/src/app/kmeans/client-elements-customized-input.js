@@ -26,7 +26,7 @@ function CustomElementsCustomizedInput() {
 
     // Die Funktion wird bei jedem Input abgerufen und returnt ein Array mit den aktuellen Eingaben.
     const handleInputChange = (col, row, value) => {
-        console.log(row)
+        handleDisableAction();
         if (!dataArray[row]){
             dataArray.push([]);
         }
@@ -38,6 +38,12 @@ function CustomElementsCustomizedInput() {
         setCounterCountAdd((click) =>
             click + 1);
     };
+
+    // Funktion setzt bei einem Aufruf den disabled Wert von "false" auf "true"
+    const handleDisableAction = () => {
+        setDisableButton((click) =>
+        click === true);
+    }
 
     // Funktion erstellt eine HelperVariable die die Werte von 1-3 annimmt.
     const setCorrectHelperValue = (helper) => {
