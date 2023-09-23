@@ -28,13 +28,17 @@ footer hr {
   margin: 0 auto 8px auto;
 }
 
+footer span {
+  padding: 0 8px;
+}
+
 #copyright-el {
   color: #7473EA;
   font-family: Playfair Display;
   font-size: 2rem;
 }
 
-#impressum-container h1 {
+.extra-containers h1 {
   font-family: Playfair Display;
   font-size: 2rem;
   margin-bottom: 1rem;
