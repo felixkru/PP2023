@@ -26,11 +26,12 @@ function CustomElementsCustomizedInput() {
 
     // Die Funktion wird bei jedem Input abgerufen und returnt ein Array mit den aktuellen Eingaben.
     const handleInputChange = (col, row, value) => {
-        handleDisableAction();
-        if (!dataArray[row]){
+        if (!dataArray[row]) {
             dataArray.push([]);
         }
-        dataArray[row][col] = value;
+        //dataArray[row][col] = value;
+        //console.log(dataArray)
+        handleDisableAction();
     };
 
     // Funktion erhöht eine Statusvariable
@@ -42,7 +43,7 @@ function CustomElementsCustomizedInput() {
     // Funktion setzt bei einem Aufruf den disabled Wert von "false" auf "true"
     const handleDisableAction = () => {
         setDisableButton((click) =>
-        click === true);
+            click ? true : true);
     }
 
     // Funktion erstellt eine HelperVariable die die Werte von 1-3 annimmt.
@@ -57,7 +58,7 @@ function CustomElementsCustomizedInput() {
 
     //Die Funktion nimmt einen entsprechenden rowIndex entgegen und passt diesen Wert dynamisch an
     const setCorrectRowIndex = (rowIndex, colIndex) => {
-        if (colIndex >= counterCountFiles -1) {
+        if (colIndex >= counterCountFiles - 1) {
             rowIndex = rowIndex + 1;
         }
         return rowIndex;
@@ -84,7 +85,7 @@ function CustomElementsCustomizedInput() {
                    type={"number"}
                    required={true}
                    value={inputValues[i]}
-                    aria-rowindex={rowIndex}
+                   aria-rowindex={rowIndex}
                    aria-colindex={colIndex}
                    onChange={(event) => handleInputChange(colIndex, rowIndex, event.target.value)}
             />
