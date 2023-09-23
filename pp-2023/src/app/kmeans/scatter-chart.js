@@ -1,7 +1,8 @@
 'use client'
 import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
-function Example() {
+function ScatterChart() {
+    // useEffect muss hier wohl verwendet werden, damit der Code zur Erstellung des Diagramms erst nach dem Rendern der Komponente geschiet. (Quelle: ChatGPT)
     useEffect(() => {
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -32,13 +33,13 @@ function Example() {
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: '# of wins'
+                            labelString: 'x-Achse'
                         }
                     }],
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: '# of games'
+                            labelString: 'y-Achse'
                         }
                     }],
                 }
@@ -58,4 +59,4 @@ function Example() {
     )
 }
 
-export default Example;
+export default ScatterChart;
