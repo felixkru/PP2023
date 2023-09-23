@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './globals.css'
-import Navbar from './common/Header';
+import Header from './common/Header';
 import Footer from './common/Footer';
 import { Roboto, Playfair_Display } from 'next/font/google';
 
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <Navbar />
+        <Header />
         {children}
         <Footer />
       </body>
