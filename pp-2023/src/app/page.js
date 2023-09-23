@@ -29,7 +29,7 @@ export default function Home() {
     <main className="mh-100 text-center container">
       <div className='row'>
         <div className='input-area col-12 col-lg-6'>
-          <div className='compute-container d-flex justify-content-between align-items-end mb-5'>
+          <div className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
             <div className='number-of-variables-container text-start'>
               <p>Anzahl der Variablen</p>
               <div className='variable-card card-style'>
@@ -49,13 +49,13 @@ export default function Home() {
             </div>
             <button type="button" className='compute-btn button'>Berechnen</button>
           </div>
-          <section className='slider-containter mb-5'>
+          <section className='slider-container mb-5'>
             <div className='slider text-start'>
               <label htmlFor="numberClustersSlider" className="form-label">K = {numberOfClusters} <span className='hint'>(Anzahl der Cluster)</span></label>
               <input type="range" className="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
             </div>
           </section>
-          <section className='d-flex justify-content-between align-items-center mb-5'>
+          <section className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
             <div className='file-input'>
               <input className="card-style form-control form-control-lg" type="file" id="formFile" />
             </div>
