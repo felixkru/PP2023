@@ -19,7 +19,7 @@ header {
 }
 
 footer {
-  margin-top: 5rem;
+  margin-top: 4rem;
   color: #999;
   text-align: center;
 }
@@ -47,6 +47,18 @@ footer span {
 main {
   padding: 0!important;
   margin-top: 4rem;
+}
+
+.input-area {
+  border-right: 2px solid rgba(153, 153, 153, 0.2);
+}
+
+@media (max-width: 992px){
+  .input-area {
+    border-right:none;
+    border-bottom: 2px solid rgba(153, 153, 153, 0.2);
+    margin-bottom: 3rem;
+  }
 }
 
 .active-element {
