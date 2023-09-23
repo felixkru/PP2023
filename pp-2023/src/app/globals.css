@@ -8,13 +8,14 @@ body {
 }
 
 header {
+  text-align: center;
   color: #000;
   font-family: Playfair Display;
   font-size: 4rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-bottom: 5rem;
+  margin: 5rem 0;
 }
 
 main {
