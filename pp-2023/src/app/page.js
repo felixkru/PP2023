@@ -26,7 +26,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-vh-100 text-center container">
+    <main className="mh-100 text-center container">
       <div className='row'>
         <div className='input-area col-12 col-lg-6'>
           <div className='compute-container d-flex justify-content-between align-items-end mb-5'>
