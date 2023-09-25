@@ -1,6 +1,5 @@
 'use client'
-import {useState, useEffect} from 'react';
-import {getElementByClass, getValueByClass, alertMessage} from '../utils/element-functions';
+import {useState} from 'react';
 
 // Funktion erstellt eine Custom Component, die für die Eingabe von händischen Werten zuständig ist.
 function CustomElementsCustomizedInput() {
@@ -9,11 +8,8 @@ function CustomElementsCustomizedInput() {
     const [counterCountFiles, setCounterCountFiles] = useState(3);
     const [counterCountAdd, setCounterCountAdd] = useState(2);
     const [buttonInnerText, setButtonInnerText] = useState('2 Punkte');
-    const [inputValues, setInputValues] = useState([]);
     const [disableButton, setDisableButton] = useState(false);
-
-    // Deklaration des Eingabe-Array
-    const dataArray = [];
+    const [inputDataArray, setInputDataArray] = useState([...[]]);
 
     // Funktion legt fest, ob 2 oder 3 Button angezeigt werden.
     const handleButtonPoints = () => {
@@ -21,32 +17,19 @@ function CustomElementsCustomizedInput() {
             text === '3 Punkte' ? '2 Punkte' : '3 Punkte');
         setCounterCountFiles((count) =>
             count === 2 ? 3 : 2);
-        renderInputs();
     };
 
-    // Die Funktion wird bei jedem Input abgerufen und returnt ein Array mit den aktuellen Eingaben.
-    const handleInputChange = (col, row, value) => {
-        if (!dataArray[row]) {
-            dataArray.push([]);
-        }
-        //dataArray[row][col] = value;
-        //console.log(dataArray)
-        handleDisableAction();
-    };
-
-    // Funktion erhöht eine Statusvariable
+    // Funktion erhöht eine Statusvariable beim Klicken auf den Add-Button.
     const handleButtonAdd = () => {
-        setCounterCountAdd((click) =>
-            click + 1);
+        setCounterCountAdd((click) => click + 1);
     };
 
-    // Funktion setzt bei einem Aufruf den disabled Wert von "false" auf "true"
+    // Funktion setzt bei einem Aufruf den disabled Wert von "false" auf "true".
     const handleDisableAction = () => {
-        setDisableButton((click) =>
-            click ? true : true);
+        setDisableButton(() => true);
     }
 
-    // Funktion erstellt eine HelperVariable die die Werte von 1-3 annimmt.
+    // Funktion erstellt eine Helper-Variable, die die Werte von 1-3 annimmt.
     const setCorrectHelperValue = (helper) => {
         if (counterCountFiles === 3 && helper > 3) {
             return 1;
@@ -56,7 +39,7 @@ function CustomElementsCustomizedInput() {
         return helper;
     }
 
-    //Die Funktion nimmt einen entsprechenden rowIndex entgegen und passt diesen Wert dynamisch an
+    //Die Funktion nimmt einen entsprechenden rowIndex entgegen und passt diesen Wert dynamisch an.
     const setCorrectRowIndex = (rowIndex, colIndex) => {
         if (colIndex >= counterCountFiles - 1) {
             rowIndex = rowIndex + 1;
@@ -64,7 +47,7 @@ function CustomElementsCustomizedInput() {
         return rowIndex;
     }
 
-    // Die Funktion nimmt einen entsprechenden ColIndex und passt diesen Wert dynamisch an
+    // Die Funktion nimmt einen entsprechenden ColIndex und passt diesen Wert dynamisch an.
     const setCorrectColIndex = (colIndex) => {
         if (colIndex < counterCountFiles - 1) {
             colIndex = colIndex + 1;
@@ -74,20 +57,33 @@ function CustomElementsCustomizedInput() {
         return colIndex;
     }
 
-    // Die Funktion rendert dynamische Inputs
+    // Die Funktion übernimmt zwei Indexvariablen, erzeugt ein Array, befüllt dieses anhand von einem Value und gibt es als Statusvariable
+    // InputDataArray zurück.
+    const handleInputChange = (rowIndex, colIndex, value) => {
+        handleDisableAction();
+        setInputDataArray((prevDataArray) => {
+            const newDataArray = [...prevDataArray];
+            if (!newDataArray[rowIndex]) {
+                newDataArray[rowIndex] = [];
+            }
+            newDataArray[rowIndex][colIndex] = value;
+            return newDataArray;
+        });
+    }
+
+    // Die Funktion rendert dynamische Inputs.
     // i = aktueller unique Index und Key, helper = Hiflsvariable für die Beschriftung,
     // inputValue = Wertevariable des aktuellen Feldes, handleInputChange = Funktion
-    const renderInputElement = (i, helper, inputValue, handleInputChange, colIndex, rowIndex) => (
+    const renderInputElement = (i, helper, colIndex, rowIndex) => (
         <div key={i} className={gridCell}>
             <label className='input-group-text' htmlFor={`inputVector${i}`}>{helper} Variable ...</label>
             <input id={`inputVector${i}`}
                    className={`inputVector${i} form-control`}
                    type={"number"}
                    required={true}
-                   value={inputValues[i]}
                    aria-rowindex={rowIndex}
                    aria-colindex={colIndex}
-                   onChange={(event) => handleInputChange(colIndex, rowIndex, event.target.value)}
+                   onChange={event => handleInputChange(rowIndex, colIndex, event.target.value)}
             />
         </div>
     );
@@ -105,14 +101,15 @@ function CustomElementsCustomizedInput() {
             for (let i = 0; i < newCounter; i++) {
                 helper = setCorrectHelperValue(helper);
                 inputs.push(
-                    renderInputElement(i, helper, inputValues[i],
-                        handleInputChange, colIndex, rowIndex)
+                    renderInputElement(i, helper,
+                        colIndex, rowIndex)
                 );
 
                 rowIndex = setCorrectRowIndex(rowIndex, colIndex);
                 colIndex = setCorrectColIndex(colIndex);
                 helper = helper + 1;
             }
+
             return inputs;
         }
     };
