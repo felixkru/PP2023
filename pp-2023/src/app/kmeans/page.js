@@ -1,6 +1,7 @@
 import CustomElementsDefaultInput from './client-elements-default-input';
 import ClientElementsCustomizedInput from './client-elements-customized-input';
 import 'server-only';
+import ScatterChart from './scatter-chart';
 
 export default function SiteKMeans() {
 
@@ -15,6 +16,9 @@ export default function SiteKMeans() {
                 </div>
                 <div className={gridColumn}>
                     <ClientElementsCustomizedInput/>
+                </div>
+                <div className={gridColumn}>    
+                    <ScatterChart/>
                 </div>
             </div>
         </div>
