@@ -1,17 +1,13 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
+import {SwitchVariables} from './kmeans/switch-variables';
+import {InputKPoints} from './kmeans/input-k-points';
 import './globals.css'
 
 export default function Home() {
 
-  const [numberOfVariables, setNumberOfVariables] = useState(2);
-  const [numberOfClusters, setNumberOfClusters] = useState(3);
   const [isChecked, setIsChecked] = useState(false);
-
-  function handleChange(event) {
-    setNumberOfClusters(event.target.value);
-  }
 
   function checkHandler() {
     if (isChecked) {
@@ -21,40 +17,15 @@ export default function Home() {
     }
   }
 
-  function onOptionChange(event) {
-    setNumberOfVariables(event.target.value)
-  }
-
   return (
     <main className="mh-100 text-center container">
       <div className='row'>
         <div className='input-area col-12 col-lg-6'>
           <div className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
-            <div className='number-of-variables-container text-start'>
-              <p>Anzahl der Variablen</p>
-              <div className='variable-card card-style'>
-              <div className="form-check">
-                <input className="variable-radio-input" type="radio" name="flexRadioDefault" id="flexRadioTwoVariables" value={2} checked={numberOfVariables == 2} onChange={onOptionChange} />
-                <label className={'form-check-label ' + (numberOfVariables == 2 ? 'active-element' : null)} htmlFor="flexRadioTwoVariables">
-                  Zwei Variablen
-                </label>
-              </div>
-              <div className="form-check">
-                <input className="variable-radio-input" type="radio" name="flexRadioDefault" id="flexRadioThreeVariables" value={3} checked={numberOfVariables == 3} onChange={onOptionChange} />
-                <label className={'form-check-label ' + (numberOfVariables == 3 ? 'active-element' : null)} htmlFor="flexRadioThreeVariables">
-                  Drei Variablen
-                </label>
-              </div>
-              </div>
-            </div>
+            <SwitchVariables/>
             <button type="button" className='compute-btn button'>Berechnen</button>
           </div>
-          <section className='slider-container mb-5'>
-            <div className='slider text-start'>
-              <label htmlFor="numberClustersSlider" className="form-label">K = {numberOfClusters} <span className='hint'>(Anzahl der Cluster)</span></label>
-              <input type="range" className="form-range" min="1" max="100" id="numberClustersSlider" value={numberOfClusters} onChange={handleChange} />
-            </div>
-          </section>
+          <InputKPoints/>
           <section className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
             <div className='file-input'>
               <input className="card-style form-control form-control-lg" type="file" id="formFile" />
