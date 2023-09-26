@@ -1,12 +1,12 @@
 'use client'
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {alertMessage} from '../utils/element-functions';
 import {kMeansAlgorithm} from '../utils/kmeans';
 
 // Die Funktion erstell eine Custom Component, welche die Standardinputs für ein File und die Anzahl der K-Punkte enthält.
 function CustomElementsDefaultInput() {
 
-    const [inputValueKPoints, setInputValuesKPoints] = useState('');
+    const [inputValueKPoints, setInputValuesKPoints] = useState('');  
 
     // DataSet zum Testen
     const dataSet = [
