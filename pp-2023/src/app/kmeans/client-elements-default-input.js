@@ -1,20 +1,12 @@
 'use client'
-import {useState, useEffect} from 'react';
-import {getElementByClass, getValueByClass, alertMessage} from '../utils/element-functions';
+import {useState} from 'react';
+import {alertMessage} from '../utils/element-functions';
 import {kMeansAlgorithm} from '../utils/kmeans';
 
 // Die Funktion erstell eine Custom Component, welche die Standardinputs für ein File und die Anzahl der K-Punkte enthält.
 function CustomElementsDefaultInput() {
 
-    // Validierung des K-Points Input
-    const validateKPoints = (documentValue) => {
-        if (documentValue) {
-            return parseInt(documentValue);
-        } else {
-            alert(alertMessage('Anzahl Cluster'));
-            return false;
-        }
-    }
+    const [inputValueKPoints, setInputValuesKPoints] = useState('');  
 
     // DataSet zum Testen
     const dataSet = [
@@ -29,22 +21,33 @@ function CustomElementsDefaultInput() {
         [11, 8, 8],
     ];
 
-    useEffect(() => {
-        const button = getElementByClass('.btn-submit');
-        // Funktion prüft erst die Eingabe der K-Points, anschließend wird der K-Means-Algorithmus ausgeführt
-        const handleKMeans = () => {
-            const kValue = getValueByClass('.inputK');
-            if (validateKPoints(kValue)) {
-                // TODO den Consol-Befehel ersetzten durch Visualisierung
-                console.log(kValue);
-                kMeansAlgorithm(dataSet, kValue);
-            }
-        };
-        button.addEventListener('click', handleKMeans);
-        return () => {
-            button.removeEventListener('click', handleKMeans);
+    // Die Funktion wird beim Aufrufen des Submit-Buttons getriggert. Dabei werden die K-Points validiert und anschließend
+    // an die kMeans Funktion übergeben.
+    const handleButtonSubmitAction = () => {
+        const kPoint = validateKPoints(inputValueKPoints);
+        if (kPoint) {
+            const result = kMeansAlgorithm(dataSet, kPoint)
+            console.log(result);
         }
-    }, []);
+    }
+
+    // Der Input wird an eine Statusvariable übergeben.
+    const handleInputKPointsAction = (value) => {
+        setInputValuesKPoints((newKPoint) => {
+            newKPoint = value;
+            return newKPoint;
+        });
+    }
+
+    // Validierung des K-Points Input
+    const validateKPoints = (documentValue) => {
+        if (documentValue) {
+            return parseInt(documentValue);
+        } else {
+            alert(alertMessage('Anzahl Cluster'));
+            return false;
+        }
+    }
 
     // Deklaration von Konstanten mit Klassennamen
     const gridCell = 'grid-cell input-group mb-3';
@@ -56,14 +59,18 @@ function CustomElementsDefaultInput() {
         <form id="formKMeans">
             <div className={gridCell}>
                 <label className='input-group-text' htmlFor="input-k">Cluster</label>
-                <input id="input-k" className={inputK} type={"number"} required={true}/>
+                <input id="input-k" className={inputK} type={"number"} value={inputValueKPoints} required={true}
+                       onChange={event => handleInputKPointsAction(event.target.value)}
+                />
             </div>
             <div className={gridCell}>
                 <label className='input-group-text' htmlFor="inputDataFile">Datei</label>
                 <input id="inputDataFile" className={inputDataFile} type={"file"}/>
             </div>
             <div className={gridCell}>
-                <button form="formKmeans" className={btnSubmit} type={"submit"}>Submit</button>
+                <button form="formKmeans" className={btnSubmit} type={"submit"}
+                        onClick={event => handleButtonSubmitAction(event)}>Submit
+                </button>
             </div>
         </form>
     );
