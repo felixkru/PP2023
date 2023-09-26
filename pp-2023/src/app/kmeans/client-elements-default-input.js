@@ -1,5 +1,5 @@
 'use client'
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {alertMessage} from '../utils/element-functions';
 import {kMeansAlgorithm} from '../utils/kmeans';
 
@@ -7,17 +7,7 @@ import {kMeansAlgorithm} from '../utils/kmeans';
 function CustomElementsDefaultInput() {
 
     const [inputValueKPoints, setInputValuesKPoints] = useState('');  
-  
-    // Validierung des K-Points Input
-    const validateKPoints = (documentValue) => {
-        if (documentValue) {
-            return documentValue;
-        } else {
-            alert(alertMessage('Anzahl Cluster'));
-            return false;
-        }
-    }
-    
+
     // DataSet zum Testen
     const dataSet = [
         [2, 3, 4],
