@@ -3,6 +3,10 @@ import Image from "next/image";
 import {useState, createContext, useContext} from "react";
 import {HandleSwitchVariables} from './switch-variables';
 
+/*
+    Damit die State-Hooks in anderen Komponenten mit dem aktuellen Status verwendet werden können, wird der Kontext-Hook
+    verwendet.
+*/
 const DynamicGeneratedInputFields = createContext();
 export function HandleDynamicGeneratedInputFieldsProvider({children}) {
 
@@ -10,10 +14,16 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     const [inputDataArray, setInputDataArray] = useState([...[]]);
     const {numberOfVariables, onOptionChange} = HandleSwitchVariables();
 
+    /*
+    handleButtonAdd setzt den Wert von counterCountAdd um 1 höher.
+     */
     const handleButtonAdd = () => {
         setCounterCountAdd((click) => click + 1);
     };
 
+    /*
+    setCorrectHelperValue setzt einen Hilfswert, welcher je nach Bedingung Werte zwischen 1 und 3 annehmen kann.
+     */
     const setCorrectHelperValue = (helper) => {
         if (numberOfVariables === 3 && helper > 3) {
             return 1;
@@ -23,6 +33,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         return helper;
     }
 
+    /*
+    setCorrectRowIndex setzt einen Row-Index, welcher für die Initialisierung eines Mehrdimensionalen-Arrays benötigt
+    wird.
+     */
     const setCorrectRowIndex = (rowIndex, colIndex) => {
         if (colIndex >= numberOfVariables - 1) {
             rowIndex = rowIndex + 1;
@@ -30,6 +44,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         return rowIndex;
     }
 
+    /*
+    setCorrectRowIndex setzt einen Col-Index, welcher für die Initialisierung eines Mehrdimensionalen-Arrays benötigt
+    wird.
+     */
     const setCorrectColIndex = (colIndex) => {
         if (colIndex < numberOfVariables - 1) {
             colIndex = colIndex + 1;
@@ -39,6 +57,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         return colIndex;
     }
 
+    /*
+    handleInputChange bekommt einen Row- und Col-Index. Damit wird ein Mehrdimensionales Array befüllt. Dieses
+    dient zur manuellen Werteingabe.
+     */
     const handleInputChange = (rowIndex, colIndex, value) => {
         setInputDataArray((prevDataArray) => {
             const newDataArray = [...prevDataArray];
@@ -50,6 +72,11 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         });
     }
 
+    /*
+    renderInputElement rendert HTML-Elemente. Dabei wird ein unique Key als i gesetzt.
+    Der Helper dient dazu, entweder 2 oder 3 Inputs pro Reihe zu generieren. Col- und Row-Index geben Parameter für die
+    Wertzuweisung in einem Mehrdimensionalen Array mit.
+     */
     const renderInputElement = (i, helper, colIndex, rowIndex) => (
         <div key={i} className="grid-cell">
             <label className='input-group-text' htmlFor={`inputVector${i}`}>{helper} Variable ...</label>
@@ -64,6 +91,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         </div>
     );
 
+    /*
+    renderInputs ruft renderInputElement mit den entsprechenden Parametern auf. Die Variable Counter berechnet dabei die
+    Gesamtanzahl an zu generierenden Inputs.
+     */
     const renderInputs = () => {
         if (numberOfVariables) {
             const newCounter = numberOfVariables * counterCountAdd;
@@ -96,6 +127,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     );
 }
 
+/*
+    UseInputKPoints gibt den Status inputDataArray,counterCountAdd, sowie die Methoden renderInputs, handleButtonAdd,
+    handleInputChange global frei.
+ */
 export const HandleDynamicGeneratedInputFields = () => {
     return useContext(DynamicGeneratedInputFields);
 }

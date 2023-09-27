@@ -8,6 +8,9 @@ export function HandleCalculateButtonClick() {
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
+    /*
+    Die Funktion handleClick steuert die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
+     */
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const result = kMeansAlgorithm(dataSet, kPoints);
@@ -17,6 +20,9 @@ export function HandleCalculateButtonClick() {
         return result;
     }
 
+    /*
+    validateKPoints validiert die K-Points, dass diese immer als Number übergeben werden.
+     */
     const validateKPoints = (numberOfClusters) => {
         if (typeof numberOfClusters !== "number") {
             return parseInt(numberOfClusters);

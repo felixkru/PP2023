@@ -1,12 +1,19 @@
 'use client'
 import {useState, createContext, useContext} from "react";
 
+/*
+    Damit die State-Hooks in anderen Komponenten mit dem aktuellen Status verwendet werden können, wird der Kontext-Hook
+    verwendet.
+*/
 const HandleSwitchVariablesContext = createContext();
 
 export function HandeleSwitchVariablesProvider({children}) {
 
     const [numberOfVariables, setNumberOfVariables] = useState(2);
 
+    /*
+    onOptionChange setzt den Wert von numberOfVariables neu.
+     */
     const onOptionChange = (newValue) => {
         setNumberOfVariables(parseInt(newValue));
     };
@@ -18,6 +25,9 @@ export function HandeleSwitchVariablesProvider({children}) {
     );
 }
 
+/*
+    HandleSwitchVariables gibt den Status numberOfVariables, sowie die Methode onOptionChange global frei.
+ */
 export const HandleSwitchVariables = () => {
     return useContext(HandleSwitchVariablesContext);
 }
