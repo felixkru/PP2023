@@ -3,7 +3,7 @@ import Image from "next/image";
 import {useState} from "react";
 import {HandleSwitchVariables} from './switch-variables';
 
-export function DynamicGeneratesInputFiles () {
+export function DynamicGeneratesInputFiles() {
 
     const [counterCountAdd, setCounterCountAdd] = useState(2);
     const [disableButton, setDisableButton] = useState(false);
@@ -95,10 +95,11 @@ export function DynamicGeneratesInputFiles () {
     }
 }
 
-export function CreateManuelInputFields () {
+export function CreateManuelInputFields() {
 
-    const {counterCountAdd, handleButtonAdd,
-            renderInputs,
+    const {
+        counterCountAdd, handleButtonAdd,
+        renderInputs,
     } = DynamicGeneratesInputFiles();
 
     return (
@@ -113,7 +114,7 @@ export function CreateManuelInputFields () {
                         value={counterCountAdd}
                         onClick={handleButtonAdd}
                 >
-                    <Image src="/plus-icon.svg" width={50} height={50} alt="Plus Icon" />
+                    <Image src="/plus-icon.svg" width={50} height={50} alt="Plus Icon"/>
                 </button>
             </section>
         </div>

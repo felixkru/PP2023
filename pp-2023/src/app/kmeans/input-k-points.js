@@ -3,7 +3,7 @@ import {useState, createContext, useContext} from "react";
 
 const InputKPointsContext = createContext();
 
-export function InputKPointsProvider ({children}) {
+export function InputKPointsProvider({children}) {
     const [numberOfClusters, setNumberOfClusters] = useState(3);
 
     const updateKValue = (newValue) => {
@@ -21,7 +21,7 @@ export const UseInputKPoints = () => {
     return useContext(InputKPointsContext);
 }
 
-export function InputKPoints () {
+export function InputKPoints() {
 
     const {numberOfClusters, updateKValue} = UseInputKPoints();
 
