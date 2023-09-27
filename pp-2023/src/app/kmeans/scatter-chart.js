@@ -54,6 +54,7 @@ function ScatterChart() {
             },
         });
     }, [])
+    // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
     return (
         <>
             {/* Scatter chart */}
