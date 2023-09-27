@@ -8,7 +8,6 @@ export function InputKPointsProvider ({children}) {
 
     const updateKValue = (newValue) => {
         setNumberOfClusters(parseInt(newValue));
-        console.log(newValue);
     }
 
     return (

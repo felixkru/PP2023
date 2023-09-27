@@ -1,29 +1,24 @@
 'use client'
-import {useEffect, useState} from "react";
-import {UseInputKPoints} from './input-k-points';
+import { UseInputKPoints } from './input-k-points';
 
-export function HandleCalculateButtonClick () {
+export function HandleCalculateButtonClick() {
+    const { numberOfClusters } = UseInputKPoints();
 
-    /*
-    const {numberOfClusters} = UseInputKPoints();
-    const HandleClick = () => {
-        console.log("Hellooooo")
+    const handleClick = () => {
         console.log(numberOfClusters);
     }
 
-    return HandleClick;
-     */
-
+    return handleClick;
 }
-export function CalculateButton() {
 
-    //const {handleCalculateButtonClick} = HandleCalculateButtonClick();
+export function CalculateButton() {
+    const handleCalculateButtonClick = HandleCalculateButtonClick();
 
     return (
         <button
             type="button"
             className='compute-btn button'
-            //onClick={handleCalculateButtonClick}
+            onClick={handleCalculateButtonClick}
         >
             Berechnen
         </button>
