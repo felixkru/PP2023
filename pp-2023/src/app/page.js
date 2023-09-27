@@ -5,6 +5,7 @@ import {SwitchVariables} from './kmeans/switch-variables';
 import {InputKPoints} from './kmeans/input-k-points';
 import {CalculateButton} from './kmeans/calculateButton';
 import {InputKPointsProvider} from './kmeans/input-k-points';
+import {CreateManuelInputFields} from './kmeans/create-save-manuel-input';
 import './globals.css'
 
 export default function Home() {
@@ -41,14 +42,7 @@ export default function Home() {
                   <span className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
                 </div>
               </section>
-              <section id='vectors' className='mb-5'>
-                Hier kommen die Inputs mit den Vektoren hin
-              </section>
-              <section id='addVectorButton' className='mb-5'>
-                <button type="button" className='plus-button'>
-                  <Image src="/plus-icon.svg" width={50} height={50} alt="Plus Icon" />
-                </button>
-              </section>
+              <CreateManuelInputFields/>
             </div>
             <div className='output-area col12 col-lg-6'>
               <div>Ey, hier müsste Output sein</div>
