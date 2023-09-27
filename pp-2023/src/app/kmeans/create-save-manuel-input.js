@@ -1,12 +1,12 @@
 'use Client'
 import Image from "next/image";
-import {useState} from "react";
+import {useState, createContext, useContext} from "react";
 import {HandleSwitchVariables} from './switch-variables';
 
-export function DynamicGeneratesInputFiles() {
+const DynamicGeneratedInputFields = createContext();
+export function HandleDynamicGeneratedInputFieldsProvider({children}) {
 
     const [counterCountAdd, setCounterCountAdd] = useState(2);
-    const [disableButton, setDisableButton] = useState(false);
     const [inputDataArray, setInputDataArray] = useState([...[]]);
     const {numberOfVariables, onOptionChange} = HandleSwitchVariables();
 
@@ -88,19 +88,22 @@ export function DynamicGeneratesInputFiles() {
         }
     };
 
-    return {
-        counterCountAdd,
-        handleButtonAdd,
-        renderInputs,
-    }
+    return (
+        <DynamicGeneratedInputFields.Provider value={{renderInputs, handleButtonAdd, counterCountAdd,
+            inputDataArray, handleInputChange}}>
+            {children}
+        </DynamicGeneratedInputFields.Provider>
+    );
 }
 
+export const HandleDynamicGeneratedInputFields = () => {
+    return useContext(DynamicGeneratedInputFields);
+}
 export function CreateManuelInputFields() {
 
     const {
-        counterCountAdd, handleButtonAdd,
-        renderInputs,
-    } = DynamicGeneratesInputFiles();
+        counterCountAdd, handleButtonAdd, renderInputs,
+    } = HandleDynamicGeneratedInputFields();
 
     return (
         <div>

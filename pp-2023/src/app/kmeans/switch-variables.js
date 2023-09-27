@@ -4,6 +4,7 @@ import {useState, createContext, useContext} from "react";
 const HandleSwitchVariablesContext = createContext();
 
 export function HandeleSwitchVariablesProvider({children}) {
+
     const [numberOfVariables, setNumberOfVariables] = useState(2);
 
     const onOptionChange = (newValue) => {

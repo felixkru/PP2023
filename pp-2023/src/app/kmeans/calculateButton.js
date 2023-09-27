@@ -1,14 +1,19 @@
 'use client'
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
+import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 
 export function HandleCalculateButtonClick() {
+
     const {numberOfClusters} = UseInputKPoints();
+    const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const result = kMeansAlgorithm(dataSet, kPoints);
-        console.log(result);
+        console.log(result); // Testet Funktion von KMeans
+        console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
+        console.log(inputDataArray); // Testet Funktion der K-Eingabe
         return result;
     }
 
