@@ -1,11 +1,11 @@
 'use client'
 import { useState } from 'react'
-import Image from 'next/image'
 import {SwitchVariables} from './kmeans/switch-variables';
 import {InputKPoints} from './kmeans/input-k-points';
 import {CalculateButton} from './kmeans/calculateButton';
 import {InputKPointsProvider} from './kmeans/input-k-points';
 import {CreateManuelInputFields} from './kmeans/create-save-manuel-input';
+import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import './globals.css'
 
 export default function Home() {
@@ -22,33 +22,35 @@ export default function Home() {
 
   return (
       <InputKPointsProvider>
-        <main className="mh-100 text-center container">
-          <div className='row'>
-            <div className='input-area col-12 col-lg-6'>
-              <div className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
-                <SwitchVariables/>
-                <CalculateButton/>
-              </div>
-              <InputKPoints/>
-              <section className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
-                <div className='file-input'>
-                  <input className="card-style form-control form-control-lg" type="file" id="formFile" />
+        <HandeleSwitchVariablesProvider>
+          <main className="mh-100 text-center container">
+            <div className='row'>
+              <div className='input-area col-12 col-lg-6'>
+                <div className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
+                  <SwitchVariables/>
+                  <CalculateButton/>
                 </div>
-                <div className='toggle-switch d-flex align-items-center'>
-                  <span className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
-                  <div className="form-check form-switch">
-                    <input className="form-check-input" type="checkbox" role="switch" id="serverClientSwitch" checked={isChecked} onChange={checkHandler} />
+                <InputKPoints/>
+                <section className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
+                  <div className='file-input'>
+                    <input className="card-style form-control form-control-lg" type="file" id="formFile" />
                   </div>
-                  <span className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
-                </div>
-              </section>
-              <CreateManuelInputFields/>
+                  <div className='toggle-switch d-flex align-items-center'>
+                    <span className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
+                    <div className="form-check form-switch">
+                      <input className="form-check-input" type="checkbox" role="switch" id="serverClientSwitch" checked={isChecked} onChange={checkHandler} />
+                    </div>
+                    <span className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
+                  </div>
+                </section>
+                <CreateManuelInputFields/>
+              </div>
+              <div className='output-area col12 col-lg-6'>
+                <div>Ey, hier müsste Output sein</div>
+              </div>
             </div>
-            <div className='output-area col12 col-lg-6'>
-              <div>Ey, hier müsste Output sein</div>
-            </div>
-          </div>
-        </main>
+          </main>
+        </HandeleSwitchVariablesProvider>
       </InputKPointsProvider>
   )
 }

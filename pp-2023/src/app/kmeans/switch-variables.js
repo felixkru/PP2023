@@ -1,24 +1,28 @@
 'use client'
-import {useState} from "react";
-import '../globals.css'
+import {useState, createContext, useContext} from "react";
 
-export function HandeleSwitchVariables() {
+const HandleSwitchVariablesContext = createContext();
+export function HandeleSwitchVariablesProvider ({children}) {
     const [numberOfVariables, setNumberOfVariables] = useState(2);
 
-    const onOptionChange = (event) => {
-        setNumberOfVariables(event.target.value)
+    const onOptionChange = (newValue) => {
+        setNumberOfVariables(parseInt(newValue));
     };
 
-    return {
-        numberOfVariables,
-        onOptionChange,
-    };
+    return (
+        <HandleSwitchVariablesContext.Provider value={{numberOfVariables, onOptionChange}}>
+            {children}
+        </HandleSwitchVariablesContext.Provider>
+    );
+}
+
+export const HandleSwitchVariables = () => {
+    return useContext(HandleSwitchVariablesContext);
 }
 
 export function SwitchVariables() {
 
-    let {numberOfVariables, onOptionChange} = HandeleSwitchVariables();
-    numberOfVariables = parseInt(numberOfVariables);
+    let {numberOfVariables, onOptionChange} = HandleSwitchVariables();
 
     return (
         <div className='number-of-variables-container text-start'>
@@ -28,7 +32,7 @@ export function SwitchVariables() {
 
                     <input className="variable-radio-input" type="radio" name="flexRadioDefault"
                            id="flexRadioTwoVariables" value={2} checked={numberOfVariables === 2}
-                           onChange={onOptionChange}/>
+                           onChange={(event) => onOptionChange(event.target.value)}/>
                     <label className={'form-check-label ' + (numberOfVariables === 2 ? 'active-element' : null)}
                            htmlFor="flexRadioTwoVariables">
                         Zwei Variablen
@@ -37,7 +41,7 @@ export function SwitchVariables() {
                 <div className="form-check">
                     <input className="variable-radio-input" type="radio" name="flexRadioDefault"
                            id="flexRadioThreeVariables" value={3} checked={numberOfVariables === 3}
-                           onChange={onOptionChange}/>
+                           onChange={(event) => onOptionChange(event.target.value)}/>
                     <label className={'form-check-label ' + (numberOfVariables === 3 ? 'active-element' : null)}
                            htmlFor="flexRadioThreeVariables">
                         Drei Variablen
