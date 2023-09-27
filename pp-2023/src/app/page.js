@@ -6,6 +6,7 @@ import {CalculateButton} from './kmeans/calculateButton';
 import {InputKPointsProvider} from './kmeans/input-k-points';
 import {CreateManuelInputFields} from './kmeans/create-save-manuel-input';
 import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
+import ScatterChart from './kmeans/scatter-chart';
 import './globals.css'
 
 export default function Home() {
@@ -46,7 +47,7 @@ export default function Home() {
                 <CreateManuelInputFields/>
               </div>
               <div className='output-area col12 col-lg-6'>
-                <div>Ey, hier müsste Output sein</div>
+                <ScatterChart/>
               </div>
             </div>
           </main>

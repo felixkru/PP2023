@@ -5,7 +5,6 @@ import {HandleSwitchVariables} from './switch-variables';
 
 export function DynamicGeneratesInputFiles () {
 
-    const [counterCountFiles, setCounterCountFiles] = useState(3);
     const [counterCountAdd, setCounterCountAdd] = useState(2);
     const [disableButton, setDisableButton] = useState(false);
     const [inputDataArray, setInputDataArray] = useState([...[]]);
@@ -15,28 +14,24 @@ export function DynamicGeneratesInputFiles () {
         setCounterCountAdd((click) => click + 1);
     };
 
-    const handleDisableAction = () => {
-        setDisableButton(() => true);
-    }
-
     const setCorrectHelperValue = (helper) => {
-        if (counterCountFiles === 3 && helper > 3) {
+        if (numberOfVariables === 3 && helper > 3) {
             return 1;
-        } else if (counterCountFiles !== 3 && helper > 2) {
+        } else if (numberOfVariables !== 3 && helper > 2) {
             return 1;
         }
         return helper;
     }
 
     const setCorrectRowIndex = (rowIndex, colIndex) => {
-        if (colIndex >= counterCountFiles - 1) {
+        if (colIndex >= numberOfVariables - 1) {
             rowIndex = rowIndex + 1;
         }
         return rowIndex;
     }
 
     const setCorrectColIndex = (colIndex) => {
-        if (colIndex < counterCountFiles - 1) {
+        if (colIndex < numberOfVariables - 1) {
             colIndex = colIndex + 1;
         } else {
             colIndex = 0;
@@ -45,7 +40,6 @@ export function DynamicGeneratesInputFiles () {
     }
 
     const handleInputChange = (rowIndex, colIndex, value) => {
-        handleDisableAction();
         setInputDataArray((prevDataArray) => {
             const newDataArray = [...prevDataArray];
             if (!newDataArray[rowIndex]) {
@@ -71,8 +65,8 @@ export function DynamicGeneratesInputFiles () {
     );
 
     const renderInputs = () => {
-        if (counterCountFiles) {
-            const newCounter = counterCountFiles * counterCountAdd;
+        if (numberOfVariables) {
+            const newCounter = numberOfVariables * counterCountAdd;
             const inputs = [];
             let helper = 1;
             let rowIndex = 0;
