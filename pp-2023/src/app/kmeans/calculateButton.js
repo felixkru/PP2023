@@ -1,9 +1,9 @@
 'use client'
-import { UseInputKPoints } from './input-k-points';
-import { kMeansAlgorithm } from '../utils/kmeans';
+import {UseInputKPoints} from './input-k-points';
+import {kMeansAlgorithm} from '../utils/kmeans';
 
 export function HandleCalculateButtonClick() {
-    const { numberOfClusters } = UseInputKPoints();
+    const {numberOfClusters} = UseInputKPoints();
 
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
