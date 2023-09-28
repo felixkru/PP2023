@@ -20,7 +20,7 @@ export function HandeleSwitchVariablesProvider({children}) {
     const onOptionChange = (newValue) => {
         setNumberOfVariables(parseInt(newValue));
         setActivePoint1((value) => !value);
-        setActivePoint2((value) => value);
+        setActivePoint2((value) => !value);
     };
 
     return (
@@ -46,7 +46,7 @@ export function SwitchVariables() {
             <p>Anzahl der Variablen</p>
             <div className='variable-card card-style'>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefaultTwoVariables"
+                    <input className="form-check-input-radio" type="radio" name="flexRadioDefaultTwoVariables"
                            id="flexRadioDefaultTwoVariables" value={2} checked={activePoint1}
                            onChange={event => onOptionChange(event.target.value)}
                     />
@@ -56,7 +56,7 @@ export function SwitchVariables() {
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefaultThreeVariables"
+                    <input className="form-check-input-radio" type="radio" name="flexRadioDefaultThreeVariables"
                            id="flexRadioDefaultThreeVariables" value={3} checked={activePoint2}
                            onChange={event => onOptionChange(event.target.value)}
                     />
