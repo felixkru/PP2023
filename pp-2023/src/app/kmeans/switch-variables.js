@@ -1,6 +1,5 @@
 'use client'
-import {useState, createContext, useContext} from "react";
-import {validateConfig} from "next/dist/server/config-shared";
+import {useState, createContext, useContext, useEffect} from "react";
 
 /*
     Damit die State-Hooks in anderen Komponenten mit dem aktuellen Status verwendet werden können, wird der Kontext-Hook
@@ -13,6 +12,38 @@ export function HandeleSwitchVariablesProvider({children}) {
     const [numberOfVariables, setNumberOfVariables] = useState(2);
     const [activePoint1, setActivePoint1] = useState(true);
     const [activePoint2, setActivePoint2] = useState(false);
+
+    /*
+    Mit UseEffect erfolgt ein direkter DOM-Zugriff. Dabei wird Use-Effect verwendet, um
+    Konflikte zwischen globalen Variablen zu vermeiden.
+     */
+    useEffect(() => {
+        const inputs = document.querySelectorAll('.input-vektor-get');
+        const variablesArea = document.querySelectorAll('.form-check-input-radio');
+        const addButton = document.querySelectorAll('.plus-button');
+        inputs.forEach((input) => {
+            input.addEventListener('change', () => {
+                disableButtonChangeVariables(variablesArea);
+            });
+        });
+        addButton.forEach((addButton) => {
+            addButton.addEventListener('click', () => {
+                disableButtonChangeVariables(variablesArea);
+            });
+        });
+
+    }, []);
+
+
+    /*
+    Die Funktion setzt bei allen Button das Attribut disable.
+     */
+    const disableButtonChangeVariables = (variablesArea) => {
+        variablesArea.forEach((variablesArea) => {
+            variablesArea.setAttribute('disable', 'true');
+            variablesArea.classList.add('form-check-input');
+        });
+    }
 
     /*
     onOptionChange setzt den Wert von numberOfVariables neu.
