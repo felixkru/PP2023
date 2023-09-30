@@ -18,14 +18,18 @@ export function HandleCalculateButtonClick() {
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
         const localCalculation = checkLocalOrServer();
+        let result = 1;
 
-        if (localCalculation) {
+        if (!localCalculation) {
             if (inputDataSrc === "local") {
-                const result = kMeansAlgorithm(dataSet, kPoints);
+                // TODO validieren der eingegeben Daten
+                console.log(dataSet);
+                result = kMeansAlgorithm(dataSet, kPoints);
+                console.log(result);
+                return result;
             }
         }
 
-        console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe
     };
 
@@ -56,15 +60,15 @@ export function HandleCalculateButtonClick() {
     };
 
     const dataSet = [
-        [2, 3, 4],
-        [2, 4, 3],
-        [3, 3, 3],
-        [4, 5, 6],
-        [5, 4, 5],
-        [6, 5, 7],
-        [9, 7, 8],
-        [10, 8, 9],
-        [11, 8, 8],
+        [2, 3],
+        [2, 4],
+        [3, 3],
+        [4, 5],
+        [5, 4],
+        [6, 5],
+        [9, 7],
+        [10, 8],
+        [11, 8],
     ];
 
     return handleClick;
