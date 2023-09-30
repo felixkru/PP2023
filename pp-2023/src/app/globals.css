@@ -2,26 +2,181 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  color: #000000;
+  background: #F1F1F1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+header {
+  text-align: center;
+  color: #000;
+  font-family: Playfair Display;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 5rem 0;
+}
+
+footer {
+  margin-top: 4rem;
+  color: #999;
+  text-align: center;
+}
+
+footer hr {
+  margin: 0 auto 8px auto;
+}
+
+footer span {
+  padding: 0 8px;
+}
+
+#copyright-el {
+  color: #7473EA;
+  font-family: Playfair Display;
+  font-size: 2rem;
+}
+
+.extra-containers h1 {
+  font-family: Playfair Display;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+main {
+  padding: 0!important;
+  margin-top: 4rem;
+}
+
+.input-area {
+  border-right: 2px solid rgba(153, 153, 153, 0.2);
+}
+
+@media (max-width: 991px){
+  .input-area {
+    border-right:none;
+    border-bottom: 2px solid rgba(153, 153, 153, 0.2);
+    margin-bottom: 3rem;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.active-element {
+  color: #7473EA!important;
+}
+
+.card-style {
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.10);
+  min-width: 215px;
+}
+
+.button {
+  width: 215px;
+  height: 70px;
+  background-color: #7473EA;
+  color: #FFF;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.10);
+  transition: 0.2s;
+}
+
+.button:hover {
+  transform: translateY(-6px);
+}
+
+.button:active {
+  background-color: #DDE0F8;
+}
+
+.hint {
+  color: #999;
+  font-size: 14px;
+}
+
+.slider label {
+  font-size: 20px;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #7473EA;
+}
+
+.form-range::-moz-range-thumb {
+  background: #7473EA;
+}
+
+.form-range::-ms-thumb {
+  background: #7473EA;
+}
+
+#serverClientSwitch {
+  width: 70px;
+  height: 40px;
+}
+
+.computingOptions {
+  box-sizing: border-box;
+  color: #545454;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 0px 8px;
+}
+
+/* Radio Buttons Styling */
+.variable-radio-input {
+  margin-right: 8px;
+  accent-color: #7473EA;
+}
+
+
+
+/* Toggle Switch Styling */
+.form-switch .form-check-input:hover {
+  cursor: pointer;
+}
+
+.form-check-input:not(:checked) {
+  background-color: #DDE0F8; /* Change the background color of the toggle when it is not checked */
+  border-color: #DDE0F8; /* Change the border color of the checkbox when it is not checked */
+}
+
+.form-check-input:checked {
+  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
+  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+}
+
+.form-switch .form-check-input:not(:active) {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+}
+
+.form-switch .form-check-input:active {
+  background-color: #DDE0F8;
+  border-color: #DDE0F8; 
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+}
+
+/* Plus Button Styling */
+.plus-button {
+  box-sizing: border-box;
+  background-color: #DDE0F8;
+  border-radius: 50%;
+  padding: 10px;
+  transition: 0.2s;
+}
+
+.plus-button:hover {
+  transform: scale(1.2);
+}
+
+.plus-button:active {
+  background-color: #7473EA;
 }
