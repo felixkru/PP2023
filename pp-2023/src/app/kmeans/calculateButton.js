@@ -8,16 +8,40 @@ export function HandleCalculateButtonClick() {
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
+    const noDataMessage = "Bitte geben Sie entweder ein manuell Ihre Datenpunkte ein" +
+        " oder eine XSLX- CSV-Datei!"
+
     /*
-    Die Funktion handleClick steuert die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
+    Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
-        const result = kMeansAlgorithm(dataSet, kPoints);
-        console.log(result); // Testet Funktion von KMeans
+        const inputDataSrc = checkInputSource();
+        const localCalculation = checkLocalOrServer();
+
+        if (localCalculation) {
+            if (inputDataSrc === "local") {
+                const result = kMeansAlgorithm(dataSet, kPoints);
+            }
+        }
+
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe
-        return result;
+    };
+
+    const checkInputSource = () => {
+        if (inputDataArray.length !== 0) {
+           return "local";
+        }
+        // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
+        else {
+            alert(noDataMessage);
+            return false;
+        }
+    }
+
+    const checkLocalOrServer = () => {
+        //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
     }
 
     /*
