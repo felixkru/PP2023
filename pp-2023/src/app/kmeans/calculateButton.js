@@ -13,36 +13,44 @@ export function HandleCalculateButtonClick() {
 
     /*
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
+    Ablauf:
+    - Prüft auf die src file oder manuel
+    - Prüft auf lokale-Verarbeitung oder Remote
      */
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
         const localCalculation = checkLocalOrServer();
-        let result = 1;
 
-        if (!localCalculation) {
-            if (inputDataSrc === "local") {
-                // TODO validieren der eingegeben Daten
-                console.log(dataSet);
-                result = kMeansAlgorithm(dataSet, kPoints);
+        if (inputDataSrc === "file") {
+            if (!localCalculation) {
+                // TODO Request an die Api mit File URL
+            } else {
+                // TODO Auslesen der Excel Datei
+                // const result = kMeansAlgorithm(ExcelData, kPoints);
+            }
+        } else {
+            // TODO validieren der eingegeben Daten
+            if (localCalculation) {
+                const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
-                return result;
+            } else {
+                // TODO Request an die API implementieren
             }
         }
-
-        console.log(numberOfClusters); // Testet Funktion der K-Eingabe
     };
 
     const checkInputSource = () => {
-        if (inputDataArray.length !== 0) {
-           return "local";
+        if (1===3) {
+            // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
+        } else if (inputDataArray.length !== 0) {
+            return "manuel";
         }
-        // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
         else {
             alert(noDataMessage);
             return false;
         }
-    }
+    };
 
     const checkLocalOrServer = () => {
         //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
@@ -58,18 +66,6 @@ export function HandleCalculateButtonClick() {
             return numberOfClusters;
         }
     };
-
-    const dataSet = [
-        [2, 3],
-        [2, 4],
-        [3, 3],
-        [4, 5],
-        [5, 4],
-        [6, 5],
-        [9, 7],
-        [10, 8],
-        [11, 8],
-    ];
 
     return handleClick;
 }
