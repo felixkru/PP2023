@@ -1,7 +1,7 @@
 'use client'
 
 export function generateDatasets(K) {
-    const datasets = [];
+    const generateData = [];
 
     for (let i = 1; i <= K; i++) {
         const dataset = {
@@ -12,44 +12,42 @@ export function generateDatasets(K) {
             label: `Set ${i}`
         };
 
-        datasets.push(dataset);
+        generateData.push(dataset);
     }
+
     const options = {
         responsive: true,
-        // Hier können Einstellungen für die Scalen beschriftung gemacht werden
         scales: {
-            x:{
+            x: {
                 display: true,
-                title:{
+                title: {
                     display: true,
                     text: 'x-Achse',
-                    //color: '#9312',
                     font: {
-                        //hier können font inklusive schriftgröße etc. eingestellt werden.
                         size: 20,
-
                     }
                 }
             },
-            y:{
+            y: {
                 display: true,
-                title:{
+                title: {
                     display: true,
                     text: 'y-Achse',
                     font: {
-                        size: 20, 
+                        size: 20,
                     }
                 }
             }
         }
-    }
-    datasets.push(options);
-
-    const datasetsJson = JSON.stringify(datasets);
-    //console.log(datasetsJson);
-    //console.log(datasets);
-    return {
-        datasets
     };
-}
 
+    return (
+        {
+            type: 'scatter',
+            data: {
+                datasets: generateData,
+            },
+            options: options,
+        }
+    )
+}
