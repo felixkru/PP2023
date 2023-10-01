@@ -1,70 +1,22 @@
 'use client'
 import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
+import { UseInputKPoints } from './input-k-points';
+import { generateDatasets } from './generateDatasets';
 function ScatterChart() {
+    const K = UseInputKPoints();
     // useEffect muss hier wohl verwendet werden, damit der Code zur Erstellung des Diagramms erst nach dem Rendern der Komponente geschiet. (Quelle: ChatGPT)
     useEffect(() => {
+        const dataArray = generateDatasets(parseInt(K.numberOfClusters))
+        console.log(generateDatasets(parseInt(K.numberOfClusters)));
+       // console.log(JSON.parse(generateDatasets(parseInt(K.numberOfClusters))))
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'scatter',
             // hier sind die verschiedenen Datensets, alle Punkte eines Datensets welches mit "data:" beginnt bekommen die gleiche Farbe.
             data: {
-                datasets: [{
-                    data: [
-                        { x: 17, y: 3 },
-                        { x: 11, y: 3 } 
-                    ],
-                   label: "Set 1"
-
-                }, {
-                    data: [
-                        { x: 10, y: 3},
-                    ],
-                    label: "Set 2"
-
-                }, {
-                    data: [
-                        { x: 4, y: 14},
-                    ],
-                    label: "Set 3"
-                },
-                {
-                    data: [
-                        { x: 3, y: 11 }
-                    ],
-                    label: "Set 4"
-                }
-                ]
-            },
-            options: {
-                responsive: true,
-                // Hier können Einstellungen für die Scalen beschriftung gemacht werden
-                scales: {
-                    x:{
-                        display: true,
-                        title:{
-                            display: true,
-                            text: 'x-Achse',
-                            //color: '#9312',
-                            font: {
-                                //hier können font inklusive schriftgröße etc. eingestellt werden.
-                                size: 20,
-
-                            }
-                        }
-                    },
-                    y:{
-                        display: true,
-                        title:{
-                            display: true,
-                            text: 'y-Achse',
-                            font: {
-                                size: 20, 
-                            }
-                        }
-                    }
-                }
-            },
+                datasets: `${dataArray}`,
+            }
         });
     }, [])
     // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
@@ -78,6 +30,7 @@ function ScatterChart() {
                 </div>
             </div>
         </>
+        
     )
 }
 
