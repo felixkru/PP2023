@@ -59,7 +59,7 @@ function ScatterChart() {
         <>
             {/* Scatter chart */}
             <h1 className="mx-auto mt-10 text-xl font-semibold capitalize ">Scatter Chart</h1>
-            <div className="w-[1100px] h-screen flex mx-auto my-auto">
+            <div className="h-screen flex mx-auto my-auto">
                 <div className='border border-gray-400 pt-0 rounded-xl  w-full h-fit my-auto  shadow-xl'>
                     <canvas id='myChart'></canvas>
                 </div>
