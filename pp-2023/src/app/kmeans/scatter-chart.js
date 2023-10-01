@@ -37,19 +37,32 @@ function ScatterChart() {
                 ]
             },
             options: {
+                responsive: true,
+                // Hier können Einstellungen für die Scalen beschriftung gemacht werden
                 scales: {
-                    xAxes: [{
-                        scaleLabel: {
-                            display: false,
-                            labelString: 'x-Achse'
-                        }
-                    }],
-                    yAxes: [{
-                        scaleLabel: {
+                    x:{
+                        display: true,
+                        title:{
                             display: true,
-                            labelString: 'y-Achse'
+                            text: 'x-Achse',
+                            //color: '#9312',
+                            font: {
+                                //hier können font inklusive schriftgröße etc. eingestellt werden.
+                                size: 20,
+
+                            }
                         }
-                    }],
+                    },
+                    y:{
+                        display: true,
+                        title:{
+                            display: true,
+                            text: 'y-Achse',
+                            font: {
+                                size: 20, 
+                            }
+                        }
+                    }
                 }
             },
         });
