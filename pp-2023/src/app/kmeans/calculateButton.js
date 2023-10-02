@@ -2,13 +2,15 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
+import {exportFunctionDataForKMeans} from './requestAPI';
+
 
 export function HandleCalculateButtonClick() {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
-    const noDataMessage = "Bitte geben Sie entweder ein manuell Ihre Datenpunkte ein" +
+    const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XSLX- CSV-Datei!"
 
     /*
@@ -18,24 +20,42 @@ export function HandleCalculateButtonClick() {
     - Prüft auf lokale-Verarbeitung oder Remote
      */
     const handleClick = () => {
+        const urlKMeans = "https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/";
         const kPoints = validateKPoints(numberOfClusters);
-        const inputDataSrc = checkInputSource();
-        const localCalculation = checkLocalOrServer();
+        //const inputDataSrc = checkInputSource();
+        //const  localCalculation = checkLocalOrServer();
+        // constFileUrl = TODO;
+        const localCalculation = false;
+        const inputDataSrc = 'manuel';
 
         if (inputDataSrc === "file") {
+            const filePath = '../utils/test.2.xslx.csv';
+
+            fileReader.readFile(filePath, (err, data) => {
+                if (err){
+                    console.log(err);
+                }
+                const formData = new FormData();
+                formData.append('file', new Blob([data]), 'test.2.xslx.csv');
+            });
+
             if (!localCalculation) {
+                const formData = new FormData();
+                //formData.append()
                 // TODO Request an die Api mit File URL
             } else {
                 // TODO Auslesen der Excel Datei
                 // const result = kMeansAlgorithm(ExcelData, kPoints);
             }
-        } else {
+        } else if (inputDataSrc === "manuel") {
             // TODO validieren der eingegeben Daten
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
             } else {
-                // TODO Request an die API implementieren
+
+                //const result = exportFunctionDataForKMeans(urlKMeans, formData);
+                //console.log(result)
             }
         }
     };
