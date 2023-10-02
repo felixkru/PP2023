@@ -11,6 +11,9 @@ COPY . .
 # Installieren 
 RUN npm install
 
+# Installieren der xlsx Bibliothek
+RUN npm i xlsx
+
 # Bauen der Next.js-Anwendung
 RUN npm run build
 

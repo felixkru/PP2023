@@ -9,6 +9,7 @@ import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-manuel-input';
 import ScatterChart from './kmeans/scatter-chart';
 import './globals.css'
+import ExcelFileReader from './components/ExcelFileReader';
 
 export default function Home() {
 
@@ -37,10 +38,7 @@ export default function Home() {
                                 <InputKPoints/>
                                 <section
                                     className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
-                                    <div className='file-input'>
-                                        <input className="card-style form-control form-control-lg" type="file"
-                                               id="formFile"/>
-                                    </div>
+                                    <ExcelFileReader />
                                     <div className='toggle-switch d-flex align-items-center'>
                                     <span
                                         className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
