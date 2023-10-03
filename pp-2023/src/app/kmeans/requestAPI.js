@@ -1,32 +1,34 @@
 'use client'
+export const apiPostRequest = (url, formData, KPoints) => {
+    const numberKRuns = '&number_kmeans_runs=20';
+    const newKForGet = 'k=' + KPoints;
+    const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
-const apiPostRequest = async (urlKMeans, data) => {
-
-
-    console.log(urlKMeans)
-    try {
-        const response = await fetch(urlKMeans, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-            mode: 'no-cors'
+    return fetch(urlBearbeitet, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: formData,
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log(response);
+                return response.json();
+            } else {
+                throw new Error(response.status);
+            }
+        })
+        .then(data => {
+            console.log(data);
+            return data;
+        })
+        .catch(error => {
+            console.error('Fehler bei der Anfrage:', error);
+            throw error;
         });
-
-        if (!response.ok) {
-            throw new Error(`Request failed with status ${response.status}`);
-        }
-
-        return response;
-    } catch (err) {
-        console.log(err);
-        throw err;
-    }
 };
 
-export const exportFunctionDataForKMeans = (urlKMeans, data) => {
-    return (
-        apiPostRequest(urlKMeans, data)
-    )
+export const exportFunctionDataForKMeans = (urlKMeans, data, kPoints) => {
+    return apiPostRequest(urlKMeans, data, kPoints);
 };

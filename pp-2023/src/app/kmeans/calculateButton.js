@@ -3,6 +3,7 @@ import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {exportFunctionDataForKMeans} from './requestAPI';
+import CSV_FILE from '../utils/test.csv';
 
 
 export function HandleCalculateButtonClick() {
@@ -29,16 +30,6 @@ export function HandleCalculateButtonClick() {
         const inputDataSrc = 'manuel';
 
         if (inputDataSrc === "file") {
-            const filePath = '../utils/test.2.xslx.csv';
-
-            fileReader.readFile(filePath, (err, data) => {
-                if (err){
-                    console.log(err);
-                }
-                const formData = new FormData();
-                formData.append('file', new Blob([data]), 'test.2.xslx.csv');
-            });
-
             if (!localCalculation) {
                 const formData = new FormData();
                 //formData.append()
@@ -53,9 +44,12 @@ export function HandleCalculateButtonClick() {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
             } else {
-
-                //const result = exportFunctionDataForKMeans(urlKMeans, formData);
-                //console.log(result)
+                const formData = new FormData();
+                const file = new Blob([CSV_FILE], {type: 'text/csv'});
+                formData.append('file', file, 'test.csv');
+                console.log(formData.get('file').name);
+                const result = exportFunctionDataForKMeans(urlKMeans, formData, kPoints);
+                console.log(result);
             }
         }
     };
