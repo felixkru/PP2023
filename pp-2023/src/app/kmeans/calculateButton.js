@@ -2,23 +2,30 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
+import ScatterChart from './scatter-chart';
 
 export function HandleCalculateButtonClick() {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
-
+    let chartDeletion = 0;
+    
     /*
     Die Funktion handleClick steuert die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const result = kMeansAlgorithm(dataSet, kPoints);
+        chartDeletion = 1;
+        ScatterChart(numberOfClusters,chartDeletion);
         console.log(result); // Testet Funktion von KMeans
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe
         return result;
+        
     }
+
+    //ScatterChart(numberOfClusters,chartDeletion);
 
     /*
     validateKPoints validiert die K-Points, dass diese immer als Number übergeben werden.

@@ -3,17 +3,30 @@ import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
 import { UseInputKPoints } from './input-k-points';
 import { generateDatasets } from './generateDatasets';
-function ScatterChart() {
+function ScatterChart(numberOfClusters,calledByButton) {
 
-    const K = UseInputKPoints();
+    let myChart;
 
-    // useEffect muss hier wohl verwendet werden, damit der Code zur Erstellung des Diagramms erst nach dem Rendern der Komponente geschiet. (Quelle: ChatGPT)
+    // Hier wird beim Initialen Laden der Seite das Chart erzeugt und auch wieder mit der destroy funktion zerstört.
+    // useEffect wird hier verwendet, damit sichergestellt wird, dass das Chart erst erstellt wird nachdem das DOM komplett erzeugt wurde.
+    if (calledByButton !== 1){
     useEffect(() => {
-        const dataArray = generateDatasets(parseInt(K.numberOfClusters));
-       // console.log(JSON.parse(generateDatasets(parseInt(K.numberOfClusters))))
+        const dataArray = generateDatasets(parseInt(numberOfClusters));
         let ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, dataArray);
+        
+        myChart = new Chart(ctx, dataArray);
+        myChart.destroy();
     }, []);
+    }
+    //Wenn die Funktion über den Berechnen Button aufgerufen wurde, dann ist die Variable calledByButton = 1 und daher wird der Canvas ohne useEffect ausgeführt. 
+    //Das ist daher notwendig, da Man innerhalb des Hooks vom calculateButton keinen weiteren hook (useEffect) aufrufen kann. 
+    else{
+        const dataArray = generateDatasets(parseInt(numberOfClusters));
+        let ctx = document.getElementById('myChart').getContext('2d');
+        
+        myChart = new Chart(ctx, dataArray);
+        
+    }
 
     // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
     return (
