@@ -21,14 +21,15 @@ export function HandleCalculateButtonClick() {
         //const inputDataSrc = checkInputSource(); TODO
         //const  localCalculation = checkLocalOrServer(); TODO
         const localCalculation = false; // nur zum Testen
-        const inputDataSrc = 'file'; // nur zum Testen
+        const inputDataSrc = 'manuel'; // nur zum Testen
+        const dataArrayForWorking = inputDataArray;
 
         if (inputDataSrc === "file") {
             /*
             Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
              */
             if (!localCalculation) {
-                const resultPost = apiPostRequest(kPoints, inputDataSrc);
+                const resultPost = apiPostRequest(kPoints, false);
                 console.log(resultPost); // TODO handling muss noch gemacht werden
 
                 const resultGetStateOfTask = apiGetStateOfTask();
@@ -53,7 +54,8 @@ export function HandleCalculateButtonClick() {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
             } else if (!localCalculation){
-
+                const result = apiPostRequest(kPoints, dataArrayForWorking);
+                console.log(result);
             }
             else {
                 alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');

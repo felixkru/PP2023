@@ -1,16 +1,26 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
 
-export const apiPostRequest = (KPoints, inputDataSrc) => {
+export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
-    console.log(inputDataSrc);
     /*
     Erstellung eines Form-Data Objektes. Innerhalb des Objektes können mittels eines Key, Value Verfahren
     einzelne Datei-Objekte erstellt werden.
      */
     const formData = new FormData();
-    const file = new Blob([CSV_FILE], {type: 'text/csv'});
-    formData.append('file', file, 'test.csv');
+    if (dataArrayForWorking) {
+
+        console.log(dataArrayForWorking)
+        const jsonData = JSON.stringify(dataArrayForWorking);
+        console.log(jsonData)
+        const file = new Blob([jsonData], {type: 'application/json'});
+        console.log(file)
+        formData.append('file', file, 'dataPoints.json');
+
+    } else {
+        const file = new Blob([CSV_FILE], {type: 'text/csv'});
+        formData.append('file', file, 'dataPoints.csv');
+    }
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
@@ -22,6 +32,7 @@ export const apiPostRequest = (KPoints, inputDataSrc) => {
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
     return fetch(urlBearbeitet, {
+        mode: 'no-cors',
         method: 'POST',
         body: formData,
         headers: {
@@ -54,7 +65,7 @@ export const apiGetStateOfTask = (taskId) => {
     Nur für lokales Testen
      */
     if (!taskId){
-        taskId = 'c3f3f58a-8c24-446e-aa30-ea1fc8857acc';
+        taskId = 'b28c3385-2bb5-4f8c-b61f-7bb8ae8e23d6';
     }
     const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
@@ -85,7 +96,7 @@ export const apiGetResult = (taskId) => {
     Nur für lokales Testen
      */
     if (!taskId) {
-        taskId = 'c3f3f58a-8c24-446e-aa30-ea1fc8857acc';
+        taskId = 'b28c3385-2bb5-4f8c-b61f-7bb8ae8e23d6';
     }
     /*
     Zusammengesetzte URL für den GET-Request.
@@ -120,9 +131,9 @@ export const apiGetResult = (taskId) => {
         });
 }
 
-export const exportFunctionDataForKMeans = (kPoints, inputDataSrc, taskId) => {
+export const exportFunctionDataForKMeans = (kPoints, taskId, dataArrayForWorking) => {
     return (
-        apiPostRequest(kPoints, inputDataSrc),
+        apiPostRequest(kPoints, dataArrayForWorking),
         apiGetStateOfTask(taskId),
         apiGetResult(taskId)
     );
