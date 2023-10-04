@@ -23,7 +23,7 @@ export default function Home() {
     }
 
     return (
-        <HandeleSwitchVariablesProvider>
+        <HandeleSwitchVariablesProvider data-testid="handleSwitchVariablesProvider">
             <InputKPointsProvider>
                 <HandleDynamicGeneratedInputFieldsProvider>
                     <main className="mh-100 text-center container">
