@@ -4,6 +4,7 @@ import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 
+import ScatterChart from './scatter-chart';
 
 export function HandleCalculateButtonClick() {
 
@@ -12,6 +13,8 @@ export function HandleCalculateButtonClick() {
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XSLX- CSV-Datei!"
+
+    let chartDeletion = 0;
 
     /*
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
@@ -23,6 +26,7 @@ export function HandleCalculateButtonClick() {
         const localCalculation = true; // nur zum Testen
         const inputDataSrc = 'manuel'; // nur zum Testen
         const dataArrayForWorking = inputDataArray;
+        chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
         if (inputDataSrc === "file") {
             /*
@@ -39,7 +43,8 @@ export function HandleCalculateButtonClick() {
                         const resultKMeans = apiGetResult();
                         resultKMeans.then(resultKMeans => {
                             console.log(resultKMeans.result);
-                            // TODO Result kann später weiter verarbeitet werden.
+                            //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
+                            ScatterChart(numberOfClusters,chartDeletion,result);
                         });
                     }
                 });
