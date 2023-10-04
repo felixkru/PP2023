@@ -20,7 +20,7 @@ export function HandleCalculateButtonClick() {
         const kPoints = validateKPoints(numberOfClusters);
         //const inputDataSrc = checkInputSource(); TODO
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = false; // nur zum Testen
+        const localCalculation = true; // nur zum Testen
         const inputDataSrc = 'manuel'; // nur zum Testen
         const dataArrayForWorking = inputDataArray;
 
