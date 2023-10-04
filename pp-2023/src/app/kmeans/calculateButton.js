@@ -16,8 +16,8 @@ export function HandleCalculateButtonClick() {
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const result = kMeansAlgorithm(dataSet, kPoints);
-        chartDeletion = 1;
-        ScatterChart(numberOfClusters,chartDeletion,result);
+        chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
+        ScatterChart(numberOfClusters,chartDeletion,result); //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
         console.log(result); // Testet Funktion von KMeans
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe 

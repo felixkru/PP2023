@@ -24,18 +24,15 @@ export function generateDatasets(K,kMeansResult) {
     for (let i = 1; i <= K; i++) {
 
         //diese Abfrage checkt ob beim Aufruf der Funktion bereits ein Ergebnis des Kmeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
-        if (typeof kMeansResult === 'undefined'){
+        if (typeof kMeansResult !== 'undefined'){
+            let data = fillInData(i,kMeansResult);
+            console.log(data);
+            const dataset = {
+             data: data,
+             label: `Set ${i}` //Das Dataset bekommt seinen Namen
+         };
+         generateData.push(dataset);
         }
-        else{
-           let data = fillInData(i,kMeansResult);
-           console.log(data);
-           const dataset = {
-            data: data,
-            label: `Set ${i}` //Das Dataset bekommt seinen Namen
-        };
-        generateData.push(dataset);
-        }
-
         
     }
    // Hier sind die optionen für die Chart Skalen etc. definiert.

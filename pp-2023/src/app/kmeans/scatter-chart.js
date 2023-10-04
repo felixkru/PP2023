@@ -8,11 +8,11 @@ function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
 
     let myChart;
 
-    const updateChart = () =>{
+    const UpdateChart = () =>{
         const chartData = generateDatasets(parseInt(numberOfClusters),kMeansResult);
-        let ctx = document.getElementById('myChart').getContext('2d');
-        let chartStatus = Chart.getChart('myChart'); // <canvas> id
-        if (chartStatus != undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chartStatus = Chart.getChart('myChart'); // <canvas> id
+        if (chartStatus !== undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
           chartStatus.destroy();
         }
         myChart = new Chart(ctx, chartData);
@@ -20,18 +20,18 @@ function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
 
     // Hier wird beim Initialen Laden der Seite das Chart erzeugt
     // useEffect wird hier verwendet, damit sichergestellt wird, dass das Chart erst erstellt wird nachdem das DOM komplett erzeugt wurde.
-    const initialChart = () =>{
+    const InitialChart = () =>{
         useEffect(() => {
-            updateChart();
+            UpdateChart();
         }, []);}
 
     
     // Überprüft ob Seite initial geladen wurde oder ob die calledByButton Variable mitgegeben wurde -> also durch calculate Button ausgelöst
     if(calledByButton !== 1){
-        initialChart();
+        InitialChart();
     }
     else{
-       updateChart(); 
+       UpdateChart(); 
     }
 
     // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
