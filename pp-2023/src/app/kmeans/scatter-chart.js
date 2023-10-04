@@ -4,20 +4,18 @@ import { Chart } from "chart.js/auto";
 import { UseInputKPoints } from './input-k-points';
 import { generateDatasets } from './generateDatasets';
 
-function ScatterChart(numberOfClusters,calledByButton) {
+function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
 
     let myChart;
 
-
-
     const updateChart = () =>{
-        const dataArray = generateDatasets(parseInt(numberOfClusters));
+        const chartData = generateDatasets(parseInt(numberOfClusters),kMeansResult);
         let ctx = document.getElementById('myChart').getContext('2d');
         let chartStatus = Chart.getChart('myChart'); // <canvas> id
         if (chartStatus != undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
           chartStatus.destroy();
         }
-        myChart = new Chart(ctx, dataArray);
+        myChart = new Chart(ctx, chartData);
     }
 
     // Hier wird beim Initialen Laden der Seite das Chart erzeugt
