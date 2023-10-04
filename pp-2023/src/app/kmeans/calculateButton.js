@@ -2,11 +2,14 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
+import ScatterChart from './scatter-chart';
+import ExcelFileUploader from '../components/ExcelFileUploader';
 
 export function HandleCalculateButtonClick() {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
+    let chartDeletion = 0;
 
     /*
     Die Funktion handleClick steuert die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
@@ -14,10 +17,13 @@ export function HandleCalculateButtonClick() {
     const handleClick = () => {
         const kPoints = validateKPoints(numberOfClusters);
         const result = kMeansAlgorithm(dataSet, kPoints);
+        chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
+        ScatterChart(numberOfClusters,chartDeletion,result); //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
         console.log(result); // Testet Funktion von KMeans
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe
         return result;
+
     }
 
     /*
@@ -32,15 +38,15 @@ export function HandleCalculateButtonClick() {
     };
 
     const dataSet = [
-        [2, 3, 4],
-        [2, 4, 3],
-        [3, 3, 3],
-        [4, 5, 6],
-        [5, 4, 5],
-        [6, 5, 7],
-        [9, 7, 8],
-        [10, 8, 9],
-        [11, 8, 8],
+        [2, 3],
+        [2, 4],
+        [3, 3],
+        [4, 5],
+        [5, 4],
+        [6, 5],
+        [9, 7],
+        [10, 8],
+        [11, 8],
     ];
 
     return handleClick;
