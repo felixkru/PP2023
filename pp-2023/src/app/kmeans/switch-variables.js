@@ -81,7 +81,7 @@ export function SwitchVariables() {
                            id="flexRadioDefaultTwoVariables" value={2} checked={activePoint1}
                            onChange={event => onOptionChange(event.target.value)}
                     />
-                    <label className="formform-check-label"
+                    <label className="form-check-label"
                            htmlFor="flexRadioDefaultTwoVariables">
                         Zwei Variablen
                     </label>
