@@ -1,5 +1,6 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
+import {data} from "autoprefixer";
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
@@ -10,13 +11,12 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
     const formData = new FormData();
     if (dataArrayForWorking) {
 
-        console.log(dataArrayForWorking)
-        const jsonData = JSON.stringify(dataArrayForWorking);
-        console.log(jsonData)
+        const dataPoints = {
+            'data_points': dataArrayForWorking,
+        };
+        const jsonData = JSON.stringify(dataPoints);
         const file = new Blob([jsonData], {type: 'application/json'});
-        console.log(file)
         formData.append('file', file, 'dataPoints.json');
-
     } else {
         const file = new Blob([CSV_FILE], {type: 'text/csv'});
         formData.append('file', file, 'dataPoints.csv');
@@ -52,7 +52,7 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
             }
         })
         /*
-        Behandlung möglocher Fehler.
+        Behandlung möglicher Fehler.
          */
         .catch(error => {
             console.error('Fehler bei der Anfrage:', error);
