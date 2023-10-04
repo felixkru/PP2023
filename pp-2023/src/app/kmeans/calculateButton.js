@@ -2,7 +2,7 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {exportFunctionDataForKMeans} from './requestAPI';
+import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 
 
 export function HandleCalculateButtonClick() {
@@ -15,39 +15,48 @@ export function HandleCalculateButtonClick() {
 
     /*
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
-    Ablauf:
-    - Prüft auf die src file oder manuel
-    - Prüft auf lokale-Verarbeitung oder Remote
      */
     const handleClick = () => {
-        const urlKMeans = "https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/";
         const kPoints = validateKPoints(numberOfClusters);
-        /*
-        TODO Muss noch überarbeitet werden.
-         */
-        //const inputDataSrc = checkInputSource();
-        //const  localCalculation = checkLocalOrServer();
-        // constFileUrl = TODO;
-        const localCalculation = false;
-        const inputDataSrc = 'manuel';
+        //const inputDataSrc = checkInputSource(); TODO
+        //const  localCalculation = checkLocalOrServer(); TODO
+        const localCalculation = false; // nur zum Testen
+        const inputDataSrc = 'file'; // nur zum Testen
 
         if (inputDataSrc === "file") {
+            /*
+            Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
+             */
             if (!localCalculation) {
-                const formData = new FormData();
-                //formData.append()
-                // TODO Request an die Api mit File URL
-            } else {
-                // TODO Auslesen der Excel Datei
+                const resultPost = apiPostRequest(kPoints, inputDataSrc);
+                console.log(resultPost); // TODO handling muss noch gemacht werden
+
+                const resultGetStateOfTask = apiGetStateOfTask();
+                resultGetStateOfTask.then(result => {
+
+                    if (result === 200) {
+                        const resultKMeans = apiGetResult();
+                        resultKMeans.then(resultKMeans => {
+                            console.log(resultKMeans.result);
+                            // TODO Result kann später weiter verarbeitet werden.
+                        });
+                    }
+                });
+            } else if (localCalculation) {
+                // TODO Auslesen der Excel/ CSV Datei
                 // const result = kMeansAlgorithm(ExcelData, kPoints);
+            } else {
+                alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
             }
         } else if (inputDataSrc === "manuel") {
-            // TODO validieren der eingegeben Daten
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
-            } else {
-                const result = exportFunctionDataForKMeans(urlKMeans, kPoints);
-                console.log(result); // TODO
+            } else if (!localCalculation){
+
+            }
+            else {
+                alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
             }
         }
     };
