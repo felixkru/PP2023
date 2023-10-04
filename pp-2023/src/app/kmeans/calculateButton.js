@@ -3,7 +3,6 @@ import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {exportFunctionDataForKMeans} from './requestAPI';
-import CSV_FILE from '../utils/test.csv';
 
 
 export function HandleCalculateButtonClick() {
@@ -23,6 +22,9 @@ export function HandleCalculateButtonClick() {
     const handleClick = () => {
         const urlKMeans = "https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/";
         const kPoints = validateKPoints(numberOfClusters);
+        /*
+        TODO Muss noch überarbeitet werden.
+         */
         //const inputDataSrc = checkInputSource();
         //const  localCalculation = checkLocalOrServer();
         // constFileUrl = TODO;
@@ -44,12 +46,8 @@ export function HandleCalculateButtonClick() {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
             } else {
-                const formData = new FormData();
-                const file = new Blob([CSV_FILE], {type: 'text/csv'});
-                formData.append('file', file, 'test.csv');
-                console.log(formData.get('file').name);
-                const result = exportFunctionDataForKMeans(urlKMeans, formData, kPoints);
-                console.log(result);
+                const result = exportFunctionDataForKMeans(urlKMeans, kPoints);
+                console.log(result); // TODO
             }
         }
     };
