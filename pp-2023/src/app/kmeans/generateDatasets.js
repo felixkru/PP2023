@@ -1,20 +1,18 @@
 'use client'
 //Diese Funktion erstellt den Inhalt des Scattercharts inklusive Datensets / Datenpunkten und Optionen.
 
-let numberOfVariables = 2;
 
-const fillInData = (pos,kMeansResult) => {
+// fillInData holt sich die einzelnen Daten aus dem Ergebnis des kMeans algorithmus und verpackt diese in ein Objekt dass das passende Format für Chartjs hat.
+const fillInData = (pos,kMeansResult) => { //pos ist hier die aktuelle position der Schleife bzw. des Clusters aus generateDatasets
     pos = pos-1;
     let data = [];
     if(kMeansResult.cluster[pos]){
-    
         for (let x = 0; x < kMeansResult.cluster[pos].length; x++){
                 let variables = {
                     x: kMeansResult.cluster[pos][x][0], y: kMeansResult.cluster[pos][x][1]
                 }
                 data.push(variables);
         }
-    
 }
 return data;
 }
@@ -25,8 +23,8 @@ export function generateDatasets(K,kMeansResult) {
     //Schleife fügt dem Array 'dataset' soviele Datasets hinzu wie Ks vom User angegeben wurden.
     for (let i = 1; i <= K; i++) {
 
+        //diese Abfrage checkt ob beim Aufruf der Funktion bereits ein Ergebnis des Kmeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
         if (typeof kMeansResult === 'undefined'){
-            console.log("noch ists leer");
         }
         else{
            let data = fillInData(i,kMeansResult);
@@ -40,7 +38,7 @@ export function generateDatasets(K,kMeansResult) {
 
         
     }
-   
+   // Hier sind die optionen für die Chart Skalen etc. definiert.
     const options = {
         responsive: true,
         scales: {
@@ -66,19 +64,6 @@ export function generateDatasets(K,kMeansResult) {
             }
         }
     };
-
-
-
-   /* if (typeof kMeansResult === 'undefined'){
-        console.log("noch ists leer");
-    }
-    else{
-        if(kMeansResult.cluster[1]){
-        console.log("ich bins darian", kMeansResult.cluster[1].length);
-        console.log("ich bins kukas", kMeansResult.cluster[0][0].length);
-        }
-    }*/
-
 
     return (
         {
