@@ -1,5 +1,5 @@
 'use client'
-import {useState} from 'react'
+import {useRef, useState} from 'react'
 import {SwitchVariables} from './kmeans/switch-variables';
 import {InputKPoints} from './kmeans/input-k-points';
 import {CalculateButton} from './kmeans/calculateButton';
@@ -9,7 +9,7 @@ import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-manuel-input';
 import ScatterChart from './kmeans/scatter-chart';
 import './globals.css'
-import ExcelFileReader from './components/ExcelFileReader';
+import ExcelFileUploader from './components/ExcelFileUploader';
 
 export default function Home() {
 
@@ -38,7 +38,9 @@ export default function Home() {
                                 <InputKPoints/>
                                 <section
                                     className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
-                                    <ExcelFileReader />
+                                    <div>
+                                        <ExcelFileUploader />
+                                    </div>
                                     <div className='toggle-switch d-flex align-items-center'>
                                     <span
                                         className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
