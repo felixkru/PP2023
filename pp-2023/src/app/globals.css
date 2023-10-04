@@ -32,6 +32,10 @@ footer span {
   padding: 0 8px;
 }
 
+h2.h5 {
+  margin-top: 1rem!important;
+}
+
 #copyright-el {
   color: #7473EA;
   font-family: Playfair Display;
