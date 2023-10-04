@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
 import { UseInputKPoints } from './input-k-points';
 import { generateDatasets } from './generateDatasets';
+
 function ScatterChart(numberOfClusters,calledByButton) {
 
     let myChart;
@@ -13,13 +14,13 @@ function ScatterChart(numberOfClusters,calledByButton) {
         const dataArray = generateDatasets(parseInt(numberOfClusters));
         let ctx = document.getElementById('myChart').getContext('2d');
         let chartStatus = Chart.getChart('myChart'); // <canvas> id
-        if (chartStatus != undefined) {
+        if (chartStatus != undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
           chartStatus.destroy();
         }
         myChart = new Chart(ctx, dataArray);
     }
 
-    // Hier wird beim Initialen Laden der Seite das Chart erzeugt und auch wieder mit der destroy funktion zerstört.
+    // Hier wird beim Initialen Laden der Seite das Chart erzeugt
     // useEffect wird hier verwendet, damit sichergestellt wird, dass das Chart erst erstellt wird nachdem das DOM komplett erzeugt wurde.
     const initialChart = () =>{
         useEffect(() => {
@@ -27,11 +28,10 @@ function ScatterChart(numberOfClusters,calledByButton) {
         }, []);}
 
     
+    // Überprüft ob Seite initial geladen wurde oder ob die calledByButton Variable mitgegeben wurde -> also durch calculate Button ausgelöst
     if(calledByButton !== 1){
         initialChart();
     }
-    //Wenn die Funktion über den Berechnen Button aufgerufen wurde, dann ist die Variable calledByButton = 1 und daher wird der Canvas ohne useEffect ausgeführt. 
-    //Das ist daher notwendig, da Man innerhalb des Hooks vom calculateButton keinen weiteren hook (useEffect) aufrufen kann. 
     else{
        updateChart(); 
     }
