@@ -18,14 +18,12 @@ export function HandleCalculateButtonClick() {
         const result = kMeansAlgorithm(dataSet, kPoints);
         chartDeletion = 1;
         ScatterChart(numberOfClusters,chartDeletion,result);
-      /*  console.log(result); // Testet Funktion von KMeans
+        console.log(result); // Testet Funktion von KMeans
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
-        console.log(numberOfClusters); // Testet Funktion der K-Eingabe */
+        console.log(numberOfClusters); // Testet Funktion der K-Eingabe 
         return result;
         
     }
-
-    //ScatterChart(numberOfClusters,chartDeletion);
 
     /*
     validateKPoints validiert die K-Points, dass diese immer als Number übergeben werden.
