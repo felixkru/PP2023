@@ -43,16 +43,25 @@ export function HandleCalculateButtonClick() {
                         });
                     }
                 });
+                /*
+                Auslesen eines Files und anschließende Verarbeitung im Client.
+                 */
             } else if (localCalculation) {
                 // TODO Auslesen der Excel/ CSV Datei
                 // const result = kMeansAlgorithm(ExcelData, kPoints);
             } else {
                 alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
             }
+            /*
+            Verarbeitung von manuell eingegeben Daten lokal.
+             */
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result);
+             /*
+            Verarbeitung von manuell eingegeben Daten mithilfe der API.
+             */
             } else if (!localCalculation){
                 const result = apiPostRequest(kPoints, dataArrayForWorking);
                 console.log(result);
@@ -63,6 +72,10 @@ export function HandleCalculateButtonClick() {
         }
     };
 
+
+    /*
+    Prüft, ob die Bearbeitung von manuellen Daten erfolgt oder eines Files.
+     */
     const checkInputSource = () => {
         if (1===3) {
             // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
@@ -75,6 +88,9 @@ export function HandleCalculateButtonClick() {
         }
     };
 
+    /*
+    Prüft die Verarbeitung, ob diese lokal oder serverseitig erfolgen soll.
+     */
     const checkLocalOrServer = () => {
         //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
     }

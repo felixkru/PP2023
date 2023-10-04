@@ -1,6 +1,6 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
-import {data} from "autoprefixer";
+
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
@@ -67,6 +67,9 @@ export const apiGetStateOfTask = (taskId) => {
     if (!taskId){
         taskId = 'b28c3385-2bb5-4f8c-b61f-7bb8ae8e23d6';
     }
+    /*
+    Generieren der Request-URl
+     */
     const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
 
