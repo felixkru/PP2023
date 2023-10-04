@@ -136,21 +136,28 @@ main {
   accent-color: #7473EA;
 }
 
-
-
 /* Toggle Switch Styling */
 .form-switch .form-check-input:hover {
   cursor: pointer;
 }
 
+.form-check-input-radio {
+  box-shadow: none;
+  margin: 0 .5rem 0 -1.5rem;
+  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
+  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
+}
+
+.form-check-input-radio:checked{
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
+  box-shadow: none;
+  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
+  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
+}
+
 .form-check-input:not(:checked) {
   background-color: #DDE0F8; /* Change the background color of the toggle when it is not checked */
   border-color: #DDE0F8; /* Change the border color of the checkbox when it is not checked */
-}
-
-.form-check-input:checked {
-  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
-  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
 }
 
 .form-check-input:focus {
@@ -164,7 +171,7 @@ main {
 
 .form-switch .form-check-input:active {
   background-color: #DDE0F8;
-  border-color: #DDE0F8; 
+  border-color: #DDE0F8;
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
 }
 

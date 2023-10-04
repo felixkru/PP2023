@@ -81,7 +81,7 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
         <div key={i} className="grid-cell">
             <label className='input-group-text' htmlFor={`inputVector${i}`}>{helper} Variable ...</label>
             <input id={`inputVector${i}`}
-                   className={`inputVector${i} form-control`}
+                   className={`inputVector${i} form-control input-vektor-get`}
                    type={"number"}
                    required={true}
                    aria-rowindex={rowIndex}
