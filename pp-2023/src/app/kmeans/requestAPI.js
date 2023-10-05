@@ -1,7 +1,6 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
 
-
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
     /*
