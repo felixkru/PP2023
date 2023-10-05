@@ -9,11 +9,13 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
     einzelne Datei-Objekte erstellt werden.
      */
     const formData = new FormData();
+    let corsValue = 'cors';
     if (dataArrayForWorking) {
 
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
+        corsValue = 'no-cors';
         const jsonData = JSON.stringify(dataPoints);
         const file = new Blob([jsonData], {type: 'application/json'});
         formData.append('file', file, 'dataPoints.json');
@@ -21,6 +23,8 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         const file = new Blob([CSV_FILE], {type: 'text/csv'});
         formData.append('file', file, 'dataPoints.csv');
     }
+
+    console.log(formData.get('file'));
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
@@ -32,7 +36,7 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
     return fetch(urlBearbeitet, {
-        mode: 'no-cors',
+        mode: corsValue,
         method: 'POST',
         body: formData,
         headers: {
