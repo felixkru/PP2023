@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader" />
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader">
+      <change afterPath="$PROJECT_DIR$/pp-2023/src/app/components/excelfilereader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/calculateButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/calculateButton.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +126,7 @@
       <workItem from="1696332543052" duration="11839000" />
       <workItem from="1696426860569" duration="2865000" />
       <workItem from="1696429842946" duration="346000" />
-      <workItem from="1696430205319" duration="17444000" />
+      <workItem from="1696430205319" duration="24031000" />
     </task>
     <task id="LOCAL-00001" summary="add kMeans test algorithm to the repository">
       <option name="closed" value="true" />
@@ -220,7 +224,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696504375068</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added excel file reader">
+      <option name="closed" value="true" />
+      <created>1696504943824</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1696504943824</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

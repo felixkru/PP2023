@@ -3,7 +3,7 @@ import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import ScatterChart from './scatter-chart';
-import * as XLSX from "xlsx";
+import readExcelFile from "../components/excelfilereader";
 
 export function HandleCalculateButtonClick() {
 
@@ -22,7 +22,13 @@ export function HandleCalculateButtonClick() {
         console.log(result); // Testet Funktion von KMeans
         console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
         console.log(numberOfClusters); // Testet Funktion der K-Eingabe
-        readExcelFile();
+
+        // liest file aus dem Input-feld
+        const fileInput = document.getElementById('excelFileInput');
+        const file = fileInput.files[0];
+        console.log(file);
+        readExcelFile(file);
+
         return result;
 
     }
@@ -50,37 +56,6 @@ export function HandleCalculateButtonClick() {
         [11, 8],
     ];
     return handleClick;
-}
-
-function readExcelFile() {
-    // ließt Datei aus dem Dateiinputfeld
-    const fileInput = document.getElementById('excelFileInput');
-    const file = fileInput.files[0];
-    // führt nur aus wenn eine Datei vorhanden ist sonnst Fehlermeldung
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            // hier wird das zweidimensionale Array gebaut
-            const data = e.target.result;
-            const workbook = XLSX.read(data, { type: 'binary' });
-            const sheetName = workbook.SheetNames[0]; // Annahme: Erste Arbeitsblatt verwenden
-
-            if (sheetName) {
-                const worksheet = workbook.Sheets[sheetName];
-                const dataArray = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                // 'dataArray' enthält zweidimensionales Array
-                console.log(dataArray);
-            } else {
-                console.error('Arbeitsblatt nicht gefunden');
-            }
-        };
-
-        reader.readAsBinaryString(file);
-    } else {
-        console.error('Bitte wählen Sie eine Excel-Datei aus.');
-    }
 }
 
 export function CalculateButton() {
