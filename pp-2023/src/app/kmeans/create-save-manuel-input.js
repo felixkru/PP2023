@@ -86,7 +86,7 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
                    required={true}
                    aria-rowindex={rowIndex}
                    aria-colindex={colIndex}
-                   onChange={event => handleInputChange(rowIndex, colIndex, event.target.value)}
+                   onChange={event => handleInputChange(rowIndex, colIndex, parseInt(event.target.value))}
             />
         </div>
     );
