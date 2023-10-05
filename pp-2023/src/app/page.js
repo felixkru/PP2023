@@ -1,5 +1,5 @@
 'use client'
-import {useRef, useState} from 'react'
+import {useState} from 'react'
 import {SwitchVariables} from './kmeans/switch-variables';
 import {InputKPoints} from './kmeans/input-k-points';
 import {CalculateButton} from './kmeans/calculateButton';
