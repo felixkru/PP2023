@@ -23,8 +23,8 @@ export function HandleCalculateButtonClick() {
         const kPoints = validateKPoints(numberOfClusters);
         //const inputDataSrc = checkInputSource(); TODO
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = false; // nur zum Testen
-        const inputDataSrc = 'file'; // nur zum Testen
+        const localCalculation = true; // nur zum Testen
+        const inputDataSrc = 'manuel'; // nur zum Testen
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -35,7 +35,7 @@ export function HandleCalculateButtonClick() {
             if (!localCalculation) {
                 const resultPost = apiPostRequest(kPoints, false);
                 console.log(resultPost); // TODO handling muss noch gemacht werden
-return;
+
                 const resultGetStateOfTask = apiGetStateOfTask();
                 resultGetStateOfTask.then(result => {
 
@@ -64,6 +64,7 @@ return;
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
                 ScatterChart(numberOfClusters,chartDeletion,result);
+                console.log("Hier Relevant");
                 console.log(result);
              /*
             Verarbeitung von manuell eingegeben Daten mithilfe der API.
