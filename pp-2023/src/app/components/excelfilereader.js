@@ -1,35 +1,36 @@
 import * as XLSX from "xlsx";
 
-function readExcelFile(file) {
-
-    // führt nur aus, wenn eine Datei vorhanden ist sonst Fehlermeldung
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // hier wird das zweidimensionale Array gebaut
-            const data = e.target.result;
-            const workbook = XLSX.read(data, { type: 'binary' });
-            const sheetName = workbook.SheetNames[0]; // Annahme: Erste Arbeitsblatt verwenden
-
-            if (sheetName) {
-                const worksheet = workbook.Sheets[sheetName];
-                // console.log(workbook)
-                const dataArray = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-                // 'dataArray' enthält zweidimensionales Array
-                console.log(dataArray);
-                resolve(dataArray);
-
-            } else {
-                console.error('Arbeitsblatt nicht gefunden');
-            }
-        };
-
-        reader.readAsBinaryString(file);
-    } else {
-        console.error('Bitte wählen Sie eine Excel-Datei aus.');
-    }
-
+export const returnexcel = () => {
+    const fileInput = document.getElementById('excelFileInput');
+    const file = fileInput.files[0];
+    return (file);
 }
 
-export default readExcelFile;
+export const calculateexcel = (callback) => {
+    const fileInput = document.getElementById('excelFileInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+
+        reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+            // `data` enthält das zweidimensionale Array
+            callback(data); // Hier rufen wir die Callback-Funktion auf
+        };
+
+        reader.onerror = () => {
+            console.error('Fehler beim Lesen der Datei');
+            callback(null); // Fehlerfall: Callback mit null aufrufen
+        };
+    } else {
+        console.error('Bitte wähle eine Excel-Datei aus.');
+        callback(null); // Fehlerfall: Callback mit null aufrufen
+    }
+}
