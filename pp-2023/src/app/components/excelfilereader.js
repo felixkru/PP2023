@@ -30,7 +30,7 @@ export const calculateexcel = (callback) => {
             callback(null); // Fehlerfall: Callback mit null aufrufen
         };
     } else {
-        console.error('Bitte wähle eine Excel-Datei aus.');
+        // console.error('Bitte wähle eine Excel-Datei aus.');
         callback(null); // Fehlerfall: Callback mit null aufrufen
     }
 }

@@ -24,67 +24,63 @@ export function HandleCalculateButtonClick() {
         // hier wird auf die Daten der excel gewartet
         calculateexcel((exceldata) => {
             // sobald die Daten eingelesen wurden gehts weiter
-            if (exceldata) {
 
-                const kPoints = validateKPoints(numberOfClusters);
-                //const inputDataSrc = checkInputSource(); TODO
-                //const  localCalculation = checkLocalOrServer(); TODO
-                const localCalculation = false; // nur zum Testen
-                const inputDataSrc = 'file'; // nur zum Testen
-                const dataArrayForWorking = inputDataArray;
-                chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
+            const kPoints = validateKPoints(numberOfClusters);
+            //const inputDataSrc = checkInputSource(); TODO
+            //const  localCalculation = checkLocalOrServer(); TODO
+            const localCalculation = false; // nur zum Testen
+            const inputDataSrc = 'file'; // nur zum Testen
+            const dataArrayForWorking = inputDataArray;
+            chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
-                console.log(returnexcel());
-                console.log(exceldata);
+            console.log(returnexcel());
+            console.log(exceldata);
 
-                if (inputDataSrc === "file") {
+            if (inputDataSrc === "file") {
+                /*
+                Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
+                 */
+                if (!localCalculation) {
+                    const resultPost = apiPostRequest(kPoints, false);
+                    console.log(resultPost); // TODO handling muss noch gemacht werden
+                    const resultGetStateOfTask = apiGetStateOfTask();
+                    resultGetStateOfTask.then(result => {
+
+                        if (result === 200) {
+                            const resultKMeans = apiGetResult();
+                            resultKMeans.then(resultKMeans => {
+                                console.log(resultKMeans.result);
+                                //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
+                                ScatterChart(numberOfClusters, chartDeletion, result);
+                            });
+                        }
+                    });
                     /*
-                    Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
+                    Auslesen eines Files und anschließende Verarbeitung im Client.
                      */
-                    if (!localCalculation) {
-                        const resultPost = apiPostRequest(kPoints, false);
-                        console.log(resultPost); // TODO handling muss noch gemacht werden
-                        const resultGetStateOfTask = apiGetStateOfTask();
-                        resultGetStateOfTask.then(result => {
-
-                            if (result === 200) {
-                                const resultKMeans = apiGetResult();
-                                resultKMeans.then(resultKMeans => {
-                                    console.log(resultKMeans.result);
-                                    //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
-                                    ScatterChart(numberOfClusters, chartDeletion, result);
-                                });
-                            }
-                        });
-                        /*
-                        Auslesen eines Files und anschließende Verarbeitung im Client.
-                         */
-                    } else if (localCalculation) {
-                        // TODO Auslesen der Excel/ CSV Datei
-                        // const result = kMeansAlgorithm(ExcelData, kPoints);
-                    } else {
-                        alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
-                    }
-                    /*
-                    Verarbeitung von manuell eingegeben Daten lokal.
-                     */
-                } else if (inputDataSrc === "manuel") {
-                    if (localCalculation) {
-                        const result = kMeansAlgorithm(inputDataArray, kPoints);
-                        ScatterChart(numberOfClusters, chartDeletion, result);
-                        console.log(result);
-                        /*
-                       Verarbeitung von manuell eingegeben Daten mithilfe der API.
-                        */
-                    } else if (!localCalculation) {
-                        const result = apiPostRequest(kPoints, dataArrayForWorking);
-                        console.log(result);
-                    } else {
-                        alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
-                    }
+                } else if (localCalculation) {
+                    // TODO Auslesen der Excel/ CSV Datei
+                    // const result = kMeansAlgorithm(ExcelData, kPoints);
+                } else {
+                    alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
                 }
-            } else {
-                console.error("Fehler beim Lesen der Datei.");
+                /*
+                Verarbeitung von manuell eingegeben Daten lokal.
+                 */
+            } else if (inputDataSrc === "manuel") {
+                if (localCalculation) {
+                    const result = kMeansAlgorithm(inputDataArray, kPoints);
+                    ScatterChart(numberOfClusters, chartDeletion, result);
+                    console.log(result);
+                    /*
+                   Verarbeitung von manuell eingegeben Daten mithilfe der API.
+                    */
+                } else if (!localCalculation) {
+                    const result = apiPostRequest(kPoints, dataArrayForWorking);
+                    console.log(result);
+                } else {
+                    alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
+                }
             }
         });
     };
