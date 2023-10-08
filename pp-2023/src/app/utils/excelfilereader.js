@@ -6,31 +6,32 @@ export const returnExcel = () => {
     return (file);
 }
 
-export const calculateExcel = (callback) => {
-    const fileInput = document.getElementById('excelFileInput');
-    const file = fileInput.files[0];
-
+export const calculateExcel = async () => {
+    const file = returnExcel();
+    console.log(file)
     if (file) {
         const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
 
-        reader.onload = () => {
-            const arrayBuffer = reader.result;
-            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        const data = await new Promise((resolve) => {
+            reader.onload = () => {
+                const arrayBuffer = reader.result;
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                resolve(jsonData);
+            };
 
-            // `data` enthält das zweidimensionale Array
-            callback(data); // Hier rufen wir die Callback-Funktion auf
-        };
+            reader.onerror = () => {
+                console.error('Fehler beim Lesen der Datei');
+            };
 
-        //reader.onerror = () => {
-        //    console.error('Fehler beim Lesen der Datei');
-        //    callback(null); // Fehlerfall: Callback mit null aufrufen
-        // };
+            reader.readAsArrayBuffer(file);
+        });
+        return data;
+
     } else {
-        // console.error('Bitte wähle eine Excel-Datei aus.');
-        callback(null); // Fehlerfall: Callback mit null aufrufen
+        alert('Bitte wähle eine Excel-Datei aus.');
+        return null; // Fehlerfall: null zurückgeben
     }
 }
