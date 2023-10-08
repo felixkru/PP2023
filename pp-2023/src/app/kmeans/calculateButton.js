@@ -3,8 +3,8 @@ import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
-
 import ScatterChart from './scatter-chart';
+import {returnExcel, calculateExcel} from "../utils/excelfilereader";
 
 export function HandleCalculateButtonClick() {
 
@@ -12,7 +12,7 @@ export function HandleCalculateButtonClick() {
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
-        " oder eine XSLX- CSV-Datei!"
+        " oder eine XLSX- CSV-Datei!"
 
     let chartDeletion = 0;
 
@@ -20,11 +20,13 @@ export function HandleCalculateButtonClick() {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = () => {
+
         const kPoints = validateKPoints(numberOfClusters);
-        //const inputDataSrc = checkInputSource(); TODO
+        const inputDataSrc = checkInputSource();
+
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = false; // nur zum Testen
-        const inputDataSrc = 'file'; // nur zum Testen
+        const localCalculation = true; // nur zum Testen
+
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -35,7 +37,7 @@ export function HandleCalculateButtonClick() {
             if (!localCalculation) {
                 const resultPost = apiPostRequest(kPoints, false);
                 console.log(resultPost); // TODO handling muss noch gemacht werden
-return;
+
                 const resultGetStateOfTask = apiGetStateOfTask();
                 resultGetStateOfTask.then(result => {
 
@@ -43,8 +45,8 @@ return;
                         const resultKMeans = apiGetResult();
                         resultKMeans.then(resultKMeans => {
                             console.log(resultKMeans.result);
-                            //erzeugt das 2d Chart mit hilfe der Berechneten Daten des kMeans Algorithmus
-                            ScatterChart(numberOfClusters,chartDeletion,result);
+                            //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
+                            ScatterChart(numberOfClusters, chartDeletion, result);
                         });
                     }
                 });
@@ -52,6 +54,8 @@ return;
                 Auslesen eines Files und anschließende Verarbeitung im Client.
                  */
             } else if (localCalculation) {
+                const inputData = calculateExcel();
+                console.log(inputData)
                 // TODO Auslesen der Excel/ CSV Datei
                 // const result = kMeansAlgorithm(ExcelData, kPoints);
             } else {
@@ -63,16 +67,15 @@ return;
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
-                ScatterChart(numberOfClusters,chartDeletion,result);
+                ScatterChart(numberOfClusters, chartDeletion, result);
                 console.log(result);
-             /*
-            Verarbeitung von manuell eingegeben Daten mithilfe der API.
-             */
-            } else if (!localCalculation){
+                /*
+               Verarbeitung von manuell eingegeben Daten mithilfe der API.
+                */
+            } else if (!localCalculation) {
                 const result = apiPostRequest(kPoints, dataArrayForWorking);
                 console.log(result);
-            }
-            else {
+            } else {
                 alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
             }
         }
@@ -83,12 +86,12 @@ return;
     Prüft, ob die Bearbeitung von manuellen Daten erfolgt oder eines Files.
      */
     const checkInputSource = () => {
-        if (1===3) {
+        if (returnExcel() !== undefined) {
             // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
+            return "file";
         } else if (inputDataArray.length !== 0) {
             return "manuel";
-        }
-        else {
+        } else {
             alert(noDataMessage);
             return false;
         }
