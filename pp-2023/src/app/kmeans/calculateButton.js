@@ -5,7 +5,7 @@ import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 
 import ScatterChart from './scatter-chart';
-import {ReturnExcel, CalculateExcel} from "../utils/excelfilereader";
+import {returnExcel, calculateExcel} from "../utils/excelfilereader";
 
 export function HandleCalculateButtonClick() {
 
@@ -31,9 +31,9 @@ export function HandleCalculateButtonClick() {
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
-        console.log(ReturnExcel());
+        console.log(returnExcel());
 
-        CalculateExcel((ExcelData) => {
+        calculateExcel((ExcelData) => {
             // hier wird auf die Daten der excel gewartet
             console.log(ExcelData);
         });
@@ -91,7 +91,7 @@ export function HandleCalculateButtonClick() {
     Prüft, ob die Bearbeitung von manuellen Daten erfolgt oder eines Files.
      */
     const checkInputSource = () => {
-        if (ReturnExcel() !== 0) {
+        if (returnExcel() !== undefined) {
             // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
             return "file";
         } else if (inputDataArray.length !== 0) {

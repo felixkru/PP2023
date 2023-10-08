@@ -1,6 +1,6 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
-import {returnExcel} from '../components/excelfilereader';
+import {returnExcel} from '../utils/excelfilereader';
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 

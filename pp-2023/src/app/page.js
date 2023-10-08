@@ -38,7 +38,7 @@ export default function Home() {
                                 <section
                                     className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
                                     <div className='file-input'>
-                                        <input className="card-style form-control form-control-lg" type="file" id="ExcelFileInput"/>
+                                        <input className="card-style form-control form-control-lg" type="file" id="excelFileInput"/>
                                     </div>
                                     <div className='toggle-switch d-flex align-items-center'>
                                     <span
