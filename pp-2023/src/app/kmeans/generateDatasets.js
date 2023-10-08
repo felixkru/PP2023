@@ -34,14 +34,12 @@ export function generateDatasets(K, kMeansResult) {
     for (let i = 0; i <= K - 1; i++) {
         //diese Abfrage checkt, ob beim Aufruf der Funktion bereits ein Ergebnis des KMeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
         if (typeof kMeansResult !== 'undefined') {
-            console.log(kMeansResult.groups)
             let data = fillInData(i, kMeansResult.groups[i].cluster);
             const dataset = {
                 data: data,
                 label: `Set ${i + 1}` //Das Dataset bekommt seinen Namen
             };
             generateData.push(dataset);
-            console.log(dataset)
         }
 
     }
