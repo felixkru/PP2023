@@ -38,8 +38,7 @@ export default function Home() {
                                 <section
                                     className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
                                     <div className='file-input'>
-                                        <input className="card-style form-control form-control-lg" type="file"
-                                               id="formFile"/>
+                                        <input className="card-style form-control form-control-lg" type="file" id="excelFileInput"/>
                                     </div>
                                     <div className='toggle-switch d-flex align-items-center'>
                                     <span
@@ -54,7 +53,7 @@ export default function Home() {
                                 </section>
                                 <CreateManuelInputFields/>
                             </div>
-                            <div className='output-area col12 col-lg-6'>
+                            <div className='output-area col12 col-lg-6 h-100'>
                                 <ScatterChart/>
                             </div>
                         </div>

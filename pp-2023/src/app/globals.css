@@ -191,3 +191,18 @@ main {
 .plus-button:active {
   background-color: #7473EA;
 }
+
+/* Scatter Chart Styling */
+#myChart {
+  height: 100%!important;
+  width: 100%!important;
+}
+
+@media (min-width: 992px) {
+  #scatterChartContainer {
+    position: fixed;
+    top: 50%;
+    width: 48vw;
+    transform: translateY(-50%);
+  }
+}
