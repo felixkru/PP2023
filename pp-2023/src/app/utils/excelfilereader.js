@@ -1,14 +1,13 @@
 import * as XLSX from "xlsx";
 
-export const returnexcel = () => {
-    const fileInput = document.getElementById('excelFileInput');
+export const ReturnExcel = () => {
+    const fileInput = document.getElementById('ExcelFileInput');
     const file = fileInput.files[0];
     return (file);
 }
 
-export const calculateexcel = (callback) => {
-    const fileInput = document.getElementById('excelFileInput');
-    const file = fileInput.files[0];
+export const CalculateExcel = (callback) => {
+    const file = ReturnExcel();
 
     if (file) {
         const reader = new FileReader();
@@ -25,10 +24,10 @@ export const calculateexcel = (callback) => {
             callback(data); // Hier rufen wir die Callback-Funktion auf
         };
 
-        reader.onerror = () => {
-            console.error('Fehler beim Lesen der Datei');
-            callback(null); // Fehlerfall: Callback mit null aufrufen
-        };
+        //reader.onerror = () => {
+        //    console.error('Fehler beim Lesen der Datei');
+        //    callback(null); // Fehlerfall: Callback mit null aufrufen
+        // };
     } else {
         // console.error('Bitte wähle eine Excel-Datei aus.');
         callback(null); // Fehlerfall: Callback mit null aufrufen
