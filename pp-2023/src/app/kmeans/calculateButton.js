@@ -67,8 +67,8 @@ export function HandleCalculateButtonClick() {
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
-                ScatterChart(numberOfClusters, chartDeletion, result);
                 console.log(result);
+                ScatterChart(numberOfClusters, chartDeletion, result);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
@@ -87,7 +87,6 @@ export function HandleCalculateButtonClick() {
      */
     const checkInputSource = () => {
         if (returnExcel() !== undefined) {
-            // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
             return "file";
         } else if (inputDataArray.length !== 0) {
             return "manuel";
