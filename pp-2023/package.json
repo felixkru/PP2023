@@ -16,7 +16,7 @@
     "chart.js": "^4.4.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
-    "kmeansjs": "^0.0.3",
+    "node-kmeans": "^1.1.9",
     "next": "13.4.19",
     "postcss": "8.4.29",
     "react": "18.2.0",
