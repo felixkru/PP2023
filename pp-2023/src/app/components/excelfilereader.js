@@ -1,12 +1,12 @@
 import * as XLSX from "xlsx";
 
-export const returnexcel = () => {
+export const returnExcel = () => {
     const fileInput = document.getElementById('excelFileInput');
     const file = fileInput.files[0];
     return (file);
 }
 
-export const calculateexcel = (callback) => {
+export const calculateExcel = (callback) => {
     const fileInput = document.getElementById('excelFileInput');
     const file = fileInput.files[0];
 

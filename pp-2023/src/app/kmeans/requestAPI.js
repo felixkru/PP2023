@@ -1,6 +1,6 @@
 'use client'
 import CSV_FILE from '../utils/test.csv';
-import {returnexcel, calculateexcel} from '../components/excelfilereader';
+import {returnExcel} from '../components/excelfilereader';
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
@@ -20,8 +20,7 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         const file = new Blob([jsonData], {type: 'application/json'});
         formData.append('file', file, 'dataPoints.json');
     } else {
-        //const file = new Blob([CSV_FILE], {type: 'text/csv'});
-        const file = returnexcel();
+        const file = returnExcel();
         formData.append('file', file, `${file.name}`);
     }
 

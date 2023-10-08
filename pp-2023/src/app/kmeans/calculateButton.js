@@ -5,7 +5,7 @@ import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 
 import ScatterChart from './scatter-chart';
-import {returnexcel, calculateexcel} from "../components/excelfilereader";
+import {returnExcel, calculateExcel} from "../components/excelfilereader";
 
 export function HandleCalculateButtonClick() {
 
@@ -22,7 +22,7 @@ export function HandleCalculateButtonClick() {
      */
     const handleClick = () => {
         // hier wird auf die Daten der excel gewartet
-        calculateexcel((exceldata) => {
+        returnExcel((excelData) => {
             // sobald die Daten eingelesen wurden gehts weiter
 
             const kPoints = validateKPoints(numberOfClusters);
@@ -33,8 +33,8 @@ export function HandleCalculateButtonClick() {
             const dataArrayForWorking = inputDataArray;
             chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
-            console.log(returnexcel());
-            console.log(exceldata);
+            console.log(calculateExcel());
+            console.log(excelData);
 
             if (inputDataSrc === "file") {
                 /*
