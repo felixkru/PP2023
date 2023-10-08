@@ -67,8 +67,9 @@ export function HandleCalculateButtonClick() {
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
-                console.log(result);
-                ScatterChart(numberOfClusters, chartDeletion, result);
+                if (!result.groups === undefined) {
+                    ScatterChart(numberOfClusters, chartDeletion, result);
+                }
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
