@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
 import { UseInputKPoints } from './input-k-points';
 import { generateDatasets } from './generateDatasets';
+import '../globals.css';
 
 function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
 
@@ -36,15 +37,12 @@ function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
 
     // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
     return (
-        <>
-            {/* Scatter chart */}
-            <h1 className="mx-auto mt-10 text-xl font-semibold capitalize ">Scatter Chart</h1>
-            <div className="h-screen flex mx-auto my-auto">
-                <div className='border border-gray-400 pt-0 rounded-xl  w-full h-fit my-auto  shadow-xl'>
-                    <canvas id='myChart'/>
-                </div>
+        <div id="scatterChartContainer">
+            <h1 className="mx-auto my-8 text-xl font-semibold capitalize ">Scatter Chart</h1>
+            <div className='border border-gray-400 pt-0 rounded-xl  w-full h-fit shadow-xl'>
+                <canvas id='myChart'/>
             </div>
-        </>
+        </div>
         
     )
 }
