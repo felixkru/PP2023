@@ -43,6 +43,7 @@ export function HandleCalculateButtonClick() {
                 if (!localCalculation) {
                     const resultPost = apiPostRequest(kPoints, false);
                     console.log(resultPost); // TODO handling muss noch gemacht werden
+                    return;
                     const resultGetStateOfTask = apiGetStateOfTask();
                     resultGetStateOfTask.then(result => {
 
@@ -85,15 +86,17 @@ export function HandleCalculateButtonClick() {
         });
     };
 
+
     /*
     Prüft, ob die Bearbeitung von manuellen Daten erfolgt oder eines Files.
      */
     const checkInputSource = () => {
-        if (1 === 3) {
+        if (1===3) {
             // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
         } else if (inputDataArray.length !== 0) {
             return "manuel";
-        } else {
+        }
+        else {
             alert(noDataMessage);
             return false;
         }
@@ -104,13 +107,6 @@ export function HandleCalculateButtonClick() {
      */
     const checkLocalOrServer = () => {
         //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
-        ScatterChart(numberOfClusters, chartDeletion, result); //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
-        console.log(result); // Testet Funktion von KMeans
-        console.log(inputDataArray); // Testet Funktion der manuellen Eingabe
-        console.log(numberOfClusters); // Testet Funktion der K-Eingabe
-
-        return result;
-
     }
 
     /*
