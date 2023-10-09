@@ -1,5 +1,5 @@
 'use client'
-import CSV_FILE from '../utils/test.csv';
+import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
@@ -10,8 +10,8 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
      */
     const formData = new FormData();
     let corsValue = 'cors';
-    if (dataArrayForWorking) {
 
+    if (dataArrayForWorking) {
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
@@ -21,10 +21,9 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         formData.append('file', file, 'dataPoints.json');
     } else {
         const file = returnExcel();
+        console.log(file)
         formData.append('file', file, `${file.name}`);
     }
-
-    console.log(formData.get('file'));
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
@@ -44,38 +43,34 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         },
     })
         /*
-        Behandlung von dem Response der API, falls ein Error auftritt.
+        Behandlung des Responses der API, falls ein Error auftritt.
         */
         .then(response => {
             if (response.ok) {
                 return response.json();
             } else {
                 return response.json().then(errorData => {
+                    APIError(errorData);
                     throw new Error(response.status + ' ' + response.statusText + ' ' + JSON.stringify(errorData));
                 });
             }
         })
         /*
-        Behandlung möglicher Fehler.
+        Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(error => {
-            console.error('Fehler bei der Anfrage:', error);
             throw error;
         });
 };
 
-export const apiGetStateOfTask = (taskId) => {
-    /*
-    Nur für lokales Testen
-     */
-    if (!taskId){
-        taskId = 'b28c3385-2bb5-4f8c-b61f-7bb8ae8e23d6';
-    }
+export const apiGetStateOfTask = (taskId, maxVersuch) => {
     /*
     Generieren der Request-URl
      */
     const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
+
+    const aktuellesIntervall = 2000;
 
     return fetch(completeUrl, {
         method: 'GET',
@@ -84,16 +79,27 @@ export const apiGetStateOfTask = (taskId) => {
         }
         })
         .then(response => {
-            if (response.ok) {
+            console.log(125)
+            console.log(Response)
+            if (response.ok && response.status === 200) {
+                console.log(response.status)
                 return response.status;
+            } else if (maxVersuch > 0) {
+                console.log("Timeout" + maxVersuch)
+                setTimeout(()=> {
+                    apiGetStateOfTask(taskId, maxVersuch - 1);
+                }, aktuellesIntervall);
             } else {
-                return response.text().then(errorText => {
+                return response.json().then(errorText => {
+                    APIError(errorText);
                     throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
                 });
             }
         })
+        /*
+        Behandlung möglicher Fehler, globaler Kontext.
+         */
         .catch(err => {
-            console.error('Fehler beim Response:', err);
             throw err;
         });
 }
@@ -124,16 +130,16 @@ export const apiGetResult = (taskId) => {
             if (response.ok) {
                 return response.json();
             } else {
-                return response.text().then(errorText => {
+                return response.json().then(errorText => {
+                    APIError(errorText);
                     throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
                 });
             }
         })
         /*
-        In der Funktion werden mögliche Errors bearbeitet.
+        Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(err => {
-            console.error('Fehler beim Response:', err);
             throw err;
         });
 }
