@@ -40,8 +40,7 @@ export function HandeleSwitchVariablesProvider({children}) {
      */
     const disableButtonChangeVariables = (variablesArea) => {
         variablesArea.forEach((variablesArea) => {
-            variablesArea.setAttribute('disable', 'true');
-            variablesArea.classList.add('form-check-input');
+            variablesArea.disabled = true;
         });
     }
 
