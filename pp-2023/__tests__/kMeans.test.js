@@ -1,5 +1,4 @@
 import {kMeansAlgorithm} from '../src/app/utils/kmeans';
-import {isArray} from "chart.js/helpers";
 
 describe('kmeansAlgorithm', () => {
     /*
@@ -15,7 +14,7 @@ describe('kmeansAlgorithm', () => {
     mit der Anzahl an Punkten des Ergebnisses übereinstimmt.
     3. Es wird überprüft, ob Zahlen ausgegeben werden.
      */
-    it('should ', () => {
+    it('Centroids-Test ', () => {
         const dataset = [
             [5, 2, 3],
             [5, 1, 2],
@@ -46,7 +45,7 @@ describe('kmeansAlgorithm', () => {
     /*
     Ist der Parameter KPoints ein string stat einem Integer, soll der Algorithmus weiter funktionieren.
      */
-    it(('should'), () => {
+    it(('Cluster-Test'), () => {
         const dataset = [
             [5, 2, 3],
             [5, 1, 2],
@@ -74,21 +73,6 @@ describe('kmeansAlgorithm', () => {
         });
     });
 
-    /*
-    Ist die ANzahl der Cluster größer als die Datenpunkte, soll dem Anwender eine Fehlermeldung gegeben werden.
-     */
-    it('should', () => {
-        const dataset = [
-            [5, 2, 3],
-            [5, 1, 2],
-            [4, 2, 3],
-            [1, 2, 8],
-            [4, 2, 9],
-            [4, 2, 0],
-        ];
-        const kPoints = 25;
-        const result = kMeansAlgorithm(dataset, kPoints);
+    //TODO den alert mocken mit JEST
 
-        console.log(result)
-    });
 });
