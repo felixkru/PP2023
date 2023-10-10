@@ -20,6 +20,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         };
         corsValue = 'no-cors';
         const jsonData = JSON.stringify(dataPoints);
+        console.log(jsonData)
         const file = new Blob([jsonData], {type: 'application/json'});
         formData.append('file', file, 'dataPoints.json');
     } else {
@@ -115,13 +116,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     return makeRequest();
 }
 
-export const apiGetResult = (taskId) => {
-    /*
-    Nur für lokales Testen
-     */
-    if (!taskId) {
-        taskId = 'b28c3385-2bb5-4f8c-b61f-7bb8ae8e23d6';
-    }
+export const apiGetResult = async (taskId) => {
     /*
     Zusammengesetzte URL für den GET-Request.
      */
@@ -153,6 +148,30 @@ export const apiGetResult = (taskId) => {
         .catch(err => {
             throw err;
         });
+}
+
+export const handleApiCommunication = async (resultPost) => {
+    try {
+        const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
+
+        /*
+        Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
+         */
+        if (resultGetStateOfTask === 1) {
+            return await apiGetResult(resultPost.TaskID);
+
+        }
+    }
+        /*
+        Ist die Berechnung zu umfassend, dass das Zeitlimit reißt, wird dem Nutzer in dem catch-Block ein Error angezeigt.
+         */
+    catch (err) {
+        const error = {
+            "detail" : "Das Zeitlimit der Berechnung ist überschritten. " +
+                "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
+        }
+        APIError(error);
+    }
 }
 
 export const exportFunctionDataForKMeans = (kPoints, taskId, dataArrayForWorking) => {
