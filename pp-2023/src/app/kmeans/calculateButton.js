@@ -48,15 +48,15 @@ export function HandleCalculateButtonClick() {
                         //TODO Result richtig verarbeiten
                         console.log(kMeansResult);
                     }
-                /*
-                In dem catch-Block werden allgemeine Fehler des Requests behandelt.
-                */
+                    /*
+                    In dem catch-Block werden allgemeine Fehler des Requests behandelt.
+                    */
                 } catch (error) {
                     throw new error;
                 }
-            /*
-            Auslesen eines Files und anschließende Verarbeitung im Client.
-            */
+                /*
+                Auslesen eines Files und anschließende Verarbeitung im Client.
+                */
             } else if (localCalculation) {
                 /*
                 Lokale Berechnung von KMeans mit der Visualisierung in Scatter-Chart.
@@ -73,9 +73,9 @@ export function HandleCalculateButtonClick() {
                     throw new err;
                 }
             }
-        /*
-        Verarbeitung von manuell eingegeben Daten lokal.
-        */
+            /*
+            Verarbeitung von manuell eingegeben Daten lokal.
+            */
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = await kMeansAlgorithm(inputDataArray, kPoints);
