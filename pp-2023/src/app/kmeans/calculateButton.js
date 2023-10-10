@@ -25,7 +25,7 @@ export function HandleCalculateButtonClick() {
         const inputDataSrc = checkInputSource();
 
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = false; // nur zum Testen
+        const localCalculation = true; // nur zum Testen
 
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
@@ -79,10 +79,13 @@ export function HandleCalculateButtonClick() {
             Auslesen eines Files und anschließende Verarbeitung im Client.
             */
             } else if (localCalculation) {
-                const inputData = calculateExcel();
-                console.log(inputData)
-                // TODO Auslesen der Excel/ CSV Datei
-                // const result = kMeansAlgorithm(ExcelData, kPoints);
+                /*
+                Lokale Berechnung von KMeans mit der Visualisierung in Scatter-Chart.
+                 */
+                const inputData = await calculateExcel();
+                //TODO Ladebildschirm
+                const result = await kMeansAlgorithm(inputData, kPoints);
+                ScatterChart(kPoints, chartDeletion, result);
             } else {
                 alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
             }
@@ -92,7 +95,7 @@ export function HandleCalculateButtonClick() {
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
                 const result = kMeansAlgorithm(inputDataArray, kPoints);
-                ScatterChart(numberOfClusters, chartDeletion, result);
+                ScatterChart(kPoints, chartDeletion, result);
                 console.log(result);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
