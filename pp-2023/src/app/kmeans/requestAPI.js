@@ -9,7 +9,6 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     einzelne Datei-Objekte erstellt werden.
      */
     const formData = new FormData();
-    let corsValue = 'cors';
 
     if (dataArrayForWorking) {
         /*
@@ -18,9 +17,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
-        corsValue = 'no-cors';
         const jsonData = JSON.stringify(dataPoints);
-        console.log(jsonData)
         const file = new Blob([jsonData], {type: 'application/json'});
         formData.append('file', file, 'dataPoints.json');
     } else {
@@ -41,7 +38,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
     return fetch(urlBearbeitet, {
-        mode: corsValue,
+        mode: 'cors',
         method: 'POST',
         body: formData,
         headers: {
@@ -52,6 +49,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         Behandlung des Responses der API, falls ein Error auftritt.
         */
         .then(response => {
+            console.log(response)
             if (response.ok) {
                 return response.json();
             } else {
@@ -98,14 +96,11 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 const response = await result.json();
                 if (response.status === 'completed') {
                     return 1;
-                }
-
-                else if (maxVersuch > 0 && response.status === 'processing') {
+                } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
-                }
-                else {
+                } else {
                     new Error('Fehler beim Response: ' + response.status);
                 }
             }
@@ -126,7 +121,7 @@ export const apiGetResult = async (taskId) => {
     return fetch(completeUrl, {
         method: 'GET',
         headers: {
-            "Accept" : "application/json"
+            "Accept": "application/json"
         }
     })
         /*
@@ -164,10 +159,9 @@ export const handleApiCommunication = async (resultPost) => {
     }
         /*
         Ist die Berechnung zu umfassend, dass das Zeitlimit reißt, wird dem Nutzer in dem catch-Block ein Error angezeigt.
-         */
-    catch (err) {
+         */ catch (err) {
         const error = {
-            "detail" : "Das Zeitlimit der Berechnung ist überschritten. " +
+            "detail": "Das Zeitlimit der Berechnung ist überschritten. " +
                 "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
         }
         APIError(error);
@@ -177,7 +171,7 @@ export const handleApiCommunication = async (resultPost) => {
 export const exportFunctionDataForKMeans = (kPoints, taskId, dataArrayForWorking) => {
     return (
         apiPostRequest(kPoints, dataArrayForWorking),
-        apiGetStateOfTask(taskId),
-        apiGetResult(taskId)
+            apiGetStateOfTask(taskId),
+            apiGetResult(taskId)
     );
 };

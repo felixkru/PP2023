@@ -24,7 +24,7 @@ export function HandleCalculateButtonClick() {
         const inputDataSrc = checkInputSource();
 
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = true; // nur zum Testen
+        const localCalculation = false; // nur zum Testen
 
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
@@ -82,16 +82,16 @@ export function HandleCalculateButtonClick() {
                     /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-                    const resultPost = await apiPostRequest(kPoints, false);
+                    const resultPost = await apiPostRequest(kPoints, dataArrayForWorking);
 
+                    console.log(resultPost)
                     /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
-                        //TODO Result richtig verarbeiten
-                        console.log(kMeansResult);
+                        // TODO response verarbeiten
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
