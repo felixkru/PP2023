@@ -1,6 +1,13 @@
 'use client'
-import CSV_FILE from '../utils/test.csv';
 import {returnExcel} from '../utils/excelfilereader';
+
+export const validateLengthOfData = (data, kPoints) => {
+    if (data.length < kPoints) {
+        alert("Sie haben mehr K Punkte angegeben als Datensätze, das ist nicht möglich.")
+        return false;
+    }
+    return true;
+}
 
 export const apiPostRequest = (KPoints, dataArrayForWorking) => {
 
@@ -11,7 +18,9 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
     const formData = new FormData();
     let corsValue = 'cors';
     if (dataArrayForWorking) {
-
+        if (validateLengthOfData(dataArrayForWorking, KPoints) === false) {
+            return;
+        }
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
@@ -23,8 +32,6 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         const file = returnExcel();
         formData.append('file', file, `${file.name}`);
     }
-
-    console.log(formData.get('file'));
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,

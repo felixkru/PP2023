@@ -2,7 +2,7 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
+import {apiPostRequest, apiGetStateOfTask, apiGetResult, validateLengthOfData} from './requestAPI';
 import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from "../utils/excelfilereader";
 
@@ -20,12 +20,11 @@ export function HandleCalculateButtonClick() {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = () => {
-
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
 
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = true; // nur zum Testen
+        const localCalculation = false; // nur zum Testen
 
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
@@ -115,17 +114,21 @@ export function HandleCalculateButtonClick() {
         }
     };
 
-    return handleClick;
+    return {
+        handleClick,
+        validateKPoints,
+        checkLocalOrServer
+    };
 }
 
 export function CalculateButton() {
-    const handleCalculateButtonClick = HandleCalculateButtonClick();
+    const {handleClick} = HandleCalculateButtonClick();
 
     return (
         <button
             type="button"
             className='compute-btn button'
-            onClick={handleCalculateButtonClick}
+            onClick={handleClick}
         >
             Berechnen
         </button>
