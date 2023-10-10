@@ -73,6 +73,37 @@ describe('kmeansAlgorithm', () => {
         });
     });
 
-    //TODO den alert mocken mit JEST
+    /*
+    Ist das Dataset ein string wir ein leeres Objekt zurückgegeben und ein alert gemockt.
+     */
+    it(('Cluster-Test'), () => {
 
+        global.alert = jest.fn();
+
+        const dataset = "[[8,2,3],[5,1,2],[4,2,3],[1,2,8],[4,2,9],[4,2,0]]";
+        const kPoints = 2;
+        const result = kMeansAlgorithm(dataset, kPoints);
+
+        expect(global.alert).toHaveBeenCalledWith("Bitte überprüfen Sie Ihre Eingegeben Daten! Eine Berechnung mit Ihrem aktuellen Datensatz ist nicht möglich.");
+        expect(result).toEqual({});
+
+        global.alert.mockClear();
+    });
+
+    /*
+    Ist das Dataset kein zweidimensionales Array, wird alert ausgegeben.
+     */
+    it(('Cluster-Test'), () => {
+
+        global.alert = jest.fn();
+
+        const dataset = 47;
+        const kPoints = 2;
+        const result = kMeansAlgorithm(dataset, kPoints);
+
+        expect(global.alert).toHaveBeenCalledWith("Bitte überprüfen Sie Ihre Eingegeben Daten! Eine Berechnung mit Ihrem aktuellen Datensatz ist nicht möglich.");
+        expect(result).toEqual({});
+
+        global.alert.mockClear();
+    });
 });
