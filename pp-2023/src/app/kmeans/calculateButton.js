@@ -6,7 +6,7 @@ import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from "../utils/excelfilereader";
 
-export function HandleCalculateButtonClick() {
+export function HandleCalculateButtonClick(localRemoteButton) {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
@@ -21,12 +21,12 @@ export function HandleCalculateButtonClick() {
      */
     const handleClick = () => {
 
+        /*
+        Initialisierung von Variablen für den Programmverlauf.
+         */
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
-
-        //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = true; // nur zum Testen
-
+        const localCalculation = localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -98,13 +98,6 @@ export function HandleCalculateButtonClick() {
     };
 
     /*
-    Prüft die Verarbeitung, ob diese lokal oder serverseitig erfolgen soll.
-     */
-    const checkLocalOrServer = () => {
-        //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
-    }
-
-    /*
     validateKPoints validiert die K-Points, dass diese immer als Number übergeben werden.
      */
     const validateKPoints = (numberOfClusters) => {
@@ -118,8 +111,8 @@ export function HandleCalculateButtonClick() {
     return handleClick;
 }
 
-export function CalculateButton() {
-    const handleCalculateButtonClick = HandleCalculateButtonClick();
+export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
+    const handleCalculateButtonClick = HandleCalculateButtonClick(localRemoteButton, setLocalRemoteButton);
 
     return (
         <button

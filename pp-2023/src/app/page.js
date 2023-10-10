@@ -8,19 +8,12 @@ import {CreateManuelInputFields} from './kmeans/create-save-manuel-input';
 import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-manuel-input';
 import ScatterChart from './kmeans/scatter-chart';
+import {CreateLocalRemoteButton} from "./kmeans/local-remote-button";
 import './globals.css'
 
 export default function Home() {
 
-    const [isChecked, setIsChecked] = useState(false);
-
-    function checkHandler() {
-        if (isChecked) {
-            setIsChecked(false)
-        } else {
-            setIsChecked(true)
-        }
-    }
+    const [localRemoteButton, setLocalRemoteButton] = useState(false);
 
     return (
         <HandeleSwitchVariablesProvider>
@@ -32,7 +25,7 @@ export default function Home() {
                                 <div
                                     className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
                                     <SwitchVariables/>
-                                    <CalculateButton/>
+                                    <CalculateButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton}/>
                                 </div>
                                 <InputKPoints/>
                                 <section
@@ -40,16 +33,7 @@ export default function Home() {
                                     <div className='file-input'>
                                         <input className="card-style form-control form-control-lg" type="file" id="excelFileInput"/>
                                     </div>
-                                    <div className='toggle-switch d-flex align-items-center'>
-                                    <span
-                                        className={'computingOptions ' + (!isChecked ? "active-element" : null)}>Lokal</span>
-                                        <div className="form-check form-switch">
-                                            <input className="form-check-input" type="checkbox" role="switch"
-                                                   id="serverClientSwitch" checked={isChecked} onChange={checkHandler}/>
-                                        </div>
-                                        <span
-                                            className={'computingOptions ' + (isChecked ? "active-element" : null)}>Serverseitig</span>
-                                    </div>
+                                    <CreateLocalRemoteButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton} />
                                 </section>
                                 <CreateManuelInputFields/>
                             </div>
