@@ -28,7 +28,7 @@ const fillInData = (kMeansResult) => { //pos ist hier die aktuelle position der 
 }
 
 
-export function generateDatasets(K, kMeansResult) {
+const generateDatasets = (K, kMeansResult) => {
     const generateData = [];
     //Schleife fügt dem Array 'dataset' soviele Datasets hinzu wie Ks vom User angegeben wurden.
     for (let i = 0; i <= K - 1; i++) {
@@ -79,4 +79,9 @@ export function generateDatasets(K, kMeansResult) {
             options: options,
         }
     )
+}
+
+export const gD = {
+    fillInData,
+    generateDatasets
 }
