@@ -24,7 +24,6 @@ const fillInData = (kMeansResult) => { //pos ist hier die aktuelle position der 
             data.push(variables);
         }
     }
-    console.log(data)
     return data;
 }
 
