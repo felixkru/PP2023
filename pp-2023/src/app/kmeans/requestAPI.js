@@ -105,7 +105,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return makeRequest();
                 }
                 else {
-                    throw new Error('Fehler beim Response: ' + response.status);
+                    new Error('Fehler beim Response: ' + response.status);
                 }
             }
         } catch (err) {
