@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
 import { UseInputKPoints } from './input-k-points';
-import { generateDatasets } from './generateDatasets';
+import { gD } from './generateDatasets';
 import '../globals.css';
 
 function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
@@ -10,7 +10,7 @@ function ScatterChart(numberOfClusters,calledByButton,kMeansResult) {
     let myChart;
 
     const UpdateChart = () =>{
-        const chartData = generateDatasets(parseInt(numberOfClusters),kMeansResult);
+        const chartData = gD.generateDatasets(parseInt(numberOfClusters),kMeansResult);
         const ctx = document.getElementById('myChart').getContext('2d');
         const chartStatus = Chart.getChart('myChart'); // <canvas> id
         if (chartStatus !== undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
