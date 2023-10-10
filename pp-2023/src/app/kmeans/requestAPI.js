@@ -2,7 +2,7 @@
 import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
 
-export const apiPostRequest = (KPoints, dataArrayForWorking) => {
+export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
 
     /*
     Erstellung eines Form-Data Objektes. Innerhalb des Objektes können mittels eines Key, Value Verfahren
@@ -12,6 +12,9 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
     let corsValue = 'cors';
 
     if (dataArrayForWorking) {
+        /*
+        Auslesen der manuellen Datenpunkte, diese werden anschließend als Datei, einem formData Objekt übergeben.
+         */
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
@@ -20,8 +23,10 @@ export const apiPostRequest = (KPoints, dataArrayForWorking) => {
         const file = new Blob([jsonData], {type: 'application/json'});
         formData.append('file', file, 'dataPoints.json');
     } else {
-        const file = returnExcel();
-        console.log(file)
+        /*
+        Aufruf von returnExcel und hinzufügen der geladenen Datei einem formData-Objekt.
+         */
+        const file = await returnExcel();
         formData.append('file', file, `${file.name}`);
     }
 
@@ -72,44 +77,42 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
 
     const aktuellesIntervall = 3000;
 
-    return fetch(completeUrl, {
-        method: 'GET',
-        headers: {
-           "Accept" : "application/json"
-        }
-        })
-        .then(result => {
+    /*
+    Die Funktion makeRequest führt einen asynchronen Request an das Backend durch, um den Status der zu bearbeitenden
+    Task zu bekommen.
+     */
+    const makeRequest = async () => {
+        try {
+            const result = await fetch(completeUrl, {
+                method: 'GET',
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            /*
+            Bei gültigem 200 Status und de
+             */
             if (result.status === 200) {
-               return result.json();
-            } else {
-                return result.json().then(errorText => {
-                    APIError(errorText);
-                    throw new Error('Fehler beim Response: ' + result.status + ' ' + errorText);
-                });
+                const response = await result.json();
+                if (response.status === 'completed') {
+                    return 1;
+                }
+
+                else if (maxVersuch > 0 && response.status === 'processing') {
+                    await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
+                    maxVersuch = maxVersuch - 1;
+                    return makeRequest();
+                }
+                else {
+                    throw new Error('Fehler beim Response: ' + response.status);
+                }
             }
-        })
-        .then(response => {
-            if (response.status === 'completed') {
-                console.log(response.status)
-                return 200;
-            } else if (maxVersuch > 0 && response.status === 'processing') {
-                console.log("Timeout" + maxVersuch)
-                setTimeout(()=> {
-                    apiGetStateOfTask(taskId, maxVersuch - 1);
-                }, aktuellesIntervall);
-            } else {
-                return response.json().then(errorText => {
-                    APIError(errorText);
-                    throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
-                });
-            }
-        })
-        /*
-        Behandlung möglicher Fehler, globaler Kontext.
-         */
-        .catch(err => {
+        } catch (err) {
             throw err;
-        });
+        }
+    };
+    return makeRequest();
 }
 
 export const apiGetResult = (taskId) => {

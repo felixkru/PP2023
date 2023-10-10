@@ -5,6 +5,7 @@ import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
 import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from "../utils/excelfilereader";
+import {APIError} from '../utils/userErrors';
 
 export function HandleCalculateButtonClick() {
 
@@ -35,25 +36,42 @@ export function HandleCalculateButtonClick() {
              */
             if (!localCalculation) {
                 try {
+                    /*
+                    Übersenden der eingegebenen Datei an das Backend.
+                     */
                     const resultPost = await apiPostRequest(kPoints, false);
-                    resultPost.then((resultPost) => {
 
-                        if (resultPost.TaskID){
-
+                    /*
+                    Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
+                    Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
+                     */
+                    if (resultPost.TaskID) {
+                        try {
                             const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
-                            resultGetStateOfTask.then(result => {
-                                console.log(result);
-                                if (result === 200) {
-                                    const resultKMeans = await apiGetResult(resultPost.TaskID);
-                                    resultKMeans.then(resultKMeans => {
-                                        console.log(resultKMeans.result);
-                                        //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
-                                        //ScatterChart(numberOfClusters, chartDeletion, result);
-                                    });
-                                }
-                            });
+
+                            /*
+                            Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
+                             */
+                            if (resultGetStateOfTask === 1) {
+                                const apiResult = await apiGetResult(resultPost.TaskID);
+                                // TODO handling des Resposne @Felix Kruse
+                                console.log(apiResult)
+                            }
                         }
-                    });
+                        /*
+                        Ist die Berechnung zu umfassend, dass das Zeitlimit reißt, wird dem Nutzer in dem catch-Block ein Error angezeigt.
+                         */
+                        catch (err) {
+                            const error = {
+                                "detail" : "Das Zeitlimit der Berechnung ist überschritten. " +
+                                    "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
+                            }
+                            APIError(error);
+                        }
+                    }
+                /*
+                In dem catch-Block werden allgemeine Fehler des Requests behandelt.
+                */
                 } catch (error) {
                     throw new error;
                 }
