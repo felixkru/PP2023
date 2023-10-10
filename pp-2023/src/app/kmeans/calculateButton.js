@@ -2,7 +2,7 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {apiPostRequest, apiGetStateOfTask, apiGetResult} from './requestAPI';
+import {apiPostRequest, handleApiCommunication, runWithTimeout} from './requestAPI';
 import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from "../utils/excelfilereader";
 
@@ -19,8 +19,7 @@ export function HandleCalculateButtonClick() {
     /*
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
-    const handleClick = () => {
-
+    const handleClick = async () => {
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
 
@@ -35,59 +34,86 @@ export function HandleCalculateButtonClick() {
             Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
              */
             if (!localCalculation) {
-                const resultPost = apiPostRequest(kPoints, false);
-                console.log(resultPost); // TODO handling muss noch gemacht werden
-
-                const resultGetStateOfTask = apiGetStateOfTask();
-                resultGetStateOfTask.then(result => {
-
-                    if (result === 200) {
-                        const resultKMeans = apiGetResult();
-                        resultKMeans.then(resultKMeans => {
-                            console.log(resultKMeans.result);
-                            //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
-                            ScatterChart(numberOfClusters, chartDeletion, result);
-                        });
+                try {
+                    /*
+                    Übersenden der eingegebenen Datei an das Backend.
+                     */
+                    const resultPost = await apiPostRequest(kPoints, false);
+                    /*
+                    Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
+                    Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
+                     */
+                    if (resultPost.TaskID) {
+                        const kMeansResult = await handleApiCommunication(resultPost);
+                        //TODO Result richtig verarbeiten
+                        console.log(kMeansResult);
                     }
-                });
+                    /*
+                    In dem catch-Block werden allgemeine Fehler des Requests behandelt.
+                    */
+                } catch (error) {
+                    throw new error;
+                }
                 /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
-                 */
+                */
             } else if (localCalculation) {
-                const inputData = calculateExcel();
-                console.log(inputData)
-                // TODO Auslesen der Excel/ CSV Datei
-                // const result = kMeansAlgorithm(ExcelData, kPoints);
-            } else {
-                alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
+                /*
+                Lokale Berechnung von KMeans mit der Visualisierung in Scatter-Chart.
+                 */
+                try {
+                    const inputData = await calculateExcel();
+                    // TODO Generierung Ladebildschirm
+                    const timeout = 30000;
+                    const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);
+                    ScatterChart(kPoints, chartDeletion, result);
+                    console.log(result);
+                    // TODO response verarbeiten
+                } catch (err) {
+                    throw new err;
+                }
             }
             /*
             Verarbeitung von manuell eingegeben Daten lokal.
-             */
+            */
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
-                const result = kMeansAlgorithm(inputDataArray, kPoints);
-                ScatterChart(numberOfClusters, chartDeletion, result);
-                console.log(result);
+                const result = await kMeansAlgorithm(inputDataArray, kPoints);
+                console.log(result)
+                ScatterChart(kPoints, chartDeletion, result);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
             } else if (!localCalculation) {
-                const result = apiPostRequest(kPoints, dataArrayForWorking);
-                console.log(result);
-            } else {
-                alert('Bitte Klicken Sie auf den Button Lokal/ Serverseitig.');
+                try {
+                    /*
+                    Übersenden der eingegebenen Datei an das Backend.
+                     */
+                    const resultPost = await apiPostRequest(kPoints, dataArrayForWorking);
+                    /*
+                    Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
+                    Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
+                     */
+                    if (resultPost.TaskID) {
+                        const kMeansResult = await handleApiCommunication(resultPost);
+                        console.log(kMeansResult)
+                        // TODO response verarbeiten
+                    }
+                    /*
+                    In dem catch-Block werden allgemeine Fehler des Requests behandelt.
+                    */
+                } catch (error) {
+                    throw new error;
+                }
             }
         }
     };
-
 
     /*
     Prüft, ob die Bearbeitung von manuellen Daten erfolgt oder eines Files.
      */
     const checkInputSource = () => {
         if (returnExcel() !== undefined) {
-            // TODO --> Checken, ob eine Datei vorhanden ist (nicht auslesen!)
             return "file";
         } else if (inputDataArray.length !== 0) {
             return "manuel";
