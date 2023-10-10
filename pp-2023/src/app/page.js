@@ -16,7 +16,7 @@ export default function Home() {
     const [localRemoteButton, setLocalRemoteButton] = useState(false);
 
     return (
-        <HandeleSwitchVariablesProvider>
+        <HandeleSwitchVariablesProvider data-testid="handleSwitchVariablesProvider">
             <InputKPointsProvider>
                 <HandleDynamicGeneratedInputFieldsProvider>
                     <main className="mh-100 text-center container">
