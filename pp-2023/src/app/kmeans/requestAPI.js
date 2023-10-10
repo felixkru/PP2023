@@ -49,7 +49,6 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         Behandlung des Responses der API, falls ein Error auftritt.
         */
         .then(response => {
-            console.log(response)
             if (response.ok) {
                 return response.json();
             } else {
@@ -167,11 +166,15 @@ export const handleApiCommunication = async (resultPost) => {
         APIError(error);
     }
 }
-
-export const exportFunctionDataForKMeans = (kPoints, taskId, dataArrayForWorking) => {
-    return (
-        apiPostRequest(kPoints, dataArrayForWorking),
-            apiGetStateOfTask(taskId),
-            apiGetResult(taskId)
-    );
+/*
+Die Funktion nimmt einen Promise auf und führt diesen aus. Ebenfalls wir ein Parameter Timeout aufgenommen.
+Ist der Timeout abgelaufen, wird ein fehler zurückgegeben. Andernfalls das Result des Promises.
+ */
+export const runWithTimeout = (promise, timeout) => {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), timeout)
+        ),
+    ]);
 };
