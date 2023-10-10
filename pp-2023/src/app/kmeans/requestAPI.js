@@ -70,7 +70,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
 
-    const aktuellesIntervall = 2000;
+    const aktuellesIntervall = 3000;
 
     return fetch(completeUrl, {
         method: 'GET',
@@ -78,13 +78,21 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
            "Accept" : "application/json"
         }
         })
+        .then(result => {
+            if (result.status === 200) {
+               return result.json();
+            } else {
+                return result.json().then(errorText => {
+                    APIError(errorText);
+                    throw new Error('Fehler beim Response: ' + result.status + ' ' + errorText);
+                });
+            }
+        })
         .then(response => {
-            console.log(125)
-            console.log(Response)
-            if (response.ok && response.status === 200) {
+            if (response.status === 'completed') {
                 console.log(response.status)
-                return response.status;
-            } else if (maxVersuch > 0) {
+                return 200;
+            } else if (maxVersuch > 0 && response.status === 'processing') {
                 console.log("Timeout" + maxVersuch)
                 setTimeout(()=> {
                     apiGetStateOfTask(taskId, maxVersuch - 1);

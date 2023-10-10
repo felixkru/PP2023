@@ -19,7 +19,7 @@ export function HandleCalculateButtonClick() {
     /*
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
-    const handleClick = () => {
+    const handleClick = async () => {
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
 
@@ -34,25 +34,29 @@ export function HandleCalculateButtonClick() {
             Verarbeitung eines Files und Export an die KMeans-Api, anschließend wird das Ergebnis visualisiert.
              */
             if (!localCalculation) {
-                const resultPost = apiPostRequest(kPoints, false);
-                resultPost.then((resultPost) => {
+                try {
+                    const resultPost = await apiPostRequest(kPoints, false);
+                    resultPost.then((resultPost) => {
 
-                    if (resultPost.TaskID){
-                        const resultGetStateOfTask = apiGetStateOfTask(resultPost.TaskID, 5);
-                        resultGetStateOfTask.then(result => {
+                        if (resultPost.TaskID){
 
-                            if (result === 200) {
-                                const resultKMeans = apiGetResult(resultPost.TaskID);
-                                resultKMeans.then(resultKMeans => {
-                                    console.log(resultKMeans.result);
-                                    //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
-                                    //ScatterChart(numberOfClusters, chartDeletion, result);
-                                });
-                            }
-                        });
-                    }
-                });
-
+                            const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
+                            resultGetStateOfTask.then(result => {
+                                console.log(result);
+                                if (result === 200) {
+                                    const resultKMeans = await apiGetResult(resultPost.TaskID);
+                                    resultKMeans.then(resultKMeans => {
+                                        console.log(resultKMeans.result);
+                                        //erzeugt das 2d Chart mithilfe der berechneten Daten des kMeans Algorithmus
+                                        //ScatterChart(numberOfClusters, chartDeletion, result);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } catch (error) {
+                    throw new error;
+                }
             /*
             Auslesen eines Files und anschließende Verarbeitung im Client.
             */
