@@ -2,7 +2,7 @@
 //Diese Funktion erstellt den Inhalt des Scattercharts inklusive Datensets / Datenpunkten und Optionen.
 
 // fillInData holt sich die einzelnen Daten aus dem Ergebnis des kMeans algorithmus und verpackt diese in ein Objekt dass das passende Format für Chartjs hat.
-const fillInData = (pos, kMeansResult) => { //pos ist hier die aktuelle position der Schleife bzw. des Clusters aus generateDatasets
+const fillInData = (kMeansResult) => { //pos ist hier die aktuelle position der Schleife bzw. des Clusters aus generateDatasets
 
     let data = [];
     if (kMeansResult) {
@@ -34,7 +34,7 @@ export function generateDatasets(K, kMeansResult) {
     for (let i = 0; i <= K - 1; i++) {
         //diese Abfrage checkt, ob beim Aufruf der Funktion bereits ein Ergebnis des KMeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
         if (typeof kMeansResult !== 'undefined') {
-            let data = fillInData(i, kMeansResult.groups[i].cluster);
+            let data = fillInData(kMeansResult.groups[i].cluster);
             const dataset = {
                 data: data,
                 label: `Set ${i + 1}` //Das Dataset bekommt seinen Namen
