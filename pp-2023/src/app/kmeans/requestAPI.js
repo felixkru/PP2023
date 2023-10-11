@@ -95,6 +95,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     const makeRequest = async () => {
         try {
             const result = await fetch(completeUrl, {
+                mode: 'no-cors',
                 method: 'GET',
                 headers: {
                     "Accept": "application/json"
@@ -131,6 +132,7 @@ export const apiGetResult = async (taskId) => {
     const completeUrl = url + taskId;
 
     return fetch(completeUrl, {
+        mode: 'cors',
         method: 'GET',
         headers: {
             "Accept": "application/json"
