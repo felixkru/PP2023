@@ -153,7 +153,6 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     return {
         handleClick,
         validateKPoints,
-        checkLocalOrServer
     };
 }
 
