@@ -117,7 +117,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 }
             }
         } catch (err) {
-            throw err;
+            throw new Error(err);
         }
     };
     return makeRequest();
@@ -153,14 +153,13 @@ export const apiGetResult = async (taskId) => {
         Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(err => {
-            throw err;
+            throw new Error(err);
         });
 }
 
 export const handleApiCommunication = async (resultPost) => {
     try {
         const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
-
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */
