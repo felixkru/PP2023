@@ -2,6 +2,16 @@
 import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
 
+export const validateLengthOfData = (data, kPoints) => {
+    if (data.length < kPoints) {
+        const error = "Sie haben mehr Cluster, als Datenpunkte bereitgestellt. Eine Berechnung ist mit " +
+            "diesen Parametern nicht möglich."
+        APIError(error);
+        return false;
+    }
+    return true;
+}
+
 export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
 
     /*
@@ -14,6 +24,9 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         /*
         Auslesen der manuellen Datenpunkte, diese werden anschließend als Datei, einem formData Objekt übergeben.
          */
+        if (validateLengthOfData(dataArrayForWorking, KPoints) === false) {
+            return;
+        }
         const dataPoints = {
             'data_points': dataArrayForWorking,
         };
@@ -53,7 +66,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
                 return response.json();
             } else {
                 return response.json().then(errorData => {
-                    APIError(errorData);
+                    APIError(errorData.detail);
                     throw new Error(response.status + ' ' + response.statusText + ' ' + JSON.stringify(errorData));
                 });
             }
@@ -131,7 +144,7 @@ export const apiGetResult = async (taskId) => {
                 return response.json();
             } else {
                 return response.json().then(errorText => {
-                    APIError(errorText);
+                    APIError(errorText.detail);
                     throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
                 });
             }
@@ -159,10 +172,8 @@ export const handleApiCommunication = async (resultPost) => {
         /*
         Ist die Berechnung zu umfassend, dass das Zeitlimit reißt, wird dem Nutzer in dem catch-Block ein Error angezeigt.
          */ catch (err) {
-        const error = {
-            "detail": "Das Zeitlimit der Berechnung ist überschritten. " +
-                "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
-        }
+        const error = "Das Zeitlimit der Berechnung ist überschritten. " +
+            "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
         APIError(error);
     }
 }

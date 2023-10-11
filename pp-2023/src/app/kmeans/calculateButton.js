@@ -2,9 +2,10 @@
 import {UseInputKPoints} from './input-k-points';
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {apiPostRequest, handleApiCommunication, runWithTimeout} from './requestAPI';
+import {apiPostRequest, handleApiCommunication, runWithTimeout, validateLengthOfData} from './requestAPI';
 import ScatterChart from './scatter-chart';
-import {returnExcel, calculateExcel} from "../utils/excelfilereader";
+import {returnExcel, calculateExcel} from '../utils/excelfilereader';
+import {APIError} from '../utils/userErrors';
 
 export function HandleCalculateButtonClick() {
 
@@ -24,7 +25,7 @@ export function HandleCalculateButtonClick() {
         const inputDataSrc = checkInputSource();
 
         //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = true; // nur zum Testen
+        const localCalculation = false; // nur zum Testen
 
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
@@ -59,6 +60,12 @@ export function HandleCalculateButtonClick() {
                 */
             } else if (localCalculation) {
                 /*
+                    Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
+                     */
+                if (validateLengthOfData(dataArrayForWorking, kPoints) === false) {
+                    return;
+                }
+                /*
                 Lokale Berechnung von KMeans mit der Visualisierung in Scatter-Chart.
                  */
                 try {
@@ -70,7 +77,7 @@ export function HandleCalculateButtonClick() {
                     console.log(result);
                     // TODO response verarbeiten
                 } catch (err) {
-                    throw new err;
+                    throw new Error(err);
                 }
             }
             /*
@@ -78,6 +85,15 @@ export function HandleCalculateButtonClick() {
             */
         } else if (inputDataSrc === "manuel") {
             if (localCalculation) {
+                /*
+                    Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
+                */
+                console.log(521)
+                const validateInputData = validateLengthOfData(inputDataArray, kPoints);
+                if (validateInputData === false) {
+                    return;
+                }
+
                 const result = await kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result)
                 ScatterChart(kPoints, chartDeletion, result);
@@ -118,7 +134,7 @@ export function HandleCalculateButtonClick() {
         } else if (inputDataArray.length !== 0) {
             return "manuel";
         } else {
-            alert(noDataMessage);
+            APIError(noDataMessage);
             return false;
         }
     };
@@ -141,17 +157,21 @@ export function HandleCalculateButtonClick() {
         }
     };
 
-    return handleClick;
+    return {
+        handleClick,
+        validateKPoints,
+        checkLocalOrServer
+    };
 }
 
 export function CalculateButton() {
-    const handleCalculateButtonClick = HandleCalculateButtonClick();
+    const {handleClick} = HandleCalculateButtonClick();
 
     return (
         <button
             type="button"
             className='compute-btn button'
-            onClick={handleCalculateButtonClick}
+            onClick={handleClick}
         >
             Berechnen
         </button>
