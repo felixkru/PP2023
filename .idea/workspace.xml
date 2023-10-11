@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader">
-      <change afterPath="$PROJECT_DIR$/pp-2023/cloudbuild.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pp-2023/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/Dockerfile" afterDir="false" />
-    </list>
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -261,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696776377958</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added excel file reader">
+      <option name="closed" value="true" />
+      <created>1697042159437</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1697042159437</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
