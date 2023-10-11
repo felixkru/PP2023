@@ -75,7 +75,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(error => {
-            throw error;
+            throw new Error(error);
         });
 };
 
