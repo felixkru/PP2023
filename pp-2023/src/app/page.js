@@ -8,6 +8,7 @@ import {CreateManuelInputFields} from './kmeans/create-save-manuel-input';
 import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-manuel-input';
 import ScatterChart from './kmeans/scatter-chart';
+import { DownloadButton } from './kmeans/downloadChart';
 import './globals.css'
 
 export default function Home() {
@@ -56,6 +57,7 @@ export default function Home() {
                             </div>
                             <div className='output-area col12 col-lg-6'>
                                 <ScatterChart/>
+                                <DownloadButton/>
                             </div>
                         </div>
                     </main>

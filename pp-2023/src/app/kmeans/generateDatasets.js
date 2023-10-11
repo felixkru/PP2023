@@ -1,4 +1,6 @@
 'use client'
+import { Chart } from "chart.js/auto";
+import { GenerateImage } from "./downloadChart";
 //Diese Funktion erstellt den Inhalt des Scattercharts inklusive Datensets / Datenpunkten und Optionen.
 
 
@@ -16,6 +18,9 @@ const fillInData = (pos,kMeansResult) => { //pos ist hier die aktuelle position 
 }
 return data;
 }
+
+let callCounter = 0;
+let options = {};
 
 
 export function generateDatasets(K,kMeansResult) {
@@ -36,7 +41,8 @@ export function generateDatasets(K,kMeansResult) {
         
     }
    // Hier sind die optionen für die Chart Skalen etc. definiert.
-    const options = {
+   if (callCounter === 0){ //Diese if-Abfrage, wird gebraucht für den Download des Images. Beim ersten aufrufen der website darf noch kein Download passieren später dann aber schon.
+    options = {
         responsive: true,
         scales: {
             x: {
@@ -61,6 +67,39 @@ export function generateDatasets(K,kMeansResult) {
             }
         }
     };
+    callCounter++;
+}
+    //Wenn das Chart dann durch den Calculate Button erstellt wird wird auch ein Download zur verfügunggestellt, deshalb hier das animation: onComplete.
+else{
+     options = {
+        responsive: true,
+        animation: {
+            onComplete: GenerateImage(),
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'x-Achse',
+                    font: {
+                        size: 20,
+                    }
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: 'y-Achse',
+                    font: {
+                        size: 20,
+                    }
+                }
+            }
+        }
+    }  
+}
+}
 
     return (
         {
@@ -70,5 +109,4 @@ export function generateDatasets(K,kMeansResult) {
             },
             options: options,
         }
-    )
-}
+    )}
