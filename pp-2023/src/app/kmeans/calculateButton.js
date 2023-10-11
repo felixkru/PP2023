@@ -7,7 +7,7 @@ import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 
-export function HandleCalculateButtonClick() {
+export function HandleCalculateButtonClick(localRemoteButton) {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
@@ -21,12 +21,12 @@ export function HandleCalculateButtonClick() {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = async () => {
+        /*
+        Initialisierung von Variablen für den Programmverlauf.
+         */
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
-
-        //const  localCalculation = checkLocalOrServer(); TODO
-        const localCalculation = false; // nur zum Testen
-
+        const localCalculation = localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -140,13 +140,6 @@ export function HandleCalculateButtonClick() {
     };
 
     /*
-    Prüft die Verarbeitung, ob diese lokal oder serverseitig erfolgen soll.
-     */
-    const checkLocalOrServer = () => {
-        //TODO --> Auswertung, ob die Berechnung lokal oder auf dem Server erfolgt
-    }
-
-    /*
     validateKPoints validiert die K-Points, dass diese immer als Number übergeben werden.
      */
     const validateKPoints = (numberOfClusters) => {
@@ -160,12 +153,11 @@ export function HandleCalculateButtonClick() {
     return {
         handleClick,
         validateKPoints,
-        checkLocalOrServer
     };
 }
 
-export function CalculateButton() {
-    const {handleClick} = HandleCalculateButtonClick();
+export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
+    const {handleClick} = HandleCalculateButtonClick(localRemoteButton, setLocalRemoteButton);
 
     return (
         <button

@@ -65,10 +65,6 @@ main {
   }
 }
 
-.active-element {
-  color: #7473EA!important;
-}
-
 .card-style {
   padding: 0.5rem 1rem;
   box-sizing: border-box;
@@ -117,64 +113,6 @@ main {
   background: #7473EA;
 }
 
-#serverClientSwitch {
-  width: 70px;
-  height: 40px;
-}
-
-.computingOptions {
-  box-sizing: border-box;
-  color: #545454;
-  font-size: 16px;
-  font-weight: 400;
-  padding: 0px 8px;
-}
-
-/* Radio Buttons Styling */
-.variable-radio-input {
-  margin-right: 8px;
-  accent-color: #7473EA;
-}
-
-/* Toggle Switch Styling */
-.form-switch .form-check-input:hover {
-  cursor: pointer;
-}
-
-.form-check-input-radio {
-  box-shadow: none;
-  margin: 0 .5rem 0 -1.5rem;
-  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
-  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
-}
-
-.form-check-input-radio:checked{
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
-  box-shadow: none;
-  background-color: #DDE0F8; /* Change the color of the toggle when it is checked */
-  border-color: #DDE0F8; /* Change the border color of the toggle when it is checked */
-}
-
-.form-check-input:not(:checked) {
-  background-color: #DDE0F8; /* Change the background color of the toggle when it is not checked */
-  border-color: #DDE0F8; /* Change the border color of the checkbox when it is not checked */
-}
-
-.form-check-input:focus {
-  box-shadow: none;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
-}
-
-.form-switch .form-check-input:not(:active) {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
-}
-
-.form-switch .form-check-input:active {
-  background-color: #DDE0F8;
-  border-color: #DDE0F8;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(116, 115, 234, 1)'/></svg>");
-}
-
 /* Plus Button Styling */
 .plus-button {
   box-sizing: border-box;
@@ -205,4 +143,29 @@ main {
     width: 48vw;
     transform: translateY(-50%);
   }
+}
+
+/* Styling der Buttons mit Bootstrap */
+/* Hier sind nur manuelle kleine Änderungen */
+
+.form-check-label-individual-left {
+  position: absolute;
+  left: 25%;
+
+}
+
+.form-check-label-individual-right {
+  position: absolute;
+  right: 25%;
+}
+
+.form-check-input-toggle-individual {
+  min-width: 20%;
+  min-height: 2.4rem;
+  position: absolute;
+  left: 45%;
+}
+
+.form-check-input-toggle-individual[type='checkbox']:checked + .form-check-label-individual-right {
+  color: #7473EA;
 }
