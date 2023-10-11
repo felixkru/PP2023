@@ -8,7 +8,7 @@ export const CreateLocalRemoteButton = ({ localRemoteButton, setLocalRemoteButto
     };
 
     return (
-        <div className="d-flex align-items-center form-check form-switch position-relative w-100 mt-2">
+        <div className="d-flex align-items-center form-check form-switch position-relative w-100 mt-5">
             <label className="form-check-label form-check-label-individual form-check-label-individual-left" htmlFor="toggleSwitch">Lokal</label>
             <input className="form-check-input form-check-input-toggle-individual" type="checkbox" id="toggleSwitch" role="checkbox"
             onChange={toggleLocalRemoteButton} checked={localRemoteButton}

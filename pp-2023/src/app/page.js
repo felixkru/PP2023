@@ -29,7 +29,7 @@ export default function Home() {
                                 </div>
                                 <InputKPoints/>
                                 <section
-                                    className='d-flex flex-column flex-xxl-row row-gap-3 justify-content-between align-items-center mb-5'>
+                                    className='row-gap-3 justify-content-between align-items-center mb-5'>
                                     <div className='file-input'>
                                         <input className="card-style form-control form-control-lg" type="file" id="excelFileInput"/>
                                     </div>
