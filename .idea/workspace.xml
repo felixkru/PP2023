@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader">
+      <change afterPath="$PROJECT_DIR$/pp-2023/cloudbuild.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +69,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Update-Excel-Reader",
+    "git-widget-placeholder": "PROG-77-TestingAndLinting",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/workspace/PP2023/pp-2023/src/app/components",
     "list.type.of.created.stylesheet": "SCSS",
