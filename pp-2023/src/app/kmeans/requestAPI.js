@@ -60,12 +60,11 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
             },
         });
 
-        console.log(response)
-
+        /*
+        Es wird der Response zurückgegeben.
+         */
         if (response.ok) {
-            const data = response.json();
-            console.log(data)
-            return data;
+            return response.json();
         }
     } catch (error) {
         // Behandlung von Fehlern im globalen Kontext
@@ -92,13 +91,12 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     const makeRequest = async () => {
         try {
             const result = await fetch(completeUrl, {
-                mode: 'no-cors',
+                mode: 'cors',
                 method: 'GET',
                 headers: {
                     "Accept": "application/json"
                 }
             });
-
             /*
             Bei gültigem 200 Status und de
              */
@@ -108,6 +106,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
+                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
