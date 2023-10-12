@@ -15,6 +15,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
     const [resultExport, setResultExport] = useState([]);
+    
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XLSX- CSV-Datei!"
@@ -34,8 +35,6 @@ export function HandleCalculateButtonClick(localRemoteButton) {
         const localCalculation = !localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
-        console.log(!localRemoteButton);
-        console.log(localCalculation);
 
         if (inputDataSrc === "file") {
             /*
