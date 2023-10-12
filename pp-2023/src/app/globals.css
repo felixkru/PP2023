@@ -169,3 +169,7 @@ main {
 .form-check-input-toggle-individual[type='checkbox']:checked + .form-check-label-individual-right {
   color: #7473EA;
 }
+
+.btn-excel {
+  margin: .5rem;
+}
