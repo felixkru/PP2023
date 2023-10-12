@@ -5,8 +5,6 @@ import XLSX from "xlsx";
 
 export const ExportExcelFile = ({result}) => {
 
-    //let result = {result}; //test Daten
-
 const handleOnButtonClick = () => {
 
     let k = result.options.k; // Abfrage wieviele Cluster das Ergebnis enthält
