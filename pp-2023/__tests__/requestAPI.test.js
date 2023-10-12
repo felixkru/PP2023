@@ -148,7 +148,7 @@ describe('Testen der GetResult-Anfrage ', () => {
 
         const result = await apiGetStateOfTask(taskId, maxVersuch);
 
-        expect(fetch).toHaveBeenCalledWith(`https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/${taskId}`, {
+        expect(fetch).toHaveBeenCalledWith(`https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/status/${taskId}`, {
             mode: 'cors',
             method: 'GET',
             headers: {
@@ -215,8 +215,9 @@ describe('Testet das Ergebnis der an die Api gesendeten Aufgabe.', () => {
 
         const taskId = 'task_ID';
 
-        await expect(apiGetResult(taskId)).rejects.toThrowError(Error);
-        expect(alert).toHaveBeenCalled();
+        await apiGetResult(taskId)
+
+        expect(alert).toHaveBeenCalledWith("Fehlermeldung");
 
         global.fetch.mockClear();
         global.alert.mockClear();
