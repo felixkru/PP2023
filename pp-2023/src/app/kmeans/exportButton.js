@@ -8,13 +8,14 @@ export const ExportExcelFile = ({result}) => {
     //let result = {result}; //test Daten
 
 const handleOnButtonClick = () => {
-    console.log(result); // Zum test ob die richtigen Daten ankommen
+    console.log(result.v); // Zum test ob die richtigen Daten ankommen
     console.log(typeof result);
-    // var wb = XLSX.utils.book_new(), 
-    // ws = XLSX.utils.aoa_to_sheet(result);
-    // XLSX.utils.book_append_sheet(wb, ws, "Mappe1"); // Name des Sheets
+   // console.log(JSON.stringify(result))
+    var wb = XLSX.utils.book_new(), 
+    ws = XLSX.utils.aoa_to_sheet(result.v);
+    XLSX.utils.book_append_sheet(wb, ws, "Mappe1"); // Name des Sheets
 
-    // XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Name der Datei
+    XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Name der Datei
     
 }
 
