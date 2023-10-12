@@ -115,7 +115,6 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
-                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
@@ -164,7 +163,6 @@ export const apiGetResult = async (taskId) => {
 export const handleApiCommunication = async (resultPost) => {
     try {
         const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
-        console.log(resultGetStateOfTask)
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */
