@@ -114,11 +114,10 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
-                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
-                    new Error('Fehler beim Response: ' + response.status);
+                    throw new Error('Fehler beim Response: ' + response.status);
                 }
             }
         } catch (err) {

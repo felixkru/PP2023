@@ -128,5 +128,35 @@ describe('Testet den API-POST-REQUEST', () => {
 })
 
 describe('Testen der GetResult-Anfrage ', () => {
+    it('sollte den Status einer Aufgabe abrufen und verarbeiten', async () => {
+        // Mocken global.fetch für den Test
+        global.fetch = jest.fn();
 
+        // Mocken der fetch-Aufrufe und Rückgabe einer Mock-Antwort.
+        // Dabei wird erst ein Fetch mit processing aufgerufen, um den Timeout zu testen.
+        fetch.mockResolvedValueOnce({
+            status: 200,
+            json: () => Promise.resolve({ status: 'processing' }),
+        });
+        fetch.mockResolvedValueOnce({
+            status: 200,
+            json: () => Promise.resolve({ status: 'completed' }),
+        });
+
+        const taskId = 'task_ID';
+        const maxVersuch = 5;
+
+        const result = await apiGetStateOfTask(taskId, maxVersuch);
+
+        expect(fetch).toHaveBeenCalledWith(`https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/${taskId}`, {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+        });
+
+        // Überprüfen, ob die Funktion das erwartete Ergebnis zurückgibt
+        expect(result).toBe(1);
+    });
 })
