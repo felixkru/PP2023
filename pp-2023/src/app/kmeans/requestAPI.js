@@ -75,7 +75,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(error => {
-            throw error;
+            throw new Error(error);
         });
 };
 
@@ -95,6 +95,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     const makeRequest = async () => {
         try {
             const result = await fetch(completeUrl, {
+                mode: 'cors',
                 method: 'GET',
                 headers: {
                     "Accept": "application/json"
@@ -117,7 +118,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 }
             }
         } catch (err) {
-            throw err;
+            throw new Error(err);
         }
     };
     return makeRequest();
@@ -131,6 +132,7 @@ export const apiGetResult = async (taskId) => {
     const completeUrl = url + taskId;
 
     return fetch(completeUrl, {
+        mode: 'cors',
         method: 'GET',
         headers: {
             "Accept": "application/json"
@@ -153,14 +155,13 @@ export const apiGetResult = async (taskId) => {
         Behandlung möglicher Fehler, globaler Kontext.
          */
         .catch(err => {
-            throw err;
+            throw new Error(err);
         });
 }
 
 export const handleApiCommunication = async (resultPost) => {
     try {
         const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
-
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */

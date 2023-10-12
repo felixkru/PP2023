@@ -26,7 +26,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
          */
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
-        const localCalculation = localRemoteButton;
+        const localCalculation = !localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -60,16 +60,16 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                 */
             } else if (localCalculation) {
                 /*
-                    Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
-                     */
-                if (validateLengthOfData(dataArrayForWorking, kPoints) === false) {
-                    return;
-                }
-                /*
                 Lokale Berechnung von KMeans mit der Visualisierung in Scatter-Chart.
                  */
                 try {
                     const inputData = await calculateExcel();
+                    /*
+                    Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
+                    */
+                    if (validateLengthOfData(inputData, kPoints) === false) {
+                        return;
+                    }
                     // TODO Generierung Ladebildschirm
                     const timeout = 30000;
                     const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);

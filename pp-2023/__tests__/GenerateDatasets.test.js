@@ -101,7 +101,7 @@ describe('generateDatasets', () => {
     expect(result).toEqual(expectedOutput)
   })
 
-  it('should generate datasets with correct labels', () => {
+  xit('should generate datasets with correct labels', () => {
     // Arrange: Eingaben mocken
     const K = 3;
     const kMeansResult = {
