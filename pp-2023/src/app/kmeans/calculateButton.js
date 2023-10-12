@@ -55,6 +55,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         //TODO Result richtig verarbeiten
                         console.log(kMeansResult);
+                        setResultExport(kMeansResult);
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
@@ -104,6 +105,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
 
                 const result = await kMeansAlgorithm(inputDataArray, kPoints);
                 console.log(result)
+                setResultExport(result);
                 ScatterChart(kPoints, chartDeletion, result);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
@@ -120,6 +122,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                      */
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
+                        setResultExport(kMeansResult);
                         console.log(kMeansResult)
                         
                         // TODO response verarbeiten

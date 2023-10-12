@@ -6,6 +6,8 @@ import XLSX from "xlsx";
 export const ExportExcelFile = ({result}) => {
 
 const handleOnButtonClick = () => {
+
+    //Abfrage ob ein Ergebnis aus lokaler Berechnung vorliegt
 if (result.groups){
     let k = result.options.k; // Abfrage wieviele Cluster das Ergebnis enthält
     let wb = XLSX.utils.book_new(); // hier wird ein Excel Workbook erzeugt
@@ -18,6 +20,20 @@ if (result.groups){
 
     XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Schreibt alle Worksheets die im "wb" gespeichert sind in ein File und löst den Download aus.
 }
+    //Abfrage ob ein Ergebnis der Backend API vorliegt
+else if(result.Cluster[0].data_points){
+    console.log(result.Cluster.length);
+    let k = result.Cluster.length; // Abfrage wieviele Cluster das Ergebnis enthält
+    let wb = XLSX.utils.book_new(); // hier wird ein Excel Workbook erzeugt
+    
+    for (let i = 0; i < k; i++){
+        console.log(result.Cluster[i].data_points);
+        let ws = XLSX.utils.aoa_to_sheet(result.Cluster[i].data_points);
+        XLSX.utils.book_append_sheet(wb, ws, "Cluster "+ (i+1));
+    }
+    XLSX.writeFile(wb, "ClusterizedData.xlsx");
+}
+//Alert falls keine Daten aus der Berechnung vorliegen
 else{
     alert("Daten können erst nach der Berechnung ausgegeben werden.")
 }
