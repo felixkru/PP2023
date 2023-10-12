@@ -6,11 +6,15 @@ import {apiPostRequest, handleApiCommunication, runWithTimeout, validateLengthOf
 import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
+import {ExportExcelFile} from "../kmeans/exportButton";
+import { useState } from 'react';
+
 
 export function HandleCalculateButtonClick(localRemoteButton) {
 
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
+    const [resultExport, setResultExport] = useState([]);
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XLSX- CSV-Datei!"
@@ -21,6 +25,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = async () => {
+        
         /*
         Initialisierung von Variablen für den Programmverlauf.
          */
@@ -29,6 +34,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
         const localCalculation = !localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
+        console.log(!localRemoteButton);
+        console.log(localCalculation);
 
         if (inputDataSrc === "file") {
             /*
@@ -74,6 +81,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     const timeout = 30000;
                     const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);
                     ScatterChart(kPoints, chartDeletion, result);
+                    setResultExport(result);
                     console.log(result);
                     // TODO response verarbeiten
                 } catch (err) {
@@ -113,6 +121,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         console.log(kMeansResult)
+                        
                         // TODO response verarbeiten
                     }
                     /*
@@ -153,13 +162,15 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     return {
         handleClick,
         validateKPoints,
+        resultExport
     };
 }
 
 export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
-    const {handleClick} = HandleCalculateButtonClick(localRemoteButton, setLocalRemoteButton);
+    const {handleClick, resultExport} = HandleCalculateButtonClick(localRemoteButton, setLocalRemoteButton);
 
     return (
+        <div>
         <button
             type="button"
             className='compute-btn button'
@@ -167,5 +178,8 @@ export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
         >
             Berechnen
         </button>
+
+        <ExportExcelFile result = { resultExport }/>
+        </div>
     );
 }
