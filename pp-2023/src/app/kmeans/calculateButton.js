@@ -178,7 +178,6 @@ export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
         >
             Berechnen
         </button>
-
         <ExportExcelFile result = { resultExport }/>
         </div>
     );

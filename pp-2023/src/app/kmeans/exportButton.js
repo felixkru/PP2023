@@ -6,7 +6,7 @@ import XLSX from "xlsx";
 export const ExportExcelFile = ({result}) => {
 
 const handleOnButtonClick = () => {
-
+if (result.groups){
     let k = result.options.k; // Abfrage wieviele Cluster das Ergebnis enthält
     let wb = XLSX.utils.book_new(); // hier wird ein Excel Workbook erzeugt
     
@@ -17,7 +17,11 @@ const handleOnButtonClick = () => {
     }
 
     XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Schreibt alle Worksheets die im "wb" gespeichert sind in ein File und löst den Download aus.
-    
+}
+else{
+    alert("Daten können erst nach der Berechnung ausgegeben werden.")
+}
+return;
 }
 
 
