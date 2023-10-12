@@ -53,7 +53,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
-                    throw new error;
+                    throw new Error(error);
                 }
                 /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
