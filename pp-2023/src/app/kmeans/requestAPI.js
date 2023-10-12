@@ -106,7 +106,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 }
             });
             /*
-            Bei gültigem 200 Status und de
+            Bei gültigem 200 Status und dem Result.
              */
             if (result.status === 200) {
                 const response = await result.json();
@@ -120,6 +120,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     throw new Error('Fehler beim Response: ' + response.status);
                 }
             }
+            APIError(response.detail + 'Versuchen Sie eine lokale Berechnung!');
         } catch (err) {
             throw new Error(err);
         }
@@ -128,39 +129,31 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
 }
 
 export const apiGetResult = async (taskId) => {
-    /*
-    Zusammengesetzte URL für den GET-Request.
-     */
-    const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/result/'
-    const completeUrl = url + taskId;
+    try {
+        /*
+        Zusammengesetzte URL für den GET-Request.
+         */
+        const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/result/';
+        const completeUrl = url + taskId;
 
-    return fetch(completeUrl, {
-        mode: 'cors',
-        method: 'GET',
-        headers: {
-            "Accept": "application/json"
-        }
-    })
-        /*
-        Gibt das Ergebnis des Response-Promise zurück.
-         */
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return response.json().then(errorText => {
-                    APIError(errorText.detail);
-                    throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
-                });
+        const response = await fetch(completeUrl, {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
             }
-        })
-        /*
-        Behandlung möglicher Fehler, globaler Kontext.
-         */
-        .catch(err => {
-            throw new Error(err);
         });
-}
+
+        const result = await response.json();
+        if (response.status === 200) {
+            return result;
+        } else {
+            APIError(result.detail);
+        }
+    } catch (err) {
+        throw new Error(err);
+    }
+};
 
 export const handleApiCommunication = async (resultPost) => {
     try {

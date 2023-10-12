@@ -158,6 +158,8 @@ describe('Testen der GetResult-Anfrage ', () => {
 
         // Überprüfen, ob die Funktion das erwartete Ergebnis zurückgibt
         expect(result).toBe(1);
+
+        global.fetch.mockClear();
     });
 })
 
@@ -179,5 +181,44 @@ describe('Test für den Timeout', () => {
             setTimeout(() => reject(new Error('Timeout')), 200); // Versprechen wird nicht rechtzeitig aufgelöst
         });
         await expect(runWithTimeout(promise, 100)).rejects.toThrowError('Timeout');
+    });
+})
+
+describe('Testet das Ergebnis der an die Api gesendeten Aufgabe.', () => {
+    it('Liefert ein konkretes Ergebnis zurück',async () => {
+        global.fetch = jest.fn();
+
+        const taskId = 'taskId';
+
+        fetch.mockResolvedValueOnce({
+            status: 200,
+            json: () => Promise.resolve({ result: "Ergebnis"}),
+        });
+
+        const result = await apiGetResult(taskId);
+
+        expect(result.result).toEqual("Ergebnis");
+        global.fetch.mockClear();
+    });
+
+    /*
+    Es wird ein Fehler geworfen und ein Alert aufgerufen, der dem Nutzer diesen Fehler beschreibt.
+     */
+    it('sollte einen Fehler werfen, wenn die Anfrage nicht erfolgreich ist', async () => {
+        global.fetch = jest.fn();
+        global.alert = jest.fn()
+        fetch.mockResolvedValue({
+            ok: false,
+            json: () => Promise.resolve({ detail: 'Fehlermeldung' }),
+            status: 400,
+        });
+
+        const taskId = 'task_ID';
+
+        await expect(apiGetResult(taskId)).rejects.toThrowError(Error);
+        expect(alert).toHaveBeenCalled();
+
+        global.fetch.mockClear();
+        global.alert.mockClear();
     });
 })
