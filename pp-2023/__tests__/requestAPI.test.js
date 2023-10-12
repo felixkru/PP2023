@@ -1,5 +1,7 @@
-import {validateLengthOfData, apiPostRequest, apiGetStateOfTask,
-    apiGetResult, handleApiCommunication, runWithTimeout} from '../src/app/kmeans/requestAPI';
+import {
+    validateLengthOfData, apiPostRequest, apiGetStateOfTask,
+    apiGetResult, handleApiCommunication, runWithTimeout, createFormData
+} from '../src/app/kmeans/requestAPI';
 
 describe('Test der API-Calls', () => {
     /*
@@ -9,12 +11,12 @@ describe('Test der API-Calls', () => {
 
         const kPoints = 5;
         const inputData = [
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
         ];
 
         const result = validateLengthOfData(inputData, kPoints)
@@ -29,12 +31,12 @@ describe('Test der API-Calls', () => {
         global.alert = jest.fn();
         const kPoints = 17;
         const inputData = [
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
-            [5,2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
+            [5, 2],
         ];
 
         const result = validateLengthOfData(inputData, kPoints);
@@ -44,13 +46,84 @@ describe('Test der API-Calls', () => {
 
         global.alert.mockClear();
     });
+});
+/*
+Der Test prüft, ob ein korrektes FormData generiert wird.
+Im zweiten Test soll ein Error geschmissen werden, da diese Funktionalität im
+File Reader geprüft wird.
+ */
+describe('Testet die formData Erstellung', () => {
+    it('Es soll ein Form data Objekt generiert werden.', async () => {
+        const kPoints = 3;
+        const data = [
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+        ]
+        const result = await createFormData(kPoints, data);
 
-    /*
-    Der Test prüft, ob die Funktion apiPostRequest ein Task erfolgreich zurückgibt.
-    Weiter wird getestet, ob ein korrektes JSON-File übergeben wird.
-    Das Auslesen einer Excel-Datei wird im Excel-Reader getestet.
-     */
-    it('Testet den POST-Request:', () => {
-        jest.mock('')
+    expect(result.get('file').name).toBe("dataPoints.json");
     });
 })
+
+describe('Testet den API-POST-REQUEST', () => {
+    it('Es soll eine Task zurückgegeben werden.',async () => {
+        const kPoints = 3;
+        const data = [
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+        ]
+
+        global.fetch = jest.fn();
+        fetch.mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({ success: true }),
+        });
+
+        const response = await apiPostRequest(kPoints, data);
+        expect(response).toEqual({success: true});
+        expect(fetch).toHaveBeenCalledWith(expect.any(String), {
+            mode: 'cors',
+            method: 'POST',
+            body: expect.any(FormData),
+            headers: {
+                'Accept': 'application/json',
+            },
+        });
+        global.fetch.mockClear();
+    });
+
+    it('Returnt einen Error',async () => {
+        const kPoints = 12;
+        const data = [
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+            [5,2,3],
+        ]
+
+        global.fetch = jest.fn();
+        global.alert = jest.fn();
+        fetch.mockResolvedValue({
+            ok: false,
+            json: () => Promise.resolve({ success: true }),
+        });
+
+        try {
+            await apiPostRequest(kPoints, data);
+        } catch (err) {
+            expect(err.status).toBe(!200);
+            expect(global.alert).toHaveBeenCalledWith("Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+            "Sie es lokal.")
+        }
+        global.alert.mockClear();
+        global.fetch.mockClear();
+    });
+})
+
