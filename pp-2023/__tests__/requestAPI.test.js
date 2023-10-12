@@ -160,3 +160,24 @@ describe('Testen der GetResult-Anfrage ', () => {
         expect(result).toBe(1);
     });
 })
+
+/*
+Der Test erstellt einmal einen Promise und prüft diesen im 1. Test auf einen erfolgreichen Return, im zweiten Test
+wird der Timeout überschritten und ein Error wird rejected.
+ */
+describe('Test für den Timeout', () => {
+    it('sollte das Versprechen auflösen, wenn das Versprechen vor dem Timeout aufgelöst wird', async () => {
+        const promise = new Promise((resolve) => {
+            setTimeout(() => resolve('LetseeeeeGOOOOO'), 100); // Versprechen wird vor dem Timeout aufgelöst
+        });
+        const result = await runWithTimeout(promise, 200);
+        expect(result).toBe('LetseeeeeGOOOOO');
+    });
+
+    it('sollte einen Timeout-Fehler werfen, wenn das Versprechen nicht rechtzeitig aufgelöst wird', async () => {
+        const promise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Timeout')), 200); // Versprechen wird nicht rechtzeitig aufgelöst
+        });
+        await expect(runWithTimeout(promise, 100)).rejects.toThrowError('Timeout');
+    });
+})
