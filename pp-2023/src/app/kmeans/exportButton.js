@@ -21,7 +21,7 @@ if (result.groups){
 else{
     alert("Daten können erst nach der Berechnung ausgegeben werden.")
 }
-return;
+
 }
 
 
