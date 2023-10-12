@@ -15,7 +15,7 @@ const handleOnButtonClick = () => {
     //Die schleife schreibt den Inhalt aller Cluster auf jeweils eine Eigene Arbeitsmappe
     for (let i = 0; i < k; i++){
         let ws = XLSX.utils.aoa_to_sheet(result.groups[i].cluster);
-        XLSX.utils.book_append_sheet(wb, ws, "Cluster "+ i);
+        XLSX.utils.book_append_sheet(wb, ws, "Cluster "+ (i+1));
     }
 
     XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Schreibt alle Worksheets die im "wb" gespeichert sind in ein File und löst den Download aus.
