@@ -8,14 +8,17 @@ export const ExportExcelFile = ({result}) => {
     //let result = {result}; //test Daten
 
 const handleOnButtonClick = () => {
-    console.log(result.v); // Zum test ob die richtigen Daten ankommen
-    console.log(typeof result);
-   // console.log(JSON.stringify(result))
-    var wb = XLSX.utils.book_new(), 
-    ws = XLSX.utils.aoa_to_sheet(result.v);
-    XLSX.utils.book_append_sheet(wb, ws, "Mappe1"); // Name des Sheets
 
-    XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Name der Datei
+    let k = result.options.k; // Abfrage wieviele Cluster das Ergebnis enthält
+    let wb = XLSX.utils.book_new(); // hier wird ein Excel Workbook erzeugt
+    
+    //Die schleife schreibt den Inhalt aller Cluster auf jeweils eine Eigene Arbeitsmappe
+    for (let i = 0; i < k; i++){
+        let ws = XLSX.utils.aoa_to_sheet(result.groups[i].cluster);
+        XLSX.utils.book_append_sheet(wb, ws, "Cluster "+ i);
+    }
+
+    XLSX.writeFile(wb, "ClusterizedData.xlsx"); // Schreibt alle Worksheets die im "wb" gespeichert sind in ein File und löst den Download aus.
     
 }
 
