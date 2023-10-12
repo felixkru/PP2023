@@ -46,7 +46,7 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
 
 export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
 
-    const formData = await createFormData (KPoints, dataArrayForWorking);
+    const formData = await createFormData(KPoints, dataArrayForWorking);
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
@@ -70,14 +70,16 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         /*
         Es wird der Response zurückgegeben.
          */
+
         if (response.ok) {
-            return response.json();
+            return await response.json();
+        } else {
+            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+                "Sie es lokal."
+            APIError(customError);
         }
     } catch (error) {
         // Behandlung von Fehlern im globalen Kontext
-        const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
-            "Sie es lokal."
-        APIError(customError);
         throw new Error(error);
     }
 };
@@ -107,8 +109,8 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
             /*
             Bei gültigem 200 Status und dem Result.
              */
+            const response = await result.json();
             if (result.status === 200) {
-                const response = await result.json();
                 if (response.status === 'completed') {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
@@ -117,10 +119,14 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
-                    throw new Error('Fehler beim Response: ' + response.status);
+                    APIError(  ' Timeout! Versuchen Sie eine lokale Berechnung oder ändern Sie Ihre Parameter!');
+                    throw new Error('Fehler beim Response: ' + response.text);
                 }
             }
-            APIError(response.detail + 'Versuchen Sie eine lokale Berechnung!');
+            else {
+                APIError("Ihre Datei wurde von der API als ungültig empfunden. Bitte prüfen Sie diese, oder versuchen es lokal.");
+                throw new Error(response.detail);
+            }
         } catch (err) {
             throw new Error(err);
         }
@@ -158,6 +164,7 @@ export const apiGetResult = async (taskId) => {
 export const handleApiCommunication = async (resultPost) => {
     try {
         const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
+        console.log(resultGetStateOfTask)
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */
