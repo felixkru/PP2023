@@ -15,7 +15,7 @@ import './globals.css'
 export default function Home() {
 
     const [localRemoteButton, setLocalRemoteButton] = useState(false);
-    const [inputKForElbow, setInputKForElbow] = useState(0);
+    const [inputKForElbow, setInputKForElbow] = useState();
     const [bestKForKMeans, setBestKForKMeans] = useState(0);
 
     return (

@@ -176,6 +176,21 @@ main {
 
 .btn-elbow {
   background-color: #7473EA;
-  height: 120%;
+  height: 110%;
+  width: 100%;
   box-shadow: .1rem .1rem .1rem .1rem #999999;
+}
+
+.grid-cell-elbow {
+  margin: 1rem 1rem;
+}
+
+.txt-output-elbow {
+  font-family: sans-serif;
+  font-weight: bold;
+  line-height: 1.8rem;
+  font-size: 1.2rem;
+  background-color: #FFFFFF;
+  border-radius: 0.4rem;
+  height: 3rem;
 }
