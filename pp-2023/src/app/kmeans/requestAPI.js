@@ -1,7 +1,6 @@
 'use client'
 import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
-import {data} from "autoprefixer";
 
 export const validateLengthOfData = (data, kPoints) => {
     if (data.length < kPoints) {
@@ -54,7 +53,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     nur die Dateien werden mittels als Post übergeben.
      */
     const numberKRuns = '&number_kmeans_runs=20';
-    const url = "https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/";
+    const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
     const newKForGet = 'k=' + KPoints;
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
@@ -87,7 +86,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     /*
     Generieren der Request-URl
      */
-    const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
+    const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
 
     const aktuellesIntervall = 3000;
@@ -114,6 +113,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
+                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
@@ -133,7 +133,7 @@ export const apiGetResult = async (taskId) => {
         /*
         Zusammengesetzte URL für den GET-Request.
          */
-        const url = 'https://kmeans-backend-dev-u3yl6y3tyq-ew.a.run.app/kmeans/result/';
+        const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/result/';
         const completeUrl = url + taskId;
 
         const response = await fetch(completeUrl, {

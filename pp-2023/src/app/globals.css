@@ -170,6 +170,9 @@ main {
   color: #7473EA;
 }
 
+.btn-excel {
+  margin: .5rem;
+}
 .btn-elbow {
   background-color: #7473EA;
   height: 120%;
