@@ -50,33 +50,29 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     const newKForGet = 'k=' + KPoints;
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
-    return fetch(urlBearbeitet, {
-        mode: 'cors',
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Accept': 'application/json',
-        },
-    })
-        /*
-        Behandlung des Responses der API, falls ein Error auftritt.
-        */
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return response.json().then(errorData => {
-                    APIError(errorData.detail);
-                    throw new Error(response.status + ' ' + response.statusText + ' ' + JSON.stringify(errorData));
-                });
-            }
-        })
-        /*
-        Behandlung möglicher Fehler, globaler Kontext.
-         */
-        .catch(error => {
-            throw new Error(error);
+    try {
+        const response = await fetch(urlBearbeitet, {
+            mode: 'cors',
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json',
+            },
         });
+
+        /*
+        Es wird der Response zurückgegeben.
+         */
+        if (response.ok) {
+            return response.json();
+        }
+    } catch (error) {
+        // Behandlung von Fehlern im globalen Kontext
+        const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+            "Sie es lokal."
+        APIError(customError);
+        throw new Error(error);
+    }
 };
 
 export const apiGetStateOfTask = (taskId, maxVersuch) => {
@@ -101,7 +97,6 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     "Accept": "application/json"
                 }
             });
-
             /*
             Bei gültigem 200 Status und de
              */
@@ -111,6 +106,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
+                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
@@ -173,9 +169,7 @@ export const handleApiCommunication = async (resultPost) => {
         /*
         Ist die Berechnung zu umfassend, dass das Zeitlimit reißt, wird dem Nutzer in dem catch-Block ein Error angezeigt.
          */ catch (err) {
-        const error = "Das Zeitlimit der Berechnung ist überschritten. " +
-            "Bitte verringern Sie die Anzahl an Datensätzen oder die Anzahl K."
-        APIError(error);
+        throw new Error(err);
     }
 }
 /*
