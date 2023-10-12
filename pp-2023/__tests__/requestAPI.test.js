@@ -127,3 +127,6 @@ describe('Testet den API-POST-REQUEST', () => {
     });
 })
 
+describe('Testen der GetResult-Anfrage ', () => {
+
+})
