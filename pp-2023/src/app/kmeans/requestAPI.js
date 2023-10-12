@@ -1,6 +1,7 @@
 'use client'
 import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
+import {data} from "autoprefixer";
 
 export const validateLengthOfData = (data, kPoints) => {
     if (data.length < kPoints) {
@@ -12,7 +13,7 @@ export const validateLengthOfData = (data, kPoints) => {
     return true;
 }
 
-export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+export const createFormData = async (KPoints, dataArrayForWorking) => {
 
     /*
     Erstellung eines Form-Data Objektes. Innerhalb des Objektes können mittels eines Key, Value Verfahren
@@ -40,6 +41,13 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         const file = await returnExcel();
         formData.append('file', file, `${file.name}`);
     }
+
+    return formData;
+}
+
+export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+
+    const formData = await createFormData (KPoints, dataArrayForWorking);
 
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
