@@ -1,10 +1,12 @@
 import {kMeansAlgorithm} from '../utils/kmeans';
 import {APIError} from '../utils/userErrors';
-import {useContext, useEffect, useState} from "react";
-import {calculateExcel} from '../utils/excelfilereader';
+import {useState} from "react";
+import {calculateExcel, returnExcel} from '../utils/excelfilereader';
+import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
+import {runWithTimeout} from '../kmeans/requestAPI';
 
 /*
-    Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
+Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
 */
 export const euclideanDistance = (point1, point2) => {
     if (point1.length !== point2.length) {
@@ -54,7 +56,7 @@ export const SummeDerDistanzen = (groups) => {
 Die Funktion ruft für jedes K bis zum Maxwert einmal die Funktion Kmeans auf, anschließend wird die Distanz berechnet.
 Ein Array enthält die gesamten Distanzen für das Elbow-Kriterium.
  */
-export const CreateArrayOfDistances = (kPunkteMax, dataset) => {
+export const CreateArrayOfDistances = async (kPunkteMax, dataset) => {
     const arrayOfDistance = [];
     for (let i = 1; i <= kPunkteMax; i++) {
         if (i < dataset.length) {
@@ -62,46 +64,57 @@ export const CreateArrayOfDistances = (kPunkteMax, dataset) => {
             const distance = SummeDerDistanzen(result);
             arrayOfDistance.push(distance);
         }
-        else break;
+        else {
+            APIError("Es sind mehr K als Datenpunkte abgefragt worden. Es werden nur Distanzen berechnet für die Anzahl an " +
+                "Datenpunkten!")
+            break;
+        }
     }
     return arrayOfDistance;
 }
+/*
+Die asynchrone Funktion nimmt die vom Nutzer eingegeben K Punkte, sowie ein manuell eingegebenes Datenset und berechnet die Distanzen.
+ */
+export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 
-export const CalculateElbowKriteria = (kPunkte, dataSet) => {
+    let dataForWorking;
+    /*
+    Hier wird geprüft, ob eine Datei verwendet werden soll, oder das Datenset des Users.
+     */
+    const file = await returnExcel();
+    if (file !== undefined) {
+        dataForWorking = await calculateExcel();
+    } else if (dataSet.length > 0) {
+        dataForWorking = dataSet;
+    } else {
+        APIError("Bitte geben Sie Ihre Datenpunkte ein, oder stellen eine Datei zur Verfügung.");
+        return;
+    }
 
-    const testDataSet = [
-        [12,4],
-        [17,8],
-        [6, 12],
-        [4,2],
-        [9,12],
-        [4,20],
-        [3.2, 9],
-        [8,4],
-        [7.7,1],
-        [0,9],
-        [0,1],
-        [7,8]
-    ]
-    const kPoints = 4;
+    return await CreateArrayOfDistances(kPunkte, dataForWorking);
 
-
-    const result = CreateArrayOfDistances(22, testDataSet);
-    console.log(result)
 }
 
 export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, bestKForKMeans,
 setBestKForKMeans}) => {
 
     const [userInput, setUserInput]  = useState('')
+    const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
     const handleInputButtonClick = async () => {
         const validInput = validateInputButtonClick(userInput);
-        CalculateElbowKriteria();
         if (validInput !== undefined) {
-            console.log(validInput)
-        }
+            const timeout = 2000;
+            const resultPromise = CalculateElbowKriteria(validInput, inputDataArray);
 
+            try {
+                const result = await runWithTimeout(resultPromise, timeout);
+                console.log(result);
+            } catch (error) {
+                console.error("Timeout-Fehler: " + error);
+                APIError("Berechnung wurde abgebrochen (Timeout).");
+            }
+        }
     }
 
     /*
@@ -113,8 +126,10 @@ setBestKForKMeans}) => {
         if (Number.isInteger(valueAsInt)) {
             if (value <= 25) {
                 setInputKForElbow(valueAsInt);
+                return valueAsInt;
             } else {
                 setInputKForElbow('');
+                setUserInput('')
                 APIError("Bitte geben Sie eine Zahl kleiner gleich 25 ein!");
             }
         } else {
@@ -124,36 +139,25 @@ setBestKForKMeans}) => {
     });
 
     return (
-        <div className="mt-5 mb-5 flex row-cols-2">
+        <div className="mt-5 mb-5 flex row-cols-1">
             <div>
                 <div className="grid-cell-elbow">
                     <button className="btn btn-primary btn-lg btn-elbow" type="submit"
-                    onClick={handleInputButtonClick}
+                            onClick={handleInputButtonClick}
                     >
                         Elbow-Kriteria
                     </button>
                 </div>
                 <div className="grid-cell-elbow">
                     <div className="input-group input-group-lg">
-                        <label className="input-group-text" id="label-input-k-elbow" htmlFor="input-k-elbow">Max K</label>
-                        <input placeholder="max 25" max="25" step="1" id="input-l-elbow" type="number"
+                        <label className="input-group-text" id="label-input-k-elbow" htmlFor="input-k-elbow">Max
+                            K</label>
+                        <input placeholder="max 25" max="25" step="1" id="input-k-elbow" type="number"
                                className="form-control input-k-elbow" aria-label="label-input-k-elbow"
                                aria-describedby="inputGroup-sizing-lg"
                                value={userInput}
                                onChange={(event => setUserInput(event.target.value))}
                         />
-                        </div>
-                    </div>
-                </div>
-            <div>
-                <div className="grid-cell-elbow">
-                    <div className="hedaline-utput txt-output-elbow">
-                        Ihr optimales K:
-                    </div>
-                </div>
-                <div className="grid-cell-elbow mt-2">
-                    <div className="output-text-k-area txt-output-elbow">
-
                     </div>
                 </div>
             </div>

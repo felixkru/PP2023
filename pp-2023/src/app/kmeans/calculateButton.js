@@ -79,7 +79,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     }
                     // TODO Generierung Ladebildschirm
                     const timeout = 30000;
-                    const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);
+                    const result = await runWithTimeout(Promise.resolve(kMeansAlgorithm(inputData, kPoints)), timeout);
                     ScatterChart(kPoints, chartDeletion, result);
                     setResultExport(result);
                     console.log(result);
