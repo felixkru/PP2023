@@ -11,6 +11,12 @@ COPY . .
 # Installieren 
 RUN npm install
 
+# Linting
+RUN npm run lint
+
+# Testing
+RUN npm run test
+
 # Bauen der Next.js-Anwendung
 RUN npm run build
 
