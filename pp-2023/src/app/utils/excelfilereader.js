@@ -69,13 +69,28 @@ export const calculateExcel = async () => {
 
                 rows.forEach((row) => {
 
+                    // Dieser Abschnitt ist temporär und säubert die Eingaben bei CSV-Dateien. Später soll das ganze per RegEx geschehen
                     if (row.includes(";")) {
                         const columns = row.replace('\r', '').split(';');
-                        csvData.push(columns);
+                        let filteredColumn = columns.filter(element => element !== "").map(str => parseFloat(str.replace(',', '.')));
+                        if (filteredColumn.length === 0) {
+                            // Array löschen
+                            filteredColumn = null; // Oder myArray = [] für ein leeres Array
+                        }
+                        else {
+                            csvData.push(filteredColumn);
+                        }
                     }
                     else {
                         const columns = row.replace('\r', '').split(',');
-                        csvData.push(columns);
+                        let filteredColumn = columns.filter(element => element !== "").map(str => parseFloat(str.replace(',', '.')));
+                        if (filteredColumn.length === 0) {
+                            // Array löschen
+                            filteredColumn = null; // Oder myArray = [] für ein leeres Array
+                        }
+                        else {
+                            csvData.push(filteredColumn);
+                        }
                     }
                 });
 
