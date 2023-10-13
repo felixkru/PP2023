@@ -8,17 +8,22 @@ export const returnExcel = () => {
 
 export const calculateExcel = async () => {
     const file = returnExcel();
-    console.log(file)
+    console.log(file);
     if (file) {
         const reader = new FileReader();
 
         const data = await new Promise((resolve) => {
             reader.onload = () => {
                 const arrayBuffer = reader.result;
-                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const text = new TextDecoder().decode(arrayBuffer);
+                // Ersetze Kommas durch Punkte für Dezimalstellen
+                const modifiedText = text.replace(/,/g, '.');
+                const modifiedArrayBuffer = new TextEncoder().encode(modifiedText);
+                const workbook = XLSX.read(modifiedArrayBuffer, { type: 'array' });
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
                 const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                console.log(jsonData);
                 resolve(jsonData);
             };
 
