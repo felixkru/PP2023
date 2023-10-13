@@ -10,6 +10,7 @@ import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-ma
 import ScatterChart from './kmeans/scatter-chart';
 import {CreateLocalRemoteButton} from "./kmeans/local-remote-button";
 import './globals.css'
+import {checkFileFormat} from "./utils/excelfilereader";
 
 export default function Home() {
 
@@ -31,7 +32,7 @@ export default function Home() {
                                 <section
                                     className='row-gap-3 justify-content-between align-items-center mb-5'>
                                     <div className='file-input'>
-                                        <input className="card-style form-control form-control-lg" type="file" id="excelFileInput"/>
+                                        <input onChange={checkFileFormat} accept={'.xlsx,.csv'} className="card-style form-control form-control-lg" type="file" id="excelFileInput" />
                                     </div>
                                     <CreateLocalRemoteButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton} />
                                 </section>

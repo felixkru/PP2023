@@ -1,21 +1,39 @@
 import * as XLSX from "xlsx";
 
+// überprüft, ob es sich um eine csv Datei handelt
 function isCSVFile(file) {
     const fileName = file.name;
     return fileName.toLowerCase().endsWith('.csv');
 }
 
+// überprüft, ob es sich um eine xlsx Datei handelt
 function isXLSXFile(file) {
     const fileName = file.name;
     return fileName.toLowerCase().endsWith('.xlsx');
 }
 
+// überprüft, ob das richtige Dateiformat übergeben wurde
+export function checkFileFormat(event) {
+    const file = event.target.files[0];
+    const fileInput = document.getElementById('excelFileInput');
+
+    if (file) {
+        if (!(isXLSXFile(file) || isCSVFile(file))) {
+            // Datei ist im falschen Format, geben Sie einen Alert aus.
+            alert("Die ausgewählte Datei hat ein ungültiges Format. Bitte wählen Sie eine xlsx- oder csv-Datei aus.");
+            fileInput.value = "";
+        }
+    }
+}
+
+// gibt die ganze Excel zurück
 export const returnExcel = () => {
     const fileInput = document.getElementById('excelFileInput');
     const file = fileInput.files[0];
     return (file);
 }
 
+// gibt den Inhalt der Excel als zweidimensionales Array zurück
 export const calculateExcel = async () => {
     const file = returnExcel();
     console.log(file)
