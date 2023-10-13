@@ -96,7 +96,6 @@ setBestKForKMeans}) => {
     const [userInput, setUserInput]  = useState('')
 
     const handleInputButtonClick = async () => {
-        const inputDataArray = HandleDynamicGeneratedInputFields();
         const validInput = validateInputButtonClick(userInput);
         CalculateElbowKriteria();
         if (validInput !== undefined) {
