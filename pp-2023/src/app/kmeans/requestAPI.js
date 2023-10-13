@@ -12,7 +12,7 @@ export const validateLengthOfData = (data, kPoints) => {
     return true;
 }
 
-export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+export const createFormData = async (KPoints, dataArrayForWorking) => {
 
     /*
     Erstellung eines Form-Data Objektes. Innerhalb des Objektes können mittels eines Key, Value Verfahren
@@ -41,6 +41,13 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         formData.append('file', file, `${file.name}`);
     }
 
+    return formData;
+}
+
+export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+
+    const formData = await createFormData(KPoints, dataArrayForWorking);
+
     /*
     Die Url wird dynamisch generiert. Grund ist die Anforderung aus dem Backend, dass Parameter als Get übergeben werden,
     nur die Dateien werden mittels als Post übergeben.
@@ -63,14 +70,16 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         /*
         Es wird der Response zurückgegeben.
          */
+
         if (response.ok) {
-            return response.json();
+            return await response.json();
+        } else {
+            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+                "Sie es lokal."
+            APIError(customError);
         }
     } catch (error) {
         // Behandlung von Fehlern im globalen Kontext
-        const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
-            "Sie es lokal."
-        APIError(customError);
         throw new Error(error);
     }
 };
@@ -98,20 +107,24 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 }
             });
             /*
-            Bei gültigem 200 Status und de
+            Bei gültigem 200 Status und dem Result.
              */
+            const response = await result.json();
             if (result.status === 200) {
-                const response = await result.json();
                 if (response.status === 'completed') {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'processing') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
-                    console.log(maxVersuch)
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
-                    new Error('Fehler beim Response: ' + response.status);
+                    APIError(  ' Timeout! Versuchen Sie eine lokale Berechnung oder ändern Sie Ihre Parameter!');
+                    throw new Error('Fehler beim Response: ' + response.text);
                 }
+            }
+            else {
+                APIError("Ihre Datei wurde von der API als ungültig empfunden. Bitte prüfen Sie diese, oder versuchen es lokal.");
+                throw new Error(response.detail);
             }
         } catch (err) {
             throw new Error(err);
@@ -121,39 +134,31 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
 }
 
 export const apiGetResult = async (taskId) => {
-    /*
-    Zusammengesetzte URL für den GET-Request.
-     */
-    const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/result/'
-    const completeUrl = url + taskId;
+    try {
+        /*
+        Zusammengesetzte URL für den GET-Request.
+         */
+        const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/result/';
+        const completeUrl = url + taskId;
 
-    return fetch(completeUrl, {
-        mode: 'cors',
-        method: 'GET',
-        headers: {
-            "Accept": "application/json"
-        }
-    })
-        /*
-        Gibt das Ergebnis des Response-Promise zurück.
-         */
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                return response.json().then(errorText => {
-                    APIError(errorText.detail);
-                    throw new Error('Fehler beim Response: ' + response.status + ' ' + errorText);
-                });
+        const response = await fetch(completeUrl, {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                "Accept": "application/json"
             }
-        })
-        /*
-        Behandlung möglicher Fehler, globaler Kontext.
-         */
-        .catch(err => {
-            throw new Error(err);
         });
-}
+
+        const result = await response.json();
+        if (response.status === 200) {
+            return result;
+        } else {
+            APIError(result.detail);
+        }
+    } catch (err) {
+        throw new Error(err);
+    }
+};
 
 export const handleApiCommunication = async (resultPost) => {
     try {
