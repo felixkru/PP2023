@@ -104,7 +104,7 @@ setBestKForKMeans}) => {
     const handleInputButtonClick = async () => {
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
-            const timeout = 2000;
+            const timeout = 30000;
             const resultPromise = CalculateElbowKriteria(validInput, inputDataArray);
 
             try {
