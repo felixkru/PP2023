@@ -111,7 +111,6 @@ setBestKForKMeans}) => {
                 const result = await runWithTimeout(resultPromise, timeout);
                 console.log(result);
             } catch (error) {
-                console.error("Timeout-Fehler: " + error);
                 APIError("Berechnung wurde abgebrochen (Timeout).");
             }
         }
