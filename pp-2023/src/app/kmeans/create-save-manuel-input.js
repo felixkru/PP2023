@@ -80,7 +80,7 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     const renderInputElement = (i, helper, colIndex, rowIndex) => (
         <div key={i} className="grid-cell">
             <label className='input-group-text' htmlFor={`inputVector${i}`}>{helper} Variable ...</label>
-            <input id={`inputVector${i}`}
+            <input data-testid={`inputVector${i}`} id={`inputVector${i}`}
                    className={`inputVector${i} form-control input-vektor-get`}
                    type={"number"}
                    required={true}
@@ -142,11 +142,11 @@ export function CreateManuelInputFields() {
 
     return (
         <div>
-            <section id='vectors' className='mb-5'>
+            <section data-testid="inputSection" id='vectors' className='mb-5'>
                 Hier kommen die Inputs mit den Vektoren hin
             </section>
             {renderInputs()}
-            <section id='addVectorButton' className='mb-5'>
+            <section data-testid="addBtn" id='addVectorButton' className='mb-5'>
                 <button type="button"
                         className='plus-button'
                         value={counterCountAdd}
