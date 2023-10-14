@@ -44,7 +44,7 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
     return formData;
 }
 
-export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+export const apiPostRequest = async ( KPoints, dataArrayForWorking) => {
 
     const formData = await createFormData(KPoints, dataArrayForWorking);
 
@@ -53,7 +53,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     nur die Dateien werden mittels als Post übergeben.
      */
     const numberKRuns = '&number_kmeans_runs=20';
-    const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
+    const url = "132"
     const newKForGet = 'k=' + KPoints;
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 

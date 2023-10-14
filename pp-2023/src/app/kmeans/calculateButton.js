@@ -8,6 +8,7 @@ import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 import {ExportExcelFile} from "../kmeans/exportButton";
 import {useState} from 'react';
+import * as url from "url";
 
 
 export function HandleCalculateButtonClick(localRemoteButton) {
@@ -41,10 +42,11 @@ export function HandleCalculateButtonClick(localRemoteButton) {
              */
             if (!localCalculation) {
                 try {
+                    const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/"
                     /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-                    const resultPost = await apiPostRequest(kPoints, false);
+                    const resultPost = await apiPostRequest(url,kPoints, false);
                     /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
