@@ -8,10 +8,12 @@ import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 import {ExportExcelFile} from "../kmeans/exportButton";
 import { useState } from 'react';
+import { useLoadingStatus } from '../common/LoadingScreen';
 
 
 export function HandleCalculateButtonClick(localRemoteButton) {
 
+    const { startLoading, stopLoading } = useLoadingStatus();
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
     const [resultExport, setResultExport] = useState([]);
@@ -26,6 +28,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = async () => {
+
+        startLoading();
         
         /*
         Initialisierung von Variablen für den Programmverlauf.
@@ -60,7 +64,10 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
+                    stopLoading();
                     throw new Error(error);
+                } finally {
+                    stopLoading();
                 }
                 /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
@@ -85,8 +92,10 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     console.log(result);
                     // TODO response verarbeiten
                 } catch (err) {
+                    stopLoading();
                     throw new Error(err);
-                }
+                } finally {
+                    stopLoading();
             }
             /*
             Verarbeitung von manuell eingegeben Daten lokal.
@@ -130,9 +139,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
+                    stopLoading();
                     throw new error;
+                } finally {
+                    stopLoading();
                 }
             }
+        }
         }
     };
 

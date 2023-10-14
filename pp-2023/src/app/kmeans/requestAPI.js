@@ -1,6 +1,7 @@
 'use client'
 import {APIError} from '../utils/userErrors';
 import {returnExcel} from '../utils/excelfilereader';
+import { useLoadingStatus } from '../common/LoadingScreen';
 
 export const validateLengthOfData = (data, kPoints) => {
     if (data.length < kPoints) {
@@ -45,6 +46,8 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
 }
 
 export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+    /* const { startLoading } = useLoadingStatus();
+    setLoading(true); */
 
     const formData = await createFormData(KPoints, dataArrayForWorking);
 
