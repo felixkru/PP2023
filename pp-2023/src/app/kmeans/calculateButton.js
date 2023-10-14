@@ -26,6 +26,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = async () => {
+        const kMeansOrElbow = "kMeans";
 
         /*
         Initialisierung von Variablen für den Programmverlauf.
@@ -57,7 +58,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         const kMeansResult = await handleApiCommunication(resultPost, 10);
                         console.log(kMeansResult)
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
-                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote,kMeansOrElbow);
                         setResultExport(kMeansResult);
                     }
                     /*
@@ -87,7 +88,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     const timeout = 30000;
                     const result = await runWithTimeout(Promise.resolve(kMeansAlgorithm(inputData, kPoints)), timeout);
                     const localOrRemote = "local"
-                    ScatterChart(kPoints, chartDeletion, result, localOrRemote);
+                    ScatterChart(kPoints, chartDeletion, result, localOrRemote,kMeansOrElbow);
                     setResultExport(result);
                     // TODO response verarbeiten
                 } catch (err) {
@@ -110,7 +111,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                 const result = await kMeansAlgorithm(inputDataArray, kPoints);
                 setResultExport(result);
                 const localOrRemote = "local";
-                ScatterChart(kPoints, chartDeletion, result, localOrRemote);
+                ScatterChart(kPoints, chartDeletion, result, localOrRemote,kMeansOrElbow);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
@@ -128,7 +129,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         setResultExport(kMeansResult);
                         const localOrRemote = "remote";
-                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote,kMeansOrElbow);
                         // TODO response verarbeiten
                     }
                     /*

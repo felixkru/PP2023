@@ -4,7 +4,7 @@ import {useState} from "react";
 import {calculateExcel, returnExcel} from '../utils/excelfilereader';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {apiPostRequest, handleApiCommunication, runWithTimeout, validateLengthOfData} from './requestAPI';
-
+import ScatterChart from './scatter-chart';
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
 */
@@ -43,7 +43,7 @@ export const SummeDerDistanzen = (groups) => {
     let totalDistance = 0;
     groups.forEach((group) => {
         let groupDistance = 0;
-        group.cluster.forEach((cluster)=> {
+        group.cluster.forEach((cluster) => {
             const distance = euclideanDistance(cluster, group.centroid)
             groupDistance += distance ** 2;
         });
@@ -99,7 +99,7 @@ export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 Erstellt ein Array aus Objekten.
  */
 export const CreateResultObject = (result) => {
-    return result.map((value, index) => ({ [index+1]:value}));
+    return result.map((value, index) => ({ [index + 1]: value }));
 }
 /*
 Erstellt ein Array mit Objekten aus einem einzigen Objekt.
@@ -114,16 +114,18 @@ Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
 export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, localRemoteButton,
 bestKForKMeans, setBestKForKMeans}) => {
 
-    const [userInput, setUserInput]  = useState('')
-    const {inputDataArray} = HandleDynamicGeneratedInputFields();
+    const [userInput, setUserInput] = useState('')
+    const { inputDataArray } = HandleDynamicGeneratedInputFields();
 
     const handleInputButtonClick = async () => {
+        const kMeansOrElbow = "Elbow";
+        const calledByButton = 1;
         /*
         Die User-Eingaben zum MaxK werden geprüft, ob diese valide sind.
          */
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
-            const timeout = 30000;
+
 
             /*
             Prüft, ob die Verarbeitung lokal oder Remote stattfinden soll.
@@ -132,6 +134,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                 try {
                     const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
                     const resultObject = CreateResultObject(result);
+                    ScatterChart(setInputKForElbow, calledByButton, resultObject, "local", kMeansOrElbow);
                 } catch (error) {
                     APIError("Berechnung wurde abgebrochen (Timeout).");
                 }
@@ -151,6 +154,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                         if (task.TaskID) {
                             const elbowResult = await handleApiCommunication(task, 10);
                             const result = CreateAPICallResultObject(elbowResult)
+                            ScatterChart(setInputKForElbow, calledByButton, result, "local", kMeansOrElbow);
                             console.log(result);
                             // TODO Verarbeiten result
                         }
@@ -173,6 +177,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                             const elbowResult = await handleApiCommunication(task, 10);
                             const result = CreateAPICallResultObject(elbowResult)
                             console.log(result);
+                            ScatterChart(setInputKForElbow, calledByButton, result, "local", kMeansOrElbow);
                             // TODO Verarbeiten result
                         }
                     } catch (err) {
@@ -181,6 +186,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                 } else {
                     APIError("Bitte geben Sie ein manuelles Cluster ein, oder eine Datei.");
                 }
+
             }
         }
     };
@@ -211,7 +217,7 @@ bestKForKMeans, setBestKForKMeans}) => {
             <div>
                 <div className="grid-cell-elbow">
                     <button className="btn btn-primary btn-lg btn-elbow" type="submit"
-                            onClick={handleInputButtonClick}
+                        onClick={handleInputButtonClick}
                     >
                         Elbow-Kriteria
                     </button>
@@ -221,10 +227,10 @@ bestKForKMeans, setBestKForKMeans}) => {
                         <label className="input-group-text" id="label-input-k-elbow" htmlFor="input-k-elbow">Max
                             K</label>
                         <input placeholder="max 25" max="25" step="1" id="input-k-elbow" type="number"
-                               className="form-control input-k-elbow" aria-label="label-input-k-elbow"
-                               aria-describedby="inputGroup-sizing-lg"
-                               value={userInput}
-                               onChange={(event => setUserInput(event.target.value))}
+                            className="form-control input-k-elbow" aria-label="label-input-k-elbow"
+                            aria-describedby="inputGroup-sizing-lg"
+                            value={userInput}
+                            onChange={(event => setUserInput(event.target.value))}
                         />
                     </div>
                 </div>
