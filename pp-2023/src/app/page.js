@@ -29,7 +29,9 @@ export default function Home() {
                                 <div
                                     className='compute-container d-flex flex-column row-gap-3 flex-xl-row justify-content-xl-between align-items-center align-items-xl-end mb-5'>
                                     <SwitchVariables/>
-                                    <CalculateButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton}/>
+                                    <CalculateButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton}
+                                    data-testid="calculateButtonTest"
+                                    />
                                 </div>
                                 <InputKPoints/>
                                 <section
