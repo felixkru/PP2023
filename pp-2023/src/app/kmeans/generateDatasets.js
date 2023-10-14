@@ -3,7 +3,6 @@
 
 // fillInData holt sich die einzelnen Daten aus dem Ergebnis des kMeans algorithmus und verpackt diese in ein Objekt dass das passende Format für Chartjs hat.
 const fillInData = (kMeansResult) => { //pos ist hier die aktuelle position der Schleife bzw. des Clusters aus generateDatasets
-
     let data = [];
     if (kMeansResult) {
         let variables = {};
@@ -28,20 +27,37 @@ const fillInData = (kMeansResult) => { //pos ist hier die aktuelle position der 
 }
 
 
-const generateDatasets = (K, kMeansResult) => {
+const generateDatasets = (K, kMeansResult,localOrRemote) => {
     const generateData = [];
-    //Schleife fügt dem Array 'dataset' soviele Datasets hinzu wie Ks vom User angegeben wurden.
-    for (let i = 0; i <= K - 1; i++) {
-        //diese Abfrage checkt, ob beim Aufruf der Funktion bereits ein Ergebnis des KMeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
-        if (typeof kMeansResult !== 'undefined') {
-            let data = fillInData(kMeansResult.groups[i].cluster);
-            const dataset = {
-                data: data,
-                label: `Set ${i + 1}` //Das Dataset bekommt seinen Namen
-            };
-            generateData.push(dataset);
+    if (kMeansResult) {
+        if (localOrRemote === "local") {
+            //Schleife fügt dem Array 'dataset' soviele Datasets hinzu wie Ks vom User angegeben wurden.
+            for (let i = 0; i <= K - 1; i++) {
+                //diese Abfrage checkt, ob beim Aufruf der Funktion bereits ein Ergebnis des KMeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
+                if (typeof kMeansResult !== 'undefined') {
+                    let data = fillInData(kMeansResult.groups[i].cluster);
+                    const dataset = {
+                        data: data,
+                        label: `Set ${i + 1}` //Das Dataset bekommt seinen Namen
+                    };
+                    generateData.push(dataset);
+                }
+            }
         }
-
+        else if (localOrRemote === "remote") {
+            //Schleife fügt dem Array 'dataset' soviele Datasets hinzu wie Ks vom User angegeben wurden.
+            for (let i = 0; i <= K - 1; i++) {
+                //diese Abfrage checkt, ob beim Aufruf der Funktion bereits ein Ergebnis des KMeans algorithmus vorliegt, falls nicht werden keine Daten an das Chart übergeben
+                if (typeof kMeansResult !== 'undefined') {
+                    let data = fillInData(kMeansResult.Cluster[i].data_points);
+                    const dataset = {
+                        data: data,
+                        label: `Set ${i + 1}` //Das Dataset bekommt seinen Namen
+                    };
+                    generateData.push(dataset);
+                }
+            }
+        }
     }
     // Hier sind die optionen für die Chart Skalen etc. definiert.
     const options = {
