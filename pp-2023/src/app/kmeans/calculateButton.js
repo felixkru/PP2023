@@ -32,7 +32,6 @@ export function HandleCalculateButtonClick(localRemoteButton) {
      */
   const handleClick = async () => {
     startLoading();
-
     /*
         Initialisierung von Variablen für den Programmverlauf.
          */
@@ -61,12 +60,12 @@ export function HandleCalculateButtonClick(localRemoteButton) {
             //TODO Result richtig verarbeiten
             const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
             ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+            setResultExport(kMeansResult);
           }
           /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
         } catch (error) {
-          stopLoading();
           throw new Error(error);
         } finally {
           stopLoading();
@@ -96,67 +95,59 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           setResultExport(result);
           // TODO response verarbeiten
         } catch (err) {
-          stopLoading();
           throw new Error(err);
         } finally {
           stopLoading();
         }
-        /*
+      }
+      /*
             Verarbeitung von manuell eingegeben Daten lokal.
             */
-      } else if (inputDataSrc === "manuel") {
-        if (localCalculation) {
-          /*
+    } else if (inputDataSrc === "manuel") {
+      if (localCalculation) {
+        /*
                     Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
                 */
-          const validateInputData = validateLengthOfData(
-            inputDataArray,
-            kPoints
-          );
-          if (validateInputData === false) {
-            return;
-          }
+        const validateInputData = validateLengthOfData(inputDataArray, kPoints);
+        if (validateInputData === false) {
+          return;
+        }
 
-          const result = await kMeansAlgorithm(inputDataArray, kPoints);
-          setResultExport(result);
-          const localOrRemote = "local";
-          ScatterChart(kPoints, chartDeletion, result, localOrRemote);
-          /*
+        const result = await kMeansAlgorithm(inputDataArray, kPoints);
+        setResultExport(result);
+        const localOrRemote = "local";
+        ScatterChart(kPoints, chartDeletion, result, localOrRemote);
+        stopLoading();
+        /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
-        } else if (!localCalculation) {
-          try {
-            /*
+      } else if (!localCalculation) {
+        try {
+          /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-            const resultPost = await apiPostRequest(
-              kPoints,
-              dataArrayForWorking
-            );
-            /*
+          const resultPost = await apiPostRequest(kPoints, dataArrayForWorking);
+          /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
-            if (resultPost.TaskID) {
-              const kMeansResult = await handleApiCommunication(resultPost);
-              setResultExport(kMeansResult);
-              const localOrRemote = "remote";
-              ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
-              // TODO response verarbeiten
-            }
-            /*
+          if (resultPost.TaskID) {
+            const kMeansResult = await handleApiCommunication(resultPost);
+            setResultExport(kMeansResult);
+            const localOrRemote = "remote";
+            ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+            // TODO response verarbeiten
+          }
+          /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
-          } catch (error) {
-            stopLoading();
-            throw new error();
-          } finally {
-            stopLoading();
-          }
+        } catch (error) {
+          throw new Error(error);
+        } finally {
+          stopLoading();
         }
       }
     }
-    stopLoading();
   };
 
   /*
@@ -169,6 +160,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
       return "manuel";
     } else {
       APIError(noDataMessage);
+      stopLoading();
       return false;
     }
   };

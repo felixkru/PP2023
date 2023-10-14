@@ -4,7 +4,6 @@ import { useLoadingStatus } from "../common/LoadingScreen";
 
 // Funktion nimmt ein DataSet entgegen, die KPoints und gibt ein Array of Arrays zurück.
 export function kMeansAlgorithm(dataset, kPoints) {
-  //   const { stopLoading } = useLoadingStatus();
   return kMeans.clusterize(dataset, { k: kPoints }, function (err, res) {
     try {
       if (res === undefined) {
@@ -19,9 +18,6 @@ export function kMeansAlgorithm(dataset, kPoints) {
     } catch (err) {
       //   stopLoading();
       throw new Error(err);
-      // } finally {
-      //   stopLoading();
-      // }
     }
   });
 }
