@@ -4,12 +4,12 @@ import { Chart } from "chart.js/auto";
 import { gD } from './generateDatasets';
 import '../globals.css';
 
-function ScatterChart(numberOfClusters, calledByButton, kMeansResult, localOrRemote) {
+function ScatterChart(numberOfClusters, calledByButton, kMeansResult, localOrRemote,kMeansOrElbow) {
 
     let myChart;
 
     const UpdateChart = () => {
-        const chartData = gD.generateDatasets(parseInt(numberOfClusters), kMeansResult, localOrRemote);
+        const chartData = gD.generateDatasets(parseInt(numberOfClusters), kMeansResult, localOrRemote,kMeansOrElbow);
         const ctx = document.getElementById('myChart').getContext('2d');
         const chartStatus = Chart.getChart('myChart'); // <canvas> id
         if (chartStatus !== undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.

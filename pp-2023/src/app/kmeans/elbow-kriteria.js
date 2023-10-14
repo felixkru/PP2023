@@ -1,10 +1,11 @@
-import {kMeansAlgorithm} from '../utils/kmeans';
-import {APIError} from '../utils/userErrors';
-import {useState} from "react";
-import {calculateExcel, returnExcel} from '../utils/excelfilereader';
-import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {runWithTimeout} from '../kmeans/requestAPI';
-import {create} from "axios";
+import { kMeansAlgorithm } from '../utils/kmeans';
+import { APIError } from '../utils/userErrors';
+import { useState } from "react";
+import { calculateExcel, returnExcel } from '../utils/excelfilereader';
+import { HandleDynamicGeneratedInputFields } from './create-save-manuel-input';
+import { runWithTimeout } from '../kmeans/requestAPI';
+import ScatterChart from './scatter-chart';
+import { create } from "axios";
 
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
@@ -44,7 +45,7 @@ export const SummeDerDistanzen = (groups) => {
     let totalDistance = 0;
     groups.forEach((group) => {
         let groupDistance = 0;
-        group.cluster.forEach((cluster)=> {
+        group.cluster.forEach((cluster) => {
             const distance = euclideanDistance(cluster, group.centroid)
             groupDistance += distance ** 2;
         });
@@ -100,19 +101,21 @@ export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 Erstellt ein Objekt, welches vom aus den Indexes und den Werten des Array besteht.
  */
 export const CreateResultObject = (result) => {
-    return result.map((value, index) => ({ [index+1]:value}));
+    return result.map((value, index) => ({ [index + 1]: value }));
 }
 
 /*
 Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
  */
-export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, bestKForKMeans,
-setBestKForKMeans}) => {
+export const CreateElbowCriteriaElements = ({ inputKForElbow, setInputKForElbow, bestKForKMeans,
+    setBestKForKMeans }) => {
 
-    const [userInput, setUserInput]  = useState('')
-    const {inputDataArray} = HandleDynamicGeneratedInputFields();
+    const [userInput, setUserInput] = useState('')
+    const { inputDataArray } = HandleDynamicGeneratedInputFields();
 
     const handleInputButtonClick = async () => {
+        const kMeansOrElbow = "Elbow";
+        const calledByButton = 1;
         /*
         Die User-Eingaben zum MaxK werden geprüft, ob diese valide sind.
          */
@@ -124,6 +127,7 @@ setBestKForKMeans}) => {
                 const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
                 const resultObject = CreateResultObject(result);
                 console.log(resultObject);
+                ScatterChart(setInputKForElbow, calledByButton, resultObject, "local", kMeansOrElbow);
             } catch (error) {
                 APIError("Berechnung wurde abgebrochen (Timeout).");
             }
@@ -156,7 +160,7 @@ setBestKForKMeans}) => {
             <div>
                 <div className="grid-cell-elbow">
                     <button className="btn btn-primary btn-lg btn-elbow" type="submit"
-                            onClick={handleInputButtonClick}
+                        onClick={handleInputButtonClick}
                     >
                         Elbow-Kriteria
                     </button>
@@ -166,10 +170,10 @@ setBestKForKMeans}) => {
                         <label className="input-group-text" id="label-input-k-elbow" htmlFor="input-k-elbow">Max
                             K</label>
                         <input placeholder="max 25" max="25" step="1" id="input-k-elbow" type="number"
-                               className="form-control input-k-elbow" aria-label="label-input-k-elbow"
-                               aria-describedby="inputGroup-sizing-lg"
-                               value={userInput}
-                               onChange={(event => setUserInput(event.target.value))}
+                            className="form-control input-k-elbow" aria-label="label-input-k-elbow"
+                            aria-describedby="inputGroup-sizing-lg"
+                            value={userInput}
+                            onChange={(event => setUserInput(event.target.value))}
                         />
                     </div>
                 </div>
