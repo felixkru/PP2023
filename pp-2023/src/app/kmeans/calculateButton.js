@@ -51,9 +51,10 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
+                    console.log(12);
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
-                        //TODO Result richtig verarbeiten
+                        console.log(kMeansResult)
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
                     }
@@ -61,7 +62,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
-                    throw new Error(error);
+                    /*
+                    Fehlerbehandlung wird in den einzelnen Funktionen gewährleistet.
+                     */
                 }
                 /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.

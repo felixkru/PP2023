@@ -44,7 +44,7 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
     return formData;
 }
 
-export const apiPostRequest = async ( KPoints, dataArrayForWorking) => {
+export const apiPostRequest = async (url, KPoints, dataArrayForWorking) => {
 
     const formData = await createFormData(KPoints, dataArrayForWorking);
 
@@ -53,7 +53,6 @@ export const apiPostRequest = async ( KPoints, dataArrayForWorking) => {
     nur die Dateien werden mittels als Post übergeben.
      */
     const numberKRuns = '&number_kmeans_runs=20';
-    const url = "132"
     const newKForGet = 'k=' + KPoints;
     const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
 
@@ -91,8 +90,6 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
 
-    const aktuellesIntervall = 3000;
-
     /*
     Die Funktion makeRequest führt einen asynchronen Request an das Backend durch, um den Status der zu bearbeitenden
     Task zu bekommen.
@@ -109,17 +106,18 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
             /*
             Bei gültigem 200 Status und dem Result.
              */
+            const aktuellesIntervall = 1000;
             const response = await result.json();
             if (result.status === 200) {
                 if (response.status === 'completed') {
                     return 1;
-                } else if (maxVersuch > 0 && response.status === 'processing') {
+                } else if (maxVersuch > 0 && response.status === 'Data Preparation') {
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
                     APIError(  ' Timeout! Versuchen Sie eine lokale Berechnung oder ändern Sie Ihre Parameter!');
-                    throw new Error('Fehler beim Response: ' + response.text);
+                    throw new Error('Fehler beim Response!');
                 }
             }
             else {
@@ -133,6 +131,9 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     return makeRequest();
 }
 
+/*
+Die Funktion apiGetResult, fragt bei Aufruf das Ergebnis von der Backend-Api, anhand der TasID ab.
+ */
 export const apiGetResult = async (taskId) => {
     try {
         /*
@@ -160,6 +161,9 @@ export const apiGetResult = async (taskId) => {
     }
 };
 
+/*
+Führt die beiden Funktionen getState und getResult kontrolliert aus.
+ */
 export const handleApiCommunication = async (resultPost) => {
     try {
         const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
