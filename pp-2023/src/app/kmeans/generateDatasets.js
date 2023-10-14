@@ -41,6 +41,9 @@ const fillInData = (kMeansResult, kMeansOrElbow) => { //pos ist hier die aktuell
 
 
 const generateDatasets = (K, kMeansResult, localOrRemote, kMeansOrElbow) => {
+    if (kMeansOrElbow === undefined){
+        kMeansOrElbow = "kMeans";
+    }
     const datasets = [];
     if (kMeansOrElbow === "kMeans") {
         if (kMeansResult) {
