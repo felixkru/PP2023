@@ -96,11 +96,17 @@ export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 }
 
 /*
-Erstellt ein Objekt, welches vom aus den Indexes und den Werten des Array besteht.
+Erstellt ein Array aus Objekten.
  */
 export const CreateResultObject = (result) => {
     return result.map((value, index) => ({ [index+1]:value}));
 }
+/*
+Erstellt ein Array mit Objekten aus einem einzigen Objekt.
+ */
+export const CreateAPICallResultObject = (result) => {
+    return Object.entries(result).map(([key, value]) => ({ [key]: value }));
+};
 
 /*
 Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
@@ -118,6 +124,7 @@ bestKForKMeans, setBestKForKMeans}) => {
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
             const timeout = 30000;
+
             if (!localRemoteButton) {
                 try {
                     const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
@@ -129,10 +136,22 @@ bestKForKMeans, setBestKForKMeans}) => {
             } else {
                 if (returnExcel() !== undefined) {
                     try {
+                        /*
+                        Die vom User eingegebene Datei wird an die Backend-Api übersendet und eine Task wird zurückgegeben.
+                         */
                         const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/elbow/";
                         const kForUrl = "k_min=1&k_max=" + validInput;
-                        const task = apiPostRequest(url, kForUrl, validInput, false);
-                        console.log(task)
+                        const task = await apiPostRequest(url, kForUrl, validInput, false);
+
+                        /*
+                        Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
+                         */
+                        if (task.TaskID) {
+                            const elbowResult = await handleApiCommunication(task);
+                            const result = CreateAPICallResultObject(elbowResult)
+                            console.log(result);
+                            // TODO Verarbeiten result
+                        }
                     } catch (err) {
 
                     }
