@@ -12,6 +12,7 @@ function ScatterChart(numberOfClusters, calledByButton, kMeansResult, localOrRem
         const chartData = gD.generateDatasets(parseInt(numberOfClusters), kMeansResult, localOrRemote,kMeansOrElbow);
         const ctx = document.getElementById('myChart').getContext('2d');
         const chartStatus = Chart.getChart('myChart'); // <canvas> id
+        
         if (chartStatus !== undefined) {   //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
             chartStatus.destroy();
         }
@@ -38,7 +39,7 @@ function ScatterChart(numberOfClusters, calledByButton, kMeansResult, localOrRem
     // returnt direkt html mit unserem chart im Canvas inklusive der Überschrift.
     return (
         <div id="scatterChartContainer">
-            <h1 className="mx-auto my-8 text-xl font-semibold capitalize ">Scatter Chart</h1>
+            <h1 className="mx-auto my-8 text-xl font-semibold capitalize ">Chart</h1>
             <div className='border border-gray-400 pt-0 rounded-xl  w-full h-fit shadow-xl'>
                 <canvas id='myChart' />
             </div>
