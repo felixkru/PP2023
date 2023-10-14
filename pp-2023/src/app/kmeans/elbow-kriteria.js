@@ -147,7 +147,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                         Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
                          */
                         if (task.TaskID) {
-                            const elbowResult = await handleApiCommunication(task);
+                            const elbowResult = await handleApiCommunication(task, 10);
                             const result = CreateAPICallResultObject(elbowResult)
                             console.log(result);
                             // TODO Verarbeiten result

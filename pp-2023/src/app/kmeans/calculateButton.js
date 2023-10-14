@@ -54,7 +54,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                      */
                     console.log(12);
                     if (resultPost.TaskID) {
-                        const kMeansResult = await handleApiCommunication(resultPost);
+                        const kMeansResult = await handleApiCommunication(resultPost, 10);
                         console.log(kMeansResult)
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);

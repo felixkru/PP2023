@@ -104,12 +104,13 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
             /*
             Bei gültigem 200 Status und dem Result.
              */
-            const aktuellesIntervall = 1000;
+            const aktuellesIntervall = 3000;
             const response = await result.json();
             if (result.status === 200) {
                 if (response.status === 'completed') {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'Data Preparation') {
+                    console.log(maxVersuch)
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
@@ -162,9 +163,9 @@ export const apiGetResult = async (taskId) => {
 /*
 Führt die beiden Funktionen getState und getResult kontrolliert aus.
  */
-export const handleApiCommunication = async (resultPost) => {
+export const handleApiCommunication = async (resultPost, maxVersuche) => {
     try {
-        const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
+        const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, maxVersuche);
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */
