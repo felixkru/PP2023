@@ -153,7 +153,7 @@ bestKForKMeans, setBestKForKMeans}) => {
                             // TODO Verarbeiten result
                         }
                     } catch (err) {
-
+                        APIError("Ihre Datei konnte nicht verarbeitet werden!");
                     }
                 } else {
                     try {
