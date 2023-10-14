@@ -9,12 +9,15 @@ import {HandeleSwitchVariablesProvider} from './kmeans/switch-variables';
 import {HandleDynamicGeneratedInputFieldsProvider} from './kmeans/create-save-manuel-input';
 import ScatterChart from './kmeans/scatter-chart';
 import {CreateLocalRemoteButton} from "./kmeans/local-remote-button";
+import {CreateElbowCriteriaElements} from './kmeans/elbow-kriteria';
 import './globals.css'
 import {checkFileFormat} from "./utils/excelfilereader";
 
 export default function Home() {
 
     const [localRemoteButton, setLocalRemoteButton] = useState(false);
+    const [inputKForElbow, setInputKForElbow] = useState();
+    const [bestKForKMeans, setBestKForKMeans] = useState();
 
     return (
         <HandeleSwitchVariablesProvider data-testid="handleSwitchVariablesProvider">
@@ -36,6 +39,9 @@ export default function Home() {
                                     </div>
                                     <CreateLocalRemoteButton localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton} />
                                 </section>
+                                <CreateElbowCriteriaElements inputKForElbow={inputKForElbow} setInputKForElbow={setInputKForElbow}
+                                                             bestKForKMeans={bestKForKMeans} setBestKForKMeans={setBestKForKMeans}
+                                />
                                 <CreateManuelInputFields/>
                             </div>
                             <div className='output-area col12 col-lg-6 h-100'>
