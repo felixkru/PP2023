@@ -1,7 +1,6 @@
 'use client'
 import { useEffect } from "react"
 import { Chart } from "chart.js/auto";
-import { UseInputKPoints } from './input-k-points';
 import { gD } from './generateDatasets';
 import '../globals.css';
 
