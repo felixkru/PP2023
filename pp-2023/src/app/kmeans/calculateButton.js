@@ -87,7 +87,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           }
           const timeout = 30000;
           const result = await runWithTimeout(
-            kMeansAlgorithm(inputData, kPoints),
+            Promise.resolve(kMeansAlgorithm(inputData, kPoints)),
             timeout
           );
           const localOrRemote = "local";
