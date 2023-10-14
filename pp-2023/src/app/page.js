@@ -58,8 +58,10 @@ export default function Home() {
                 <CreateManuelInputFields />
               </div>
               <div className="output-area col12 col-lg-6 h-100">
-                <DownloadButton />
-                <ScatterChart />
+                <div id="scatterChartContainer">
+                  <ScatterChart />
+                  <DownloadButton />
+                </div>
               </div>
             </div>
           </main>

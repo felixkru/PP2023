@@ -4,7 +4,12 @@ const handleClick = () => {
 
 export default function DownloadButton() {
   return (
-    <button type="button" className="button" onClick={handleClick}>
+    <button
+      id="downloadButton"
+      type="button"
+      className="button mt-5"
+      onClick={handleClick}
+    >
       Download Chart
     </button>
   );
