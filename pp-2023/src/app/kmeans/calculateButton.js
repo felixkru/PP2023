@@ -54,6 +54,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         //TODO Result richtig verarbeiten
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+                        setResultExport(kMeansResult);
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
