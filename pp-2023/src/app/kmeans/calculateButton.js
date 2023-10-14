@@ -7,7 +7,7 @@ import ScatterChart from './scatter-chart';
 import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 import {ExportExcelFile} from "../kmeans/exportButton";
-import { useState } from 'react';
+import {useState} from 'react';
 
 
 export function HandleCalculateButtonClick(localRemoteButton) {
@@ -15,7 +15,6 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
     const [resultExport, setResultExport] = useState([]);
-    
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XLSX- CSV-Datei!"
@@ -26,13 +25,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
     const handleClick = async () => {
-        
+
         /*
         Initialisierung von Variablen für den Programmverlauf.
          */
         const kPoints = validateKPoints(numberOfClusters);
         const inputDataSrc = checkInputSource();
-        const localCalculation = !localRemoteButton; 
+        const localCalculation = !localRemoteButton;
         const dataArrayForWorking = inputDataArray;
         chartDeletion = 1; //gibt an, dass das alte Chart von der ScatterChart funktion gelöscht werden muss
 
@@ -54,7 +53,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         //TODO Result richtig verarbeiten
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
-                        ScatterChart(kPoints, chartDeletion, kMeansResult,localOrRemote);
+                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
@@ -81,12 +80,12 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     const timeout = 30000;
                     const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);
                     const localOrRemote = "local"
-                    ScatterChart(kPoints, chartDeletion, result,localOrRemote);
+                    ScatterChart(kPoints, chartDeletion, result, localOrRemote);
                     setResultExport(result);
                     // TODO response verarbeiten
-                 } catch (err) {
-                     throw new Error(err);
-                 }
+                } catch (err) {
+                    throw new Error(err);
+                }
             }
             /*
             Verarbeitung von manuell eingegeben Daten lokal.
@@ -123,14 +122,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         setResultExport(kMeansResult);
                         const localOrRemote = "remote";
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
-                        
                         // TODO response verarbeiten
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
-                    throw new error;
+                    throw new Error(error);
                 }
             }
         }
@@ -173,14 +171,14 @@ export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
 
     return (
         <div>
-        <button
-            type="button"
-            className='compute-btn button'
-            onClick={handleClick}
-        >
-            Berechnen
-        </button>
-        <ExportExcelFile result = { resultExport }/>
+            <button
+                type="button"
+                className='compute-btn button'
+                onClick={handleClick}
+            >
+                Berechnen
+            </button>
+            <ExportExcelFile result={resultExport}/>
         </div>
     );
 }
