@@ -155,12 +155,26 @@ bestKForKMeans, setBestKForKMeans}) => {
                     } catch (err) {
                         APIError("Ihre Datei konnte nicht verarbeitet werden!");
                     }
-                } else {
+                } else if (inputDataArray.length !== 0){
                     try {
+                        /*
+                        Die vom User eingegebenen Daten an die Backend-Api übersendet und eine Task wird zurückgegeben.
+                         */
+                        const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/elbow/";
+                        const kForUrl = "k_min=1&k_max=" + validInput;
+                        const task = await apiPostRequest(url, kForUrl, validInput, inputDataArray);
 
+                        if (task.TaskID) {
+                            const elbowResult = await handleApiCommunication(task, 10);
+                            const result = CreateAPICallResultObject(elbowResult)
+                            console.log(result);
+                            // TODO Verarbeiten result
+                        }
                     } catch (err) {
-
+                        APIError(err);
                     }
+                } else {
+                    APIError("Bitte geben Sie ein manuelles Cluster ein, oder eine Datei.");
                 }
             }
         }
