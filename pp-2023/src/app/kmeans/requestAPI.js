@@ -110,7 +110,7 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
                 if (response.status === 'completed') {
                     return 1;
                 } else if (maxVersuch > 0 && response.status === 'Data Preparation') {
-                    console.log(maxVersuch)
+
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
