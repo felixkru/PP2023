@@ -67,13 +67,13 @@ export const apiPostRequest = async (url, kForURL, KPoints, dataArrayForWorking)
         /*
         Es wird der Response zurückgegeben.
          */
-
+        const result = await response.json()
         if (response.ok) {
-            return await response.json();
+            return result;
         } else {
-            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen " +
                 "Sie es lokal."
-            APIError(customError);
+            APIError(customError + ' ' + result.detail);
         }
     } catch (error) {
         // Behandlung von Fehlern im globalen Kontext
