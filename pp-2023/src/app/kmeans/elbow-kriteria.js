@@ -3,8 +3,7 @@ import {APIError} from '../utils/userErrors';
 import {useState} from "react";
 import {calculateExcel, returnExcel} from '../utils/excelfilereader';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {runWithTimeout} from '../kmeans/requestAPI';
-import {create} from "axios";
+import {apiPostRequest, handleApiCommunication, runWithTimeout, validateLengthOfData} from './requestAPI';
 
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
@@ -106,8 +105,8 @@ export const CreateResultObject = (result) => {
 /*
 Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
  */
-export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, bestKForKMeans,
-setBestKForKMeans}) => {
+export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, localRemoteButton,
+bestKForKMeans, setBestKForKMeans}) => {
 
     const [userInput, setUserInput]  = useState('')
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
@@ -118,17 +117,35 @@ setBestKForKMeans}) => {
          */
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
-
             const timeout = 30000;
-            try {
-                const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
-                const resultObject = CreateResultObject(result);
-                console.log(resultObject);
-            } catch (error) {
-                APIError("Berechnung wurde abgebrochen (Timeout).");
+            if (!localRemoteButton) {
+                try {
+                    const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+                    const resultObject = CreateResultObject(result);
+                    console.log(resultObject);
+                } catch (error) {
+                    APIError("Berechnung wurde abgebrochen (Timeout).");
+                }
+            } else {
+                if (returnExcel() !== undefined) {
+                    try {
+                        const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/elbow/";
+                        const kForUrl = "k_min=1&k_max=" + validInput;
+                        const task = apiPostRequest(url, kForUrl, validInput, false);
+                        console.log(task)
+                    } catch (err) {
+
+                    }
+                } else {
+                    try {
+
+                    } catch (err) {
+
+                    }
+                }
             }
         }
-    }
+    };
 
     /*
     Die Funktion validiert die User-Eingabe. Dabei wird geprüft, ob der Input eine

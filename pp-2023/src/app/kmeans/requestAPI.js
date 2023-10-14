@@ -44,7 +44,7 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
     return formData;
 }
 
-export const apiPostRequest = async (url, KPoints, dataArrayForWorking) => {
+export const apiPostRequest = async (url, kForURL, KPoints, dataArrayForWorking) => {
 
     const formData = await createFormData(KPoints, dataArrayForWorking);
 
@@ -53,9 +53,7 @@ export const apiPostRequest = async (url, KPoints, dataArrayForWorking) => {
     nur die Dateien werden mittels als Post übergeben.
      */
     const numberKRuns = '&number_kmeans_runs=20';
-    const newKForGet = 'k=' + KPoints;
-    const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
-
+    const urlBearbeitet = url + '?' + kForURL + numberKRuns;
     try {
         const response = await fetch(urlBearbeitet, {
             mode: 'cors',

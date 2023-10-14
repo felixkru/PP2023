@@ -43,10 +43,11 @@ export function HandleCalculateButtonClick(localRemoteButton) {
             if (!localCalculation) {
                 try {
                     const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/"
+                    const kForUrl = 'k=' + kPoints;
                     /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-                    const resultPost = await apiPostRequest(url,kPoints, false);
+                    const resultPost = await apiPostRequest(url, kForUrl, kPoints, false);
                     /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
