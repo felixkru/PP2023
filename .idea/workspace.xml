@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader" />
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="fixed reading csv-files">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/calculateButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/calculateButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="development" />
+        <entry key="$PROJECT_DIR$" value="PROG-57-excel-file-reader" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,6 +48,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -65,7 +72,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "PROG-77-TestingAndLinting",
+    "git-widget-placeholder": "PROG-78-ValidierungExcelFileReader",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/workspace/PP2023/pp-2023/src/app/components",
     "list.type.of.created.stylesheet": "SCSS",
@@ -99,6 +106,7 @@
       <list>
         <item itemvalue="Node.js.page.js" />
         <item itemvalue="Node.js.page.js" />
+        <item itemvalue="Node.js.page.js" />
       </list>
     </recent_temporary>
   </component>
@@ -128,6 +136,8 @@
       <workItem from="1696695180172" duration="721000" />
       <workItem from="1696762489654" duration="7106000" />
       <workItem from="1696842650060" duration="1727000" />
+      <workItem from="1697112818433" duration="688000" />
+      <workItem from="1697183487426" duration="1177000" />
     </task>
     <task id="LOCAL-00001" summary="add kMeans test algorithm to the repository">
       <option name="closed" value="true" />
@@ -265,7 +275,31 @@
       <option name="project" value="LOCAL" />
       <updated>1697042159437</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="added excel file reader">
+      <option name="closed" value="true" />
+      <created>1697196638290</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1697196638290</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed reading csv-files">
+      <option name="closed" value="true" />
+      <created>1697199222659</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1697199222659</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed reading csv-files">
+      <option name="closed" value="true" />
+      <created>1697205031709</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697205031709</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,6 +336,7 @@
     <MESSAGE value="impement kmeans" />
     <MESSAGE value="remove kmeans src-folder" />
     <MESSAGE value="added excel file reader" />
-    <option name="LAST_COMMIT_MESSAGE" value="added excel file reader" />
+    <MESSAGE value="fixed reading csv-files" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed reading csv-files" />
   </component>
 </project>
