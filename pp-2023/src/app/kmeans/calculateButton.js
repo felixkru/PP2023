@@ -17,7 +17,6 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     const {numberOfClusters} = UseInputKPoints();
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
     const [resultExport, setResultExport] = useState([]);
-    
 
     const noDataMessage = "Bitte geben Sie entweder manuell Ihre Datenpunkte ein" +
         " oder eine XLSX- CSV-Datei!"
@@ -57,8 +56,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         //TODO Result richtig verarbeiten
-                        console.log(kMeansResult);
-                        setResultExport(kMeansResult);
+                        const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
+                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
@@ -87,9 +86,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     // TODO Generierung Ladebildschirm
                     const timeout = 30000;
                     const result = await runWithTimeout(kMeansAlgorithm(inputData, kPoints), timeout);
-                    ScatterChart(kPoints, chartDeletion, result);
+                    const localOrRemote = "local"
+                    ScatterChart(kPoints, chartDeletion, result, localOrRemote);
                     setResultExport(result);
-                    console.log(result);
                     // TODO response verarbeiten
                 } catch (err) {
                     stopLoading();
@@ -105,16 +104,15 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                 /*
                     Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
                 */
-                console.log(521)
                 const validateInputData = validateLengthOfData(inputDataArray, kPoints);
                 if (validateInputData === false) {
                     return;
                 }
 
                 const result = await kMeansAlgorithm(inputDataArray, kPoints);
-                console.log(result)
                 setResultExport(result);
-                ScatterChart(kPoints, chartDeletion, result);
+                const localOrRemote = "local";
+                ScatterChart(kPoints, chartDeletion, result, localOrRemote);
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
@@ -131,8 +129,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost);
                         setResultExport(kMeansResult);
-                        console.log(kMeansResult)
-                        
+                        const localOrRemote = "remote";
+                        ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
                         // TODO response verarbeiten
                     }
                     /*
@@ -186,14 +184,14 @@ export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
 
     return (
         <div>
-        <button
-            type="button"
-            className='compute-btn button'
-            onClick={handleClick}
-        >
-            Berechnen
-        </button>
-        <ExportExcelFile result = { resultExport }/>
+            <button
+                type="button"
+                className='compute-btn button'
+                onClick={handleClick}
+            >
+                Berechnen
+            </button>
+            <ExportExcelFile result={resultExport}/>
         </div>
     );
 }
