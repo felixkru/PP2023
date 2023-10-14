@@ -4,6 +4,7 @@ import {useState} from "react";
 import {calculateExcel, returnExcel} from '../utils/excelfilereader';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
 import {runWithTimeout} from '../kmeans/requestAPI';
+import {create} from "axios";
 
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
@@ -95,6 +96,16 @@ export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 
 }
 
+/*
+Erstellt ein Objekt, welches vom aus den Indexes und den Werten des Array besteht.
+ */
+export const CreateResultObject = (result) => {
+    return result.map((value, index) => ({ [index+1]:value}));
+}
+
+/*
+Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
+ */
 export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, bestKForKMeans,
 setBestKForKMeans}) => {
 
@@ -102,14 +113,17 @@ setBestKForKMeans}) => {
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
 
     const handleInputButtonClick = async () => {
+        /*
+        Die User-Eingaben zum MaxK werden geprüft, ob diese valide sind.
+         */
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
-            const timeout = 30000;
-            const resultPromise = CalculateElbowKriteria(validInput, inputDataArray);
 
+            const timeout = 30000;
             try {
-                const result = await runWithTimeout(resultPromise, timeout);
-                console.log(result);
+                const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+                const resultObject = CreateResultObject(result);
+                console.log(resultObject);
             } catch (error) {
                 APIError("Berechnung wurde abgebrochen (Timeout).");
             }
