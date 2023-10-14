@@ -125,6 +125,7 @@ bestKForKMeans, setBestKForKMeans}) => {
          */
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
+            const timeout = 30000;
 
 
             /*
