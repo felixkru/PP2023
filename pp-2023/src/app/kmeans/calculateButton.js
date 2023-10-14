@@ -173,6 +173,7 @@ export function CalculateButton({localRemoteButton, setLocalRemoteButton}) {
     return (
         <div>
             <button
+                data-testid="calculateButtonTest"
                 type="button"
                 className='compute-btn button'
                 onClick={handleClick}

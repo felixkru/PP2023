@@ -9,13 +9,13 @@ describe('Calculation-Button', () => {
 
     it('should render the Calculation-Button.', () => {
         render(
-            <HandleDynamicGeneratedInputFieldsProvider>
+            <HandeleSwitchVariablesProvider>
                 <InputKPointsProvider>
                     <HandleDynamicGeneratedInputFieldsProvider>
                         <CalculateButton/>
                     </HandleDynamicGeneratedInputFieldsProvider>
                 </InputKPointsProvider>
-            </HandleDynamicGeneratedInputFieldsProvider>
+            </HandeleSwitchVariablesProvider>
         )
 
         const button = screen.getByTestId('calculateButtonTest');
