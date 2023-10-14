@@ -3,8 +3,7 @@ import {APIError} from '../utils/userErrors';
 import {useState} from "react";
 import {calculateExcel, returnExcel} from '../utils/excelfilereader';
 import {HandleDynamicGeneratedInputFields} from './create-save-manuel-input';
-import {runWithTimeout} from '../kmeans/requestAPI';
-import {create} from "axios";
+import {apiPostRequest, handleApiCommunication, runWithTimeout, validateLengthOfData} from './requestAPI';
 
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
@@ -97,17 +96,23 @@ export const CalculateElbowKriteria = async (kPunkte, dataSet) => {
 }
 
 /*
-Erstellt ein Objekt, welches vom aus den Indexes und den Werten des Array besteht.
+Erstellt ein Array aus Objekten.
  */
 export const CreateResultObject = (result) => {
     return result.map((value, index) => ({ [index+1]:value}));
 }
+/*
+Erstellt ein Array mit Objekten aus einem einzigen Objekt.
+ */
+export const CreateAPICallResultObject = (result) => {
+    return Object.entries(result).map(([key, value]) => ({ [key]: value }));
+};
 
 /*
 Ruft eine asynchrone Funktion auf, welche das Elbow-Criteria durchführt.
  */
-export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, bestKForKMeans,
-setBestKForKMeans}) => {
+export const CreateElbowCriteriaElements = ({inputKForElbow, setInputKForElbow, localRemoteButton,
+bestKForKMeans, setBestKForKMeans}) => {
 
     const [userInput, setUserInput]  = useState('')
     const {inputDataArray} = HandleDynamicGeneratedInputFields();
@@ -118,17 +123,67 @@ setBestKForKMeans}) => {
          */
         const validInput = validateInputButtonClick(userInput);
         if (validInput !== undefined) {
-
             const timeout = 30000;
-            try {
-                const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
-                const resultObject = CreateResultObject(result);
-                console.log(resultObject);
-            } catch (error) {
-                APIError("Berechnung wurde abgebrochen (Timeout).");
+
+            /*
+            Prüft, ob die Verarbeitung lokal oder Remote stattfinden soll.
+             */
+            if (!localRemoteButton) {
+                try {
+                    const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+                    const resultObject = CreateResultObject(result);
+                } catch (error) {
+                    APIError("Berechnung wurde abgebrochen (Timeout).");
+                }
+            } else {
+                if (returnExcel() !== undefined) {
+                    try {
+                        /*
+                        Die vom User eingegebene Datei wird an die Backend-Api übersendet und eine Task wird zurückgegeben.
+                         */
+                        const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/elbow/";
+                        const kForUrl = "k_min=1&k_max=" + validInput;
+                        const task = await apiPostRequest(url, kForUrl, validInput, false);
+
+                        /*
+                        Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
+                         */
+                        if (task.TaskID) {
+                            const elbowResult = await handleApiCommunication(task, 10);
+                            const result = CreateAPICallResultObject(elbowResult)
+                            console.log(result);
+                            // TODO Verarbeiten result
+                        }
+                    } catch (err) {
+                        APIError("Ihre Datei konnte nicht verarbeitet werden!");
+                    }
+                } else if (inputDataArray.length !== 0){
+                    try {
+                        /*
+                        Die vom User eingegebenen Daten an die Backend-Api übersendet und eine Task wird zurückgegeben.
+                         */
+                        const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/elbow/";
+                        const kForUrl = "k_min=1&k_max=" + validInput;
+                        const task = await apiPostRequest(url, kForUrl, validInput, inputDataArray);
+
+                        /*
+                          Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
+                         */
+                        if (task.TaskID) {
+                            const elbowResult = await handleApiCommunication(task, 10);
+                            const result = CreateAPICallResultObject(elbowResult)
+                            console.log(result);
+                            // TODO Verarbeiten result
+                        }
+                    } catch (err) {
+                        APIError(err);
+                    }
+                } else {
+                    APIError("Bitte geben Sie ein manuelles Cluster ein, oder eine Datei.");
+                }
             }
         }
-    }
+    };
 
     /*
     Die Funktion validiert die User-Eingabe. Dabei wird geprüft, ob der Input eine

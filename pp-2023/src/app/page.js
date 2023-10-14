@@ -41,6 +41,7 @@ export default function Home() {
                                 </section>
                                 <CreateElbowCriteriaElements inputKForElbow={inputKForElbow} setInputKForElbow={setInputKForElbow}
                                                              bestKForKMeans={bestKForKMeans} setBestKForKMeans={setBestKForKMeans}
+                                                             localRemoteButton={localRemoteButton} setLocalRemoteButton={setLocalRemoteButton}
                                 />
                                 <CreateManuelInputFields/>
                             </div>

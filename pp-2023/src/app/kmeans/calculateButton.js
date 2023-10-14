@@ -8,6 +8,7 @@ import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 import {ExportExcelFile} from "../kmeans/exportButton";
 import {useState} from 'react';
+import * as url from "url";
 
 
 export function HandleCalculateButtonClick(localRemoteButton) {
@@ -41,17 +42,20 @@ export function HandleCalculateButtonClick(localRemoteButton) {
              */
             if (!localCalculation) {
                 try {
+                    const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/"
+                    const kForUrl = 'k=' + kPoints;
                     /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-                    const resultPost = await apiPostRequest(kPoints, false);
+                    const resultPost = await apiPostRequest(url, kForUrl, kPoints, false);
                     /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
+                    console.log(12);
                     if (resultPost.TaskID) {
-                        const kMeansResult = await handleApiCommunication(resultPost);
-                        //TODO Result richtig verarbeiten
+                        const kMeansResult = await handleApiCommunication(resultPost, 10);
+                        console.log(kMeansResult)
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
                         setResultExport(kMeansResult);
@@ -60,7 +64,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
                 } catch (error) {
-                    throw new Error(error);
+                    /*
+                    Fehlerbehandlung wird in den einzelnen Funktionen gewährleistet.
+                     */
                 }
                 /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
