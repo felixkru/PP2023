@@ -125,11 +125,13 @@ bestKForKMeans, setBestKForKMeans}) => {
         if (validInput !== undefined) {
             const timeout = 30000;
 
+            /*
+            Prüft, ob die Verarbeitung lokal oder Remote stattfinden soll.
+             */
             if (!localRemoteButton) {
                 try {
                     const result = await runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
                     const resultObject = CreateResultObject(result);
-                    console.log(resultObject);
                 } catch (error) {
                     APIError("Berechnung wurde abgebrochen (Timeout).");
                 }
@@ -164,6 +166,9 @@ bestKForKMeans, setBestKForKMeans}) => {
                         const kForUrl = "k_min=1&k_max=" + validInput;
                         const task = await apiPostRequest(url, kForUrl, validInput, inputDataArray);
 
+                        /*
+                          Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
+                         */
                         if (task.TaskID) {
                             const elbowResult = await handleApiCommunication(task, 10);
                             const result = CreateAPICallResultObject(elbowResult)
