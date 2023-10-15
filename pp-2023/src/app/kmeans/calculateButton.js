@@ -115,7 +115,22 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           setResultExport(result);
           // TODO response verarbeiten
         } catch (err) {
-          throw new Error(err);
+          // hier wird ein Alert ausgegeben mit Instruktionen, dass Datensätze die gleiche Dimension haben müssen
+          const toCheck =
+            "Error: All the elements must have the same dimension";
+          const pattern = new RegExp("\\b" + toCheck + "\\b", "i");
+          const containsWord = pattern.test(err);
+
+          if (containsWord) {
+            alert(
+              "Fehler: Bitte achten sie bei der Eingabedatei darauf, dass alle pro Reihe vorhandenen Zahlen in der Datei einem Datensatz zugeordnet werden.\n" +
+                "Damit ein sinnvolles Ergebnis erzeugt werden kann, muss eine gleiche Menge an Dimensionen für jeden Datensatz vorhanden sein"
+            );
+            const fileInput = document.getElementById("excelFileInput");
+            fileInput.value = "";
+          } else {
+            throw new Error(err);
+          }
         } finally {
           stopLoading();
         }
