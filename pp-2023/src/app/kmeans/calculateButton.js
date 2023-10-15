@@ -143,6 +143,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           localOrRemote,
           kMeansOrElbow
         );
+        stopLoading();
         /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
