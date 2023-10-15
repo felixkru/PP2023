@@ -3,6 +3,7 @@ import './globals.css'
 import Header from './common/Header';
 import Footer from './common/Footer';
 import { Roboto, Playfair_Display } from 'next/font/google';
+import { LoadingStatusProvider } from './common/LoadingScreen';
 
 export const roboto = Roboto({ 
   weight: ['400', '500'],
@@ -23,7 +24,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={roboto.className}>
         <Header />
-        {children}
+          <LoadingStatusProvider>
+            {children}
+          </LoadingStatusProvider>
         <Footer />
       </body>
     </html>
