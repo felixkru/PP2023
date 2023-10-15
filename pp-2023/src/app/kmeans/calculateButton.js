@@ -13,11 +13,13 @@ import { returnExcel, calculateExcel } from "../utils/excelfilereader";
 import { APIError } from "../utils/userErrors";
 import { ExportExcelFile } from "../kmeans/exportButton";
 import { useState } from "react";
+import { useLoadingStatus } from "../common/LoadingScreen";
 import { useDownloadContext } from "../context/downloadContext";
 import * as url from "url";
 
 export function HandleCalculateButtonClick(localRemoteButton) {
   const { chartReady } = useDownloadContext();
+  const { startLoading, stopLoading } = useLoadingStatus();
   const { numberOfClusters } = UseInputKPoints();
   const { inputDataArray } = HandleDynamicGeneratedInputFields();
   const [resultExport, setResultExport] = useState([]);
@@ -32,6 +34,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
   const handleClick = async () => {
+    startLoading();
     const kMeansOrElbow = "kMeans";
 
     /*
@@ -80,9 +83,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     */
         } catch (error) {
           chartReady(false);
-          /*
-                    Fehlerbehandlung wird in den einzelnen Funktionen gewährleistet.
-                     */
+          throw new Error(error);
+        } finally {
+          stopLoading();
         }
         /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
@@ -117,6 +120,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           chartReady(true);
           // TODO response verarbeiten
         } catch (err) {
+          chartReady(false);
           // hier wird ein Alert ausgegeben mit Instruktionen, dass Datensätze die gleiche Dimension haben müssen
           const toCheck =
             "Error: All the elements must have the same dimension";
@@ -133,7 +137,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           } else {
             throw new Error(err);
           }
-          chartReady(false);
+        } finally {
+          stopLoading();
         }
       }
       /*
@@ -160,6 +165,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
           kMeansOrElbow
         );
         chartReady(true);
+        stopLoading();
         /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
@@ -177,14 +183,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
             const kMeansResult = await handleApiCommunication(resultPost);
             setResultExport(kMeansResult);
             const localOrRemote = "remote";
-            ScatterChart(
-              kPoints,
-              chartDeletion,
-              kMeansResult,
-              localOrRemote,
-              kMeansOrElbow
-            );
+            ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
             chartReady(true);
+            stopLoading();
             // TODO response verarbeiten
           }
           /*
@@ -193,6 +194,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
         } catch (error) {
           chartReady(false);
           throw new Error(error);
+        } finally {
+          stopLoading();
         }
       }
     }
@@ -208,6 +211,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
       return "manuel";
     } else {
       APIError(noDataMessage);
+      stopLoading();
       return false;
     }
   };

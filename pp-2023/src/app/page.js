@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, createContext, useContext } from "react";
 import { SwitchVariables } from "./kmeans/switch-variables";
 import { InputKPoints } from "./kmeans/input-k-points";
 import { CalculateButton } from "./kmeans/calculateButton";
@@ -12,10 +12,13 @@ import { CreateLocalRemoteButton } from "./kmeans/local-remote-button";
 import { CreateElbowCriteriaElements } from "./kmeans/elbow-kriteria";
 import "./globals.css";
 import { checkFileFormat } from "./utils/excelfilereader";
+import { LoadingScreen, useLoadingStatus } from "./common/LoadingScreen";
 import { DownloadButton } from "./kmeans/downloadChartButton";
 import { DownloadContextProvider } from "./context/downloadContext";
 
 export default function Home() {
+  const { loading } = useLoadingStatus();
+
   const [localRemoteButton, setLocalRemoteButton] = useState(false);
   const [inputKForElbow, setInputKForElbow] = useState();
   const [bestKForKMeans, setBestKForKMeans] = useState();
@@ -24,6 +27,7 @@ export default function Home() {
     <HandeleSwitchVariablesProvider data-testid="handleSwitchVariablesProvider">
       <InputKPointsProvider>
         <HandleDynamicGeneratedInputFieldsProvider>
+          {loading ? <LoadingScreen /> : null}
           <DownloadContextProvider>
             <main className="mh-100 text-center container">
               <div className="row">
