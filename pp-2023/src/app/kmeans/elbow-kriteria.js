@@ -11,6 +11,7 @@ import {
 } from "./requestAPI";
 import ScatterChart from "./scatter-chart";
 import { useLoadingStatus } from "../common/LoadingScreen";
+
 /*
 Die Funktion nimmt zwei Vektoren als Parameter entgegen und gibt die euklidische Distanz zwischen diesen beiden zurück.
 */
@@ -18,13 +19,12 @@ export const euclideanDistance = (point1, point2) => {
   if (point1.length !== point2.length) {
     throw new Error("Die Vektoren müssen die gleiche Länge haben");
   }
-
   let sumOfSquares = 0;
   for (let i = 0; i < point1.length; i++) {
     const difference = point1[i] - point2[i];
     sumOfSquares += difference * difference;
   }
-
+  console.log(point1, point2, Math.sqrt(sumOfSquares))
   return Math.sqrt(sumOfSquares);
 };
 
@@ -51,9 +51,9 @@ export const SummeDerDistanzen = (groups) => {
     let groupDistance = 0;
     group.cluster.forEach((cluster) => {
       const distance = euclideanDistance(cluster, group.centroid);
-      groupDistance += distance ** 2;
+      groupDistance = distance + groupDistance;
     });
-    totalDistance += groupDistance;
+    totalDistance = totalDistance + groupDistance;
   });
   return totalDistance;
 };
