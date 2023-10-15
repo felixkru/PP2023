@@ -29,8 +29,12 @@ export function checkFileFormat(event) {
 // gibt die ganze Excel zurück
 export const returnExcel = () => {
     const fileInput = document.getElementById('excelFileInput');
-    const file = fileInput.files[0];
-    return (file);
+
+    if (fileInput) {
+        return fileInput.files[0];
+    } else {
+        return null;
+    }
 }
 
 // gibt den Inhalt der Excel als zweidimensionales Array zurück

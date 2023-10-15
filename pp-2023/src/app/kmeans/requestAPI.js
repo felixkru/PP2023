@@ -39,7 +39,9 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
         Aufruf von returnExcel und hinzufügen der geladenen Datei einem formData-Objekt.
          */
     const file = await returnExcel();
-    formData.append("file", file, `${file.name}`);
+    if (file !== null) {
+      formData.append("file", file, `${file.name}`);
+    }
   }
 
   return formData;
