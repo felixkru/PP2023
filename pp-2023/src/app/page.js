@@ -56,6 +56,8 @@ export default function Home() {
                     setInputKForElbow={setInputKForElbow}
                     bestKForKMeans={bestKForKMeans}
                     setBestKForKMeans={setBestKForKMeans}
+                    localRemoteButton={localRemoteButton}
+                    setLocalRemoteButton={setLocalRemoteButton}
                   />
                   <CreateManuelInputFields />
                 </div>

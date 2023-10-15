@@ -44,7 +44,7 @@ export const createFormData = async (KPoints, dataArrayForWorking) => {
     return formData;
 }
 
-export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
+export const apiPostRequest = async (url, kForURL, KPoints, dataArrayForWorking) => {
 
     const formData = await createFormData(KPoints, dataArrayForWorking);
 
@@ -53,10 +53,7 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
     nur die Dateien werden mittels als Post übergeben.
      */
     const numberKRuns = '&number_kmeans_runs=20';
-    const url = "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
-    const newKForGet = 'k=' + KPoints;
-    const urlBearbeitet = url + '?' + newKForGet + numberKRuns;
-
+    const urlBearbeitet = url + '?' + kForURL + numberKRuns;
     try {
         const response = await fetch(urlBearbeitet, {
             mode: 'cors',
@@ -70,13 +67,13 @@ export const apiPostRequest = async (KPoints, dataArrayForWorking) => {
         /*
         Es wird der Response zurückgegeben.
          */
-
+        const result = await response.json()
         if (response.ok) {
-            return await response.json();
+            return result;
         } else {
-            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
+            const customError = "Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen " +
                 "Sie es lokal."
-            APIError(customError);
+            APIError(customError + ' ' + result.detail);
         }
     } catch (error) {
         // Behandlung von Fehlern im globalen Kontext
@@ -90,8 +87,6 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
      */
     const url = 'https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/status/'
     const completeUrl = url + taskId;
-
-    const aktuellesIntervall = 3000;
 
     /*
     Die Funktion makeRequest führt einen asynchronen Request an das Backend durch, um den Status der zu bearbeitenden
@@ -109,17 +104,19 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
             /*
             Bei gültigem 200 Status und dem Result.
              */
+            const aktuellesIntervall = 3000;
             const response = await result.json();
             if (result.status === 200) {
                 if (response.status === 'completed') {
                     return 1;
-                } else if (maxVersuch > 0 && response.status === 'processing') {
+                } else if (maxVersuch > 0 && response.status === 'Data Preparation') {
+
                     await new Promise(resolve => setTimeout(resolve, aktuellesIntervall));
                     maxVersuch = maxVersuch - 1;
                     return makeRequest();
                 } else {
                     APIError(  ' Timeout! Versuchen Sie eine lokale Berechnung oder ändern Sie Ihre Parameter!');
-                    throw new Error('Fehler beim Response: ' + response.text);
+                    throw new Error('Fehler beim Response!');
                 }
             }
             else {
@@ -133,6 +130,9 @@ export const apiGetStateOfTask = (taskId, maxVersuch) => {
     return makeRequest();
 }
 
+/*
+Die Funktion apiGetResult, fragt bei Aufruf das Ergebnis von der Backend-Api, anhand der TasID ab.
+ */
 export const apiGetResult = async (taskId) => {
     try {
         /*
@@ -160,9 +160,12 @@ export const apiGetResult = async (taskId) => {
     }
 };
 
-export const handleApiCommunication = async (resultPost) => {
+/*
+Führt die beiden Funktionen getState und getResult kontrolliert aus.
+ */
+export const handleApiCommunication = async (resultPost, maxVersuche) => {
     try {
-        const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, 10);
+        const resultGetStateOfTask = await apiGetStateOfTask(resultPost.TaskID, maxVersuche);
         /*
         Liefert die apiGetStateOfTask eine 1 zurück, ist der Response erfolgreich und kann verarbeitet werden.
          */

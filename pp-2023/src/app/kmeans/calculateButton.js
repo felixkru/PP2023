@@ -14,6 +14,7 @@ import { APIError } from "../utils/userErrors";
 import { ExportExcelFile } from "../kmeans/exportButton";
 import { useState } from "react";
 import { useDownloadContext } from "../context/downloadContext";
+import * as url from "url";
 
 export function HandleCalculateButtonClick(localRemoteButton) {
   const { chartReady } = useDownloadContext();
@@ -31,6 +32,8 @@ export function HandleCalculateButtonClick(localRemoteButton) {
     Die Funktion handleClick steuert als Controller die Anwendungslogik, welche Daten verwendet werden und wo diese verarbeitet werden.
      */
   const handleClick = async () => {
+    const kMeansOrElbow = "kMeans";
+
     /*
         Initialisierung von Variablen für den Programmverlauf.
          */
@@ -46,19 +49,29 @@ export function HandleCalculateButtonClick(localRemoteButton) {
              */
       if (!localCalculation) {
         try {
+          const url =
+            "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
+          const kForUrl = "k=" + kPoints;
           /*
                     Übersenden der eingegebenen Datei an das Backend.
                      */
-          const resultPost = await apiPostRequest(kPoints, false);
+          const resultPost = await apiPostRequest(url, kForUrl, kPoints, false);
           /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
+          console.log(12);
           if (resultPost.TaskID) {
-            const kMeansResult = await handleApiCommunication(resultPost);
-            //TODO Result richtig verarbeiten
+            const kMeansResult = await handleApiCommunication(resultPost, 10);
+            console.log(kMeansResult);
             const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
-            ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+            ScatterChart(
+              kPoints,
+              chartDeletion,
+              kMeansResult,
+              localOrRemote,
+              kMeansOrElbow
+            );
             setResultExport(kMeansResult);
             chartReady(true);
           }
@@ -67,7 +80,9 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     */
         } catch (error) {
           chartReady(false);
-          throw new Error(error);
+          /*
+                    Fehlerbehandlung wird in den einzelnen Funktionen gewährleistet.
+                     */
         }
         /*
                 Auslesen eines Files und anschließende Verarbeitung im Client.
@@ -91,7 +106,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
             timeout
           );
           const localOrRemote = "local";
-          ScatterChart(kPoints, chartDeletion, result, localOrRemote);
+          ScatterChart(
+            kPoints,
+            chartDeletion,
+            result,
+            localOrRemote,
+            kMeansOrElbow
+          );
           setResultExport(result);
           chartReady(true);
           // TODO response verarbeiten
@@ -116,7 +137,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
         const result = await kMeansAlgorithm(inputDataArray, kPoints);
         setResultExport(result);
         const localOrRemote = "local";
-        ScatterChart(kPoints, chartDeletion, result, localOrRemote);
+        ScatterChart(
+          kPoints,
+          chartDeletion,
+          result,
+          localOrRemote,
+          kMeansOrElbow
+        );
         chartReady(true);
         /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
@@ -135,7 +162,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
             const kMeansResult = await handleApiCommunication(resultPost);
             setResultExport(kMeansResult);
             const localOrRemote = "remote";
-            ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote);
+            ScatterChart(
+              kPoints,
+              chartDeletion,
+              kMeansResult,
+              localOrRemote,
+              kMeansOrElbow
+            );
             chartReady(true);
             // TODO response verarbeiten
           }

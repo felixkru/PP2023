@@ -8,7 +8,8 @@ function ScatterChart(
   numberOfClusters,
   calledByButton,
   kMeansResult,
-  localOrRemote
+  localOrRemote,
+  kMeansOrElbow
 ) {
   let myChart;
 
@@ -16,10 +17,12 @@ function ScatterChart(
     const chartData = gD.generateDatasets(
       parseInt(numberOfClusters),
       kMeansResult,
-      localOrRemote
+      localOrRemote,
+      kMeansOrElbow
     );
     const ctx = document.getElementById("myChart").getContext("2d");
     const chartStatus = Chart.getChart("myChart"); // <canvas> id
+
     if (chartStatus !== undefined) {
       //der Status ist undefined wenn kein Chart auf dem Canvas existiert, falls eins existiert wird es hier dann zerstört.
       chartStatus.destroy();
