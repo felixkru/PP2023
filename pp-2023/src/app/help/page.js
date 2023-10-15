@@ -22,7 +22,7 @@ export default function Help() {
         Elbow-Kriterium hilft dabei, die optimale Anzahl von Clustern im
         K-Means-Algorithmus zu finden, indem es nach dem Punkt sucht, an dem die
         Cluster-Variabilität aufhört, sich wesentlich zu verbessern, und wie ein
-        "Ellenbogen" in einem Diagramm aussieht. Dieser Punkt ist die empfohlene
+        Ellenbogen in einem Diagramm aussieht. Dieser Punkt ist die empfohlene
         Anzahl von Clustern.
       </p>
       <h2 className="h5">Was machen die Anzahl der Variablen?</h2>
