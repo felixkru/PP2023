@@ -5,9 +5,9 @@ import {HandeleSwitchVariablesProvider} from '../src/app/kmeans/switch-variables
 import {screen, render, fireEvent} from "@testing-library/react";
 
 describe('Calculation-Button', () => {
-    const mockCalculateButton = jest.fn();
 
     it('should render the Calculation-Button.', () => {
+        const mockCalculateButton = jest.fn();
         render(
             <HandeleSwitchVariablesProvider>
                 <InputKPointsProvider>
@@ -20,5 +20,10 @@ describe('Calculation-Button', () => {
 
         const button = screen.getByTestId('calculateButtonTest');
         expect(button).toBeInTheDocument();
+
+        fireEvent.click(button);
+
+        expect(mockCalculateButton).toHaveBeenCalled()
     });
+
 })
