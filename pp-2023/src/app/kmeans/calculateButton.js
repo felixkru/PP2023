@@ -8,8 +8,6 @@ import {returnExcel, calculateExcel} from '../utils/excelfilereader';
 import {APIError} from '../utils/userErrors';
 import {ExportExcelFile} from "../kmeans/exportButton";
 import {useState} from 'react';
-import * as url from "url";
-
 
 export function HandleCalculateButtonClick(localRemoteButton) {
 
@@ -53,14 +51,13 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.
                      */
-                    console.log(12);
                     if (resultPost.TaskID) {
                         const kMeansResult = await handleApiCommunication(resultPost, 10);
-                        console.log(kMeansResult)
                         const localOrRemote = "remote"; // die Variable wird benötigt damit ScatterChart später weiß in welchem Format die Daten ankommen (local berechnet oder von der API)
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote,kMeansOrElbow);
                         setResultExport(kMeansResult);
                     }
+                    return "Berechnung: File-extern";
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
                     */
@@ -90,7 +87,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     const localOrRemote = "local"
                     ScatterChart(kPoints, chartDeletion, result, localOrRemote,kMeansOrElbow);
                     setResultExport(result);
-                    // TODO response verarbeiten
+                    return "Berechnung: File-lokal";
                 } catch (err) {
                     // hier wird ein Alert ausgegeben mit Instruktionen, dass Datensätze die gleiche Dimension haben müssen
                     const toCheck = "Error: All the elements must have the same dimension";
@@ -98,7 +95,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     const containsWord = pattern.test(err);
 
                     if (containsWord) {
-                        alert("Fehler: Bitte achten sie bei der Eingabedatei darauf, dass alle pro Reihe vorhandenen Zahlen in der Datei einem Datensatz zugeordnet werden.\n" +
+                        APIError("Fehler: Bitte achten sie bei der Eingabedatei darauf, dass alle pro Reihe vorhandenen Zahlen in der Datei einem Datensatz zugeordnet werden.\n" +
                             "Damit ein sinnvolles Ergebnis erzeugt werden kann, muss eine gleiche Menge an Dimensionen für jeden Datensatz vorhanden sein");
                         const fileInput = document.getElementById('excelFileInput');
                         fileInput.value = "";
@@ -124,6 +121,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                 setResultExport(result);
                 const localOrRemote = "local";
                 ScatterChart(kPoints, chartDeletion, result, localOrRemote,kMeansOrElbow);
+                return "Berechnung: Manuell-local";
                 /*
                Verarbeitung von manuell eingegeben Daten mithilfe der API.
                 */
@@ -142,7 +140,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                         setResultExport(kMeansResult);
                         const localOrRemote = "remote";
                         ScatterChart(kPoints, chartDeletion, kMeansResult, localOrRemote,kMeansOrElbow);
-                        // TODO response verarbeiten
+                        return "Berechnung: Manuell-extern";
                     }
                     /*
                     In dem catch-Block werden allgemeine Fehler des Requests behandelt.
