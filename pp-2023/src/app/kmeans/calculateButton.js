@@ -100,6 +100,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
                     */
           if (validateLengthOfData(inputData, kPoints) === false) {
+            stopLoading();
             return;
           }
           // TODO Generierung Ladebildschirm
