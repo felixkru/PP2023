@@ -47,7 +47,26 @@ export const calculateExcel = async () => {
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
                 const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-                resolve(jsonData);
+
+                // Funktion zum Extrahieren von Zahlen aus den Zellen
+                const extractNumbers = (value) => {
+                    // Verwende parseFloat, um die Zeichenfolge in eine Zahl zu konvertieren
+                    const number = parseFloat(value);
+                    // Überprüfe, ob die Konvertierung erfolgreich war und die Zahl nicht NaN ist
+                    return !isNaN(number) ? number : null;
+                };
+
+                // Iteriere durch die JSON-Daten und wende die Funktion auf jede Zelle an
+                const numbersData = jsonData.map(row =>
+                    row.map(cell => extractNumbers(cell))
+                );
+
+                // Filtere die Zahlen, um null-Werte zu entfernen
+                const filteredNumbersData = numbersData.map(row =>
+                    row.filter(cell => cell !== null && cell !== 0)
+                );
+                console.log(filteredNumbersData);
+                resolve(filteredNumbersData);
             };
 
             reader.onerror = () => {
@@ -68,43 +87,22 @@ export const calculateExcel = async () => {
                 const csvData = [];
 
                 rows.forEach((row) => {
-
-                    // Dieser Abschnitt ist temporär und säubert die Eingaben bei CSV-Dateien. Später soll das ganze per RegEx geschehen
                     if (row.includes(";")) {
-                        const columns = row.replace('\r', '').split(';');
-                        let filteredColumn = columns.filter(element => element !== "").map(str => parseFloat(str.replace(',', '.')));
-                        if (filteredColumn.length === 0) {
-                            // Array löschen
-                            filteredColumn = null; // Oder myArray = [] für ein leeres Array
-                        }
-                        else {
-                            csvData.push(filteredColumn);
-                        }
+                        row = row.replace(/,/g, '.');
                     }
-                    else {
-                        const columns = row.replace('\r', '').split(',');
-                        let filteredColumn = columns.filter(element => element !== "").map(str => parseFloat(str.replace(',', '.')));
-                        if (filteredColumn.length === 0) {
-                            // Array löschen
-                            filteredColumn = null; // Oder myArray = [] für ein leeres Array
-                        }
-                        else {
-                            csvData.push(filteredColumn);
-                        }
+                    const numbersArray = row.match(/\d+\.?\d*/g);
+                    if (numbersArray !== null) {
+                        csvData.push(numbersArray.map(Number));
                     }
                 });
-
                 console.log(csvData);
                 resolve(csvData);
             };
-
             reader.onerror = () => {
                 console.error('Fehler beim Lesen der Datei');
             };
-
             reader.readAsText(file);
         });
-
         return (data);
     }
     else {
