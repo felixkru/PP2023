@@ -139,7 +139,7 @@ describe('Testen der GetResult-Anfrage ', () => {
         // Dabei wird erst ein Fetch mit processing aufgerufen, um den Timeout zu testen.
         fetch.mockResolvedValueOnce({
             status: 200,
-            json: () => Promise.resolve({ status: 'processing' }),
+            json: () => Promise.resolve({ status: 'Data Preparation' }),
         });
         fetch.mockResolvedValueOnce({
             status: 200,
