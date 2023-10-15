@@ -48,9 +48,9 @@
       </UrlAndAccount>
     </option>
   </component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -72,7 +72,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "PROG-78-ValidierungExcelFileReader",
+    "git-widget-placeholder": "PROG-78-FixFileReaderFinal",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/workspace/PP2023/pp-2023/src/app/components",
     "list.type.of.created.stylesheet": "SCSS",
