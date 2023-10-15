@@ -24,7 +24,6 @@ export const euclideanDistance = (point1, point2) => {
     const difference = point1[i] - point2[i];
     sumOfSquares += difference * difference;
   }
-  console.log(point1, point2, Math.sqrt(sumOfSquares))
   return Math.sqrt(sumOfSquares);
 };
 
@@ -187,8 +186,6 @@ export const CreateElbowCriteriaElements = ({
                 "local",
                 kMeansOrElbow
               );
-              console.log(result);
-              // TODO Verarbeiten result
             }
           } catch (err) {
             APIError("Ihre Datei konnte nicht verarbeitet werden!");
@@ -216,7 +213,6 @@ export const CreateElbowCriteriaElements = ({
             if (task.TaskID) {
               const elbowResult = await handleApiCommunication(task, 10);
               const result = CreateAPICallResultObject(elbowResult);
-              console.log(result);
               ScatterChart(
                 setInputKForElbow,
                 calledByButton,
