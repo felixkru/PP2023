@@ -75,19 +75,25 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     /*
     renderInputElement rendert HTML-Elemente. Dabei wird ein unique Key als i gesetzt.
     Der Helper dient dazu, entweder 2 oder 3 Inputs pro Reihe zu generieren. Col- und Row-Index geben Parameter für die
-    Wertzuweisung in einem Mehrdimensionalen Array mit.
+    Wertzuweisung in einem mehrdimensionalen Array mit.
      */
-    const renderInputElement = (i, helper, colIndex, rowIndex) => (
+    const renderInputElement = (i, helper, colIndex, rowIndex, Achse) => (
         <div key={i} className="grid-cell">
-            <label className='input-group-text' htmlFor={`inputVector${i}`}>{helper} Variable ...</label>
             <input id={`inputVector${i}`}
                    className={`inputVector${i} form-control input-vektor-get`}
                    type={"number"}
                    required={true}
+                   placeholder={Achse}
                    aria-rowindex={rowIndex}
                    aria-colindex={colIndex}
                    onChange={event => handleInputChange(rowIndex, colIndex, parseInt(event.target.value))}
             />
+        </div>
+    );
+
+    const renderLabelElement = (anzahlVariablen) => (
+        <div key={`Label${anzahlVariablen}`} className="grid-cell">
+            <label className='input-group-text' htmlFor={`Label${anzahlVariablen}`}>{anzahlVariablen}. Variable</label>
         </div>
     );
 
@@ -98,16 +104,32 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     const renderInputs = () => {
         if (numberOfVariables) {
             const newCounter = numberOfVariables * counterCountAdd;
+            let anzahlVariablen = 1;
             const inputs = [];
             let helper = 1;
             let rowIndex = 0;
             let colIndex = 0;
+            let Achse = "";
 
             for (let i = 0; i < newCounter; i++) {
                 helper = setCorrectHelperValue(helper);
+                if (helper === 1) {
+                    Achse = "X-Wert";
+                    inputs.push(
+                        renderLabelElement(anzahlVariablen)
+                    );
+                    anzahlVariablen++;
+                }
+                else if (helper === 2) {
+                    Achse = "Y-Wert";
+                }
+                else {
+                    Achse = "Z-Wert";
+                }
+
                 inputs.push(
                     renderInputElement(i, helper,
-                        colIndex, rowIndex)
+                        colIndex, rowIndex, Achse)
                 );
 
                 rowIndex = setCorrectRowIndex(rowIndex, colIndex);
@@ -142,9 +164,6 @@ export function CreateManuelInputFields() {
 
     return (
         <div>
-            <section id='vectors' className='mb-5'>
-                Hier kommen die Inputs mit den Vektoren hin
-            </section>
             {renderInputs()}
             <section id='addVectorButton' className='mb-5'>
                 <button type="button"

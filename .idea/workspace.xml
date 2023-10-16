@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="added excel file reader" />
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="fixed reading csv-files &amp; xlsx files">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/requestAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/requestAPI.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,6 +48,9 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -58,26 +65,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "PROG-77-TestingAndLinting",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/workspace/PP2023/pp-2023/src/app/components",
-    "list.type.of.created.stylesheet": "SCSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;PROG-78-FixFileReaderFinal&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/PP2023/pp-2023/src/app/components&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;SCSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\workspace\PP2023\pp-2023\src\app\components" />
@@ -97,6 +104,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.page.js" />
+        <item itemvalue="Node.js.page.js" />
         <item itemvalue="Node.js.page.js" />
         <item itemvalue="Node.js.page.js" />
       </list>
@@ -128,6 +137,9 @@
       <workItem from="1696695180172" duration="721000" />
       <workItem from="1696762489654" duration="7106000" />
       <workItem from="1696842650060" duration="1727000" />
+      <workItem from="1697112818433" duration="688000" />
+      <workItem from="1697183487426" duration="1177000" />
+      <workItem from="1697367090058" duration="2799000" />
     </task>
     <task id="LOCAL-00001" summary="add kMeans test algorithm to the repository">
       <option name="closed" value="true" />
@@ -265,7 +277,31 @@
       <option name="project" value="LOCAL" />
       <updated>1697042159437</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="added excel file reader">
+      <option name="closed" value="true" />
+      <created>1697196638290</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1697196638290</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fixed reading csv-files">
+      <option name="closed" value="true" />
+      <created>1697199222659</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1697199222659</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fixed reading csv-files">
+      <option name="closed" value="true" />
+      <created>1697205031709</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1697205031709</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,6 +338,7 @@
     <MESSAGE value="impement kmeans" />
     <MESSAGE value="remove kmeans src-folder" />
     <MESSAGE value="added excel file reader" />
-    <option name="LAST_COMMIT_MESSAGE" value="added excel file reader" />
+    <MESSAGE value="fixed reading csv-files" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed reading csv-files" />
   </component>
 </project>

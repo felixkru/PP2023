@@ -24,12 +24,10 @@ export const ExportExcelFile = ({result}) => {
             }
             //Abfrage ob ein Ergebnis der Backend API vorliegt
             else if (result.Cluster[0].data_points) {
-                console.log(result.Cluster.length);
                 let amountOfClusters = result.Cluster.length; // Abfrage wieviele Cluster das Ergebnis enthält
                 let wb = XLSX.utils.book_new(); // hier wird ein Excel Workbook erzeugt
 
                 for (let i = 0; i < amountOfClusters; i++) {
-                    console.log(result.Cluster[i].data_points);
                     let ws = XLSX.utils.aoa_to_sheet(result.Cluster[i].data_points);
                     XLSX.utils.book_append_sheet(wb, ws, "Cluster " + (i + 1));
                 }

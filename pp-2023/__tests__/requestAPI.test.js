@@ -2,12 +2,13 @@ import {
     validateLengthOfData, apiPostRequest, apiGetStateOfTask,
     apiGetResult, handleApiCommunication, runWithTimeout, createFormData
 } from '../src/app/kmeans/requestAPI';
+import * as url from "url";
 
 describe('Test der API-Calls', () => {
     /*
     Der Test prüft, ob die Datenlängen korrekt ausgelesen werden und mit den KPoints verglichen werden.
      */
-    it('Valieren, ob es mehr Daten- als K-Punkte gibt:', () => {
+    it('Validieren, ob es mehr Daten- als K-Punkte gibt:', () => {
 
         const kPoints = 5;
         const inputData = [
@@ -26,7 +27,7 @@ describe('Test der API-Calls', () => {
     /*
     Der Test prüft, ob false zurückgegeben wird und ein alert aufgerufen wird.
      */
-    it('Valieren, ob es mehr Daten- als K-Punkte gibt:', () => {
+    it('Validieren, ob es mehr Daten- als K-Punkte gibt:', () => {
 
         global.alert = jest.fn();
         const kPoints = 17;
@@ -70,8 +71,9 @@ describe('Testet die formData Erstellung', () => {
 
 describe('Testet den API-POST-REQUEST', () => {
     it('Es soll eine Task zurückgegeben werden.',async () => {
-        const kPoints = 3;
-        const data = [
+        const url = "https://test.com";
+        const KPoints = 3;
+        const dataArrayForWorking = [
             [5,2,3],
             [5,2,3],
             [5,2,3],
@@ -85,7 +87,7 @@ describe('Testet den API-POST-REQUEST', () => {
             json: () => Promise.resolve({ success: true }),
         });
 
-        const response = await apiPostRequest(kPoints, data);
+        const response = await apiPostRequest(url, KPoints, dataArrayForWorking);
         expect(response).toEqual({success: true});
         expect(fetch).toHaveBeenCalledWith(expect.any(String), {
             mode: 'cors',
@@ -99,6 +101,7 @@ describe('Testet den API-POST-REQUEST', () => {
     });
 
     it('Returnt einen Error',async () => {
+        const url = "https://test.com";
         const kPoints = 12;
         const data = [
             [5,2,3],
@@ -116,7 +119,7 @@ describe('Testet den API-POST-REQUEST', () => {
         });
 
         try {
-            await apiPostRequest(kPoints, data);
+            await apiPostRequest(url, kPoints, data);
         } catch (err) {
             expect(err.status).toBe(!200);
             expect(global.alert).toHaveBeenCalledWith("Ihre Datei konnte von der API nicht verarbeitet werden. Versuchen" +
@@ -136,7 +139,7 @@ describe('Testen der GetResult-Anfrage ', () => {
         // Dabei wird erst ein Fetch mit processing aufgerufen, um den Timeout zu testen.
         fetch.mockResolvedValueOnce({
             status: 200,
-            json: () => Promise.resolve({ status: 'processing' }),
+            json: () => Promise.resolve({ status: 'Data Preparation' }),
         });
         fetch.mockResolvedValueOnce({
             status: 200,
