@@ -100,6 +100,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     Hier werden, die eingegeben Daten auf eine ausreichende Anzahl an Cluster validiert.
                     */
           if (validateLengthOfData(inputData, kPoints) === false) {
+            stopLoading();
             return;
           }
           // TODO Generierung Ladebildschirm
@@ -151,6 +152,7 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                 */
         const validateInputData = validateLengthOfData(inputDataArray, kPoints);
         if (validateInputData === false) {
+          stopLoading();
           return;
         }
 
@@ -175,9 +177,14 @@ export function HandleCalculateButtonClick(localRemoteButton) {
                     Übersenden der eingegebenen Datei an das Backend.
                      */
           const url =
-              "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
+            "https://kmeans-backend-test-u3yl6y3tyq-ew.a.run.app/kmeans/";
           const kForUrl = "k=" + kPoints;
-          const resultPost = await apiPostRequest(url, kForUrl, kPoints, dataArrayForWorking);
+          const resultPost = await apiPostRequest(
+            url,
+            kForUrl,
+            kPoints,
+            dataArrayForWorking
+          );
           /*
                     Hier wird der Status der Task abgefragt. Aktuell wird ein Intervall von 3000 ms berücksichtigt.
                     Der Parameter maxVersuche, gibt dabei an, wie oft ein Request wiederholt werden soll, bis dieser abbricht.

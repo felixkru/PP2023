@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="fixed reading csv-files">
+    <list default="true" id="938e4817-0387-47e8-95b5-07acc00b3c4f" name="Changes" comment="fixed reading csv-files &amp; xlsx files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pp-2023/src/app/kmeans/requestAPI.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/kmeans/requestAPI.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" beforeDir="false" afterPath="$PROJECT_DIR$/pp-2023/src/app/utils/excelfilereader.js" afterDir="false" />
@@ -139,6 +139,7 @@
       <workItem from="1696842650060" duration="1727000" />
       <workItem from="1697112818433" duration="688000" />
       <workItem from="1697183487426" duration="1177000" />
+      <workItem from="1697367090058" duration="2799000" />
     </task>
     <task id="LOCAL-00001" summary="add kMeans test algorithm to the repository">
       <option name="closed" value="true" />
