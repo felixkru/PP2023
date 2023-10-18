@@ -23,8 +23,8 @@ export const euclideanDistance = (point1, point2) => {
     for (let i = 0; i < point1.length; i++) {
         const difference = point1[i] - point2[i];
         sumOfSquares += difference * difference;
-    }
 
+  }
     return Math.sqrt(sumOfSquares);
 };
 
@@ -64,9 +64,9 @@ export const SummeDerDistanzen = (groups) => {
         let groupDistance = 0;
         group.cluster.forEach((cluster) => {
             const distance = euclideanDistance(cluster, group.centroid);
-            groupDistance += distance ** 2;
+            groupDistance = distance + groupDistance;
         });
-        totalDistance += groupDistance;
+        totalDistance = totalDistance + groupDistance;
     });
     return totalDistance;
 };
