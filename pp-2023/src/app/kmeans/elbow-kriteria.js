@@ -24,21 +24,31 @@ export const euclideanDistance = (point1, point2) => {
         const difference = point1[i] - point2[i];
         sumOfSquares += difference * difference;
 
-  }
+    }
     return Math.sqrt(sumOfSquares);
 };
 
 /*
-Die Funktion führt die Berechnung für das Elbow-Kriteria 3x durch, da Kmeans immer random K aufruft.
+Die Funktion führt die Berechnung für das Elbow-Kriteria 5x durch, da Kmeans immer random K aufruft.
 Dies soll die Ungenauigkeiten abmildern.
+Durch den Aufruf von Promise.all, werden alle Berechnungen parrallel ausgeführt.
  */
 export const calculateMiddleOfK = async (validInput, inputDataArray, timeout) => {
     const promise1 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
     const promise2 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
     const promise3 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+    const promise4 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+    const promise5 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
 
-    const [result1, result2, result3] = await Promise.all([promise1, promise2, promise3]);
-    console.log(result1, result2, result3);
+    const [result1, result2, result3, result4, result5] =
+        await Promise.all([promise1, promise2, promise3, promise4, promise5]);
+    const durchschnittResult = [];
+
+    for (let i = 0; i < result1.length; i++) {
+        const mittel = (result1[i] + result2[i] + result3[i] + result4[i] + result5[i]) / 5;
+        durchschnittResult.push(mittel);
+    }
+    return durchschnittResult;
 }
 
 /*
@@ -159,11 +169,7 @@ export const CreateElbowCriteriaElements = ({
                    */
             if (!localRemoteButton) {
                 try {
-                    const result = await runWithTimeout(
-                        Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)),
-                        timeout
-                    );
-                    console.log(123)
+                    const result = await calculateMiddleOfK(validInput, inputDataArray, timeout);
                     const resultObject = CreateResultObject(result);
                     ScatterChart(
                         setInputKForElbow,
