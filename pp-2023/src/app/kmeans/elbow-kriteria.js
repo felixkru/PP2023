@@ -29,6 +29,19 @@ export const euclideanDistance = (point1, point2) => {
 };
 
 /*
+Die Funktion führt die Berechnung für das Elbow-Kriteria 3x durch, da Kmeans immer random K aufruft.
+Dies soll die Ungenauigkeiten abmildern.
+ */
+export const calculateMiddleOfK = async (validInput, inputDataArray, timeout) => {
+    const promise1 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+    const promise2 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+    const promise3 = runWithTimeout(Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)), timeout);
+
+    const [result1, result2, result3] = await Promise.all([promise1, promise2, promise3]);
+    console.log(result1, result2, result3);
+}
+
+/*
 Die Funktion nimmt als Parameter ein Datenset als zweidimensionales Array, sowie die Anzahl an K-Punkten auf
 und gibt die verscheiden Cluster zurück.
 */
@@ -150,6 +163,7 @@ export const CreateElbowCriteriaElements = ({
                         Promise.resolve(CalculateElbowKriteria(validInput, inputDataArray)),
                         timeout
                     );
+                    console.log(123)
                     const resultObject = CreateResultObject(result);
                     ScatterChart(
                         setInputKForElbow,
