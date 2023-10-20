@@ -40,17 +40,16 @@ export const returnExcel = () => {
 // gibt den Inhalt der Excel als zweidimensionales Array zurück
 export const calculateExcel = async () => {
     const file = returnExcel();
-    console.log(file)
-    if (isXLSXFile(file)){
+    if (isXLSXFile(file)) {
         const reader = new FileReader();
 
         const data = await new Promise((resolve) => {
             reader.onload = () => {
                 const arrayBuffer = reader.result;
-                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const workbook = XLSX.read(arrayBuffer, {type: 'array'});
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1});
 
                 // Funktion zum Extrahieren von Zahlen aus den Zellen
                 const extractNumbers = (value) => {
@@ -69,7 +68,6 @@ export const calculateExcel = async () => {
                 const filteredNumbersData = numbersData.map(row =>
                     row.filter(cell => cell !== null && cell !== 0)
                 );
-                console.log(filteredNumbersData);
                 resolve(filteredNumbersData);
             };
 
@@ -80,8 +78,7 @@ export const calculateExcel = async () => {
             reader.readAsArrayBuffer(file);
         });
         return (data);
-    }
-    else if (isCSVFile(file)){
+    } else if (isCSVFile(file)) {
         const reader = new FileReader();
 
         const data = await new Promise((resolve) => {
@@ -99,7 +96,6 @@ export const calculateExcel = async () => {
                         csvData.push(numbersArray.map(Number));
                     }
                 });
-                console.log(csvData);
                 resolve(csvData);
             };
             reader.onerror = () => {
@@ -108,8 +104,7 @@ export const calculateExcel = async () => {
             reader.readAsText(file);
         });
         return (data);
-    }
-    else {
+    } else {
         alert('Bitte wähle eine .xlsx oder .csv Datei aus.');
         return null; // Fehlerfall: null zurückgeben
     }
