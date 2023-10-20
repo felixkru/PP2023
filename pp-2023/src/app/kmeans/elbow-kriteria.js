@@ -198,7 +198,7 @@ export const CreateElbowCriteriaElements = ({
                                     Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
                                      */
                         if (task.TaskID) {
-                            const elbowResult = await handleApiCommunication(task, 10);
+                            const elbowResult = await handleApiCommunication(task, 30);
                             const result = CreateAPICallResultObject(elbowResult);
                             ScatterChart(
                                 setInputKForElbow,
@@ -232,7 +232,7 @@ export const CreateElbowCriteriaElements = ({
                                       Ist eine TaskID vorhanden, wird der Status dieser abgefragt und anschließend das Ergebnis verarbeitet.
                                      */
                         if (task.TaskID) {
-                            const elbowResult = await handleApiCommunication(task, 10);
+                            const elbowResult = await handleApiCommunication(task, 30);
                             const result = CreateAPICallResultObject(elbowResult);
                             ScatterChart(
                                 setInputKForElbow,
