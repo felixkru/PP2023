@@ -8,6 +8,7 @@ import {HandleSwitchVariables} from './switch-variables';
     verwendet.
 */
 const DynamicGeneratedInputFields = createContext();
+
 export function HandleDynamicGeneratedInputFieldsProvider({children}) {
 
     const [counterCountAdd, setCounterCountAdd] = useState(2);
@@ -119,11 +120,9 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
                         renderLabelElement(anzahlVariablen)
                     );
                     anzahlVariablen++;
-                }
-                else if (helper === 2) {
+                } else if (helper === 2) {
                     Achse = "Y-Wert";
-                }
-                else {
+                } else {
                     Achse = "Z-Wert";
                 }
 
@@ -142,8 +141,10 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
     };
 
     return (
-        <DynamicGeneratedInputFields.Provider value={{renderInputs, handleButtonAdd, counterCountAdd,
-            inputDataArray, handleInputChange}}>
+        <DynamicGeneratedInputFields.Provider value={{
+            renderInputs, handleButtonAdd, counterCountAdd,
+            inputDataArray, handleInputChange
+        }}>
             {children}
         </DynamicGeneratedInputFields.Provider>
     );
@@ -156,6 +157,7 @@ export function HandleDynamicGeneratedInputFieldsProvider({children}) {
 export const HandleDynamicGeneratedInputFields = () => {
     return useContext(DynamicGeneratedInputFields);
 }
+
 export function CreateManuelInputFields() {
 
     const {
